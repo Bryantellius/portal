@@ -1,12 +1,29 @@
 import * as React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import GitIntro from "./views/GitIntro";
+import Home from "./views/Home";
 
 const App: React.FC = () => {
   return (
-    <main>
-      <h1>Hello World!!!</h1>
-      <h2>Hello World!!</h2>
-      <h3>Hello World!</h3>
-    </main>
+    <Router>
+      <main className="docs">
+        <Navbar />
+        <div className="container-fluid container-docs">
+          {/* Sidenav */}
+          <Sidebar />
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/git-intro">
+              <GitIntro />
+            </Route>
+          </Switch>
+        </div>
+      </main>
+    </Router>
   );
 };
 
