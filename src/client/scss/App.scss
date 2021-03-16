@@ -2,6 +2,11 @@
 
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
+@font-face {
+  font-family: TCFont-sans-serif;
+  src: url("../../public/Montserrat and Cardo/montserrat/Montserrat-Regular.ttf");
+}
+
 @import url(https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,700,800&display=swap);
 :root {
   --blue: #008aff;
@@ -35,23 +40,33 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-sans-serif: TCFont-san-serif;
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 }
 
+// [data-theme="dark"] {
+//   --primary-color: #9a97f3;
+//   --secondary-color: #818cab;
+//   --secondary: #8b8a8d;
+//   --font-color: #e1e1ff;
+//   --font-color-dark: #818cab;
+//   --link-color: #e1e1ff;
+//   /* --bg-color: #161625; */
+//   --bg-color: #1d2d50;
+//   --heading-color: #818cab;
+// }
+
 [data-theme="dark"] {
-  --primary-color: #9a97f3;
-  --secondary-color: #818cab;
+  --primary-color: #0094c8;
+  --secondary-color: #8b8a8d;
   --secondary: #8b8a8d;
-  --font-color: #e1e1ff;
-  --font-color-dark: #818cab;
-  --link-color: #e1e1ff;
-  /* --bg-color: #161625; */
-  --bg-color: #1d2d50;
-  --heading-color: #818cab;
+  --font-color: #ffffff;
+  --font-color-dark: #8899a6;
+  --link-color: #eee;
+   --link-hover: #deb887;
+  --bg-color: #15202b;
+  --heading-color: #8B8B8C;
 }
 
 /*slider switch css */
@@ -19092,12 +19107,12 @@ textarea[resize="horizontal"] {
   color: var(--link-color);
 }
 .nav-link:hover {
-  color: #273444;
+  color: var(--primary);
 }
 .nav-link.active {
   font-weight: 600;
 
-  color: #273444;
+  color: var(--primary-color);
 }
 
 @media (min-width: 992px) {

@@ -1,14 +1,10 @@
 import * as express from "express";
+import apiRouter from "./api";
+import authRouter from "./auth";
 
 const router = express.Router();
 
-router.get(
-  "/api/hello",
-  (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    res.json("World");
-  }
-);
+router.use("/api", apiRouter);
+router.use("/auth", authRouter);
 
 export default router;
-
-
