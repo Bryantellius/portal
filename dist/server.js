@@ -30,6 +30,16 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nvar 
 
 /***/ }),
 
+/***/ "./src/server/db/queries/lectures.ts":
+/*!*******************************************!*\
+  !*** ./src/server/db/queries/lectures.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nvar models_1 = __webpack_require__(/*! ../models */ \"./src/server/db/models/index.ts\");\nvar getOneLecture = function (id) {\n    return models_1.default(\"SELECT * FROM Lectues WHERE LectureID = ?\", [id]);\n};\nvar getAllLectues = function () {\n    return models_1.default(\"SELECT LectureID, Title FROM Lectues\");\n};\nvar insertLecture = function (body) {\n    return models_1.default(\"INSERT INTO Lectues SET ?\", [body]);\n};\nexports.default = {\n    getOneLecture: getOneLecture,\n    getAllLectues: getAllLectues,\n    insertLecture: insertLecture,\n};\n\n\n//# sourceURL=webpack://starter_template/./src/server/db/queries/lectures.ts?");
+
+/***/ }),
+
 /***/ "./src/server/db/queries/tokens.ts":
 /*!*****************************************!*\
   !*** ./src/server/db/queries/tokens.ts ***!
@@ -37,6 +47,16 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nvar 
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nvar models_1 = __webpack_require__(/*! ../models */ \"./src/server/db/models/index.ts\");\nvar findToken = function (tokenid, token) {\n    return models_1.default(\"SELECT * FROM AccessTokens WHERE TokenID = ? AND Token = ?\", [\n        tokenid,\n        token,\n    ]);\n};\nvar addToken = function (userid) {\n    return models_1.default(\"INSERT INTO AccessTokens SET UserID = ?\", [userid]);\n};\nvar updateToken = function (TokenID, token) {\n    return models_1.default(\"UPDATE AccessTokens SET token = ? WHERE TokenID = ?\", [\n        token,\n        TokenID,\n    ]);\n};\nexports.default = {\n    findToken: findToken,\n    addToken: addToken,\n    updateToken: updateToken,\n};\n\n\n//# sourceURL=webpack://starter_template/./src/server/db/queries/tokens.ts?");
+
+/***/ }),
+
+/***/ "./src/server/db/queries/topics.ts":
+/*!*****************************************!*\
+  !*** ./src/server/db/queries/topics.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nvar models_1 = __webpack_require__(/*! ../models */ \"./src/server/db/models/index.ts\");\nvar getOneTopic = function (id) {\n    return models_1.default(\"SELECT TopicID, Title FROM Topics WHERE TopicID = ?\", [\n        id,\n    ]);\n};\nvar getAllTopics = function () {\n    return models_1.default(\"SELECT TopicID, Title FROM Topics\");\n};\nvar insertTopic = function (body) {\n    return models_1.default(\"INSERT INTO Topics SET ?\", [body]);\n};\nexports.default = {\n    getOneTopic: getOneTopic,\n    getAllTopics: getAllTopics,\n    insertTopic: insertTopic,\n};\n\n\n//# sourceURL=webpack://starter_template/./src/server/db/queries/topics.ts?");
 
 /***/ }),
 
@@ -70,13 +90,23 @@ eval("\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _argument
 
 /***/ }),
 
+/***/ "./src/server/routes/api/adminRouter.ts":
+/*!**********************************************!*\
+  !*** ./src/server/routes/api/adminRouter.ts ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+eval("\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\n    return new (P || (P = Promise))(function (resolve, reject) {\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\n    });\n};\nvar __generator = (this && this.__generator) || function (thisArg, body) {\n    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;\n    return g = { next: verb(0), \"throw\": verb(1), \"return\": verb(2) }, typeof Symbol === \"function\" && (g[Symbol.iterator] = function() { return this; }), g;\n    function verb(n) { return function (v) { return step([n, v]); }; }\n    function step(op) {\n        if (f) throw new TypeError(\"Generator is already executing.\");\n        while (_) try {\n            if (f = 1, y && (t = op[0] & 2 ? y[\"return\"] : op[0] ? y[\"throw\"] || ((t = y[\"return\"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;\n            if (y = 0, t) op = [op[0] & 2, t.value];\n            switch (op[0]) {\n                case 0: case 1: t = op; break;\n                case 4: _.label++; return { value: op[1], done: false };\n                case 5: _.label++; y = op[1]; op = [0]; continue;\n                case 7: op = _.ops.pop(); _.trys.pop(); continue;\n                default:\n                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }\n                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }\n                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }\n                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }\n                    if (t[2]) _.ops.pop();\n                    _.trys.pop(); continue;\n            }\n            op = body.call(thisArg, _);\n        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }\n        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };\n    }\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nvar express = __webpack_require__(/*! express */ \"express\");\nvar lectures_1 = __webpack_require__(/*! ../../db/queries/lectures */ \"./src/server/db/queries/lectures.ts\");\nvar router = express.Router();\nrouter.post(\"/\", function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {\n    var body, data, error_1;\n    return __generator(this, function (_a) {\n        switch (_a.label) {\n            case 0:\n                _a.trys.push([0, 2, , 3]);\n                body = req.body;\n                return [4 /*yield*/, lectures_1.default.insertLecture(body)];\n            case 1:\n                data = _a.sent();\n                res.status(200).json(data);\n                return [3 /*break*/, 3];\n            case 2:\n                error_1 = _a.sent();\n                next(error_1);\n                return [3 /*break*/, 3];\n            case 3: return [2 /*return*/];\n        }\n    });\n}); });\nexports.default = router;\n\n\n//# sourceURL=webpack://starter_template/./src/server/routes/api/adminRouter.ts?");
+
+/***/ }),
+
 /***/ "./src/server/routes/api/index.ts":
 /*!****************************************!*\
   !*** ./src/server/routes/api/index.ts ***!
   \****************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nvar express = __webpack_require__(/*! express */ \"express\");\nvar router = express.Router();\nrouter.get(\"/test\", function (req, res, next) {\n    try {\n        res.status(200).json({ msg: \"Hello World!\" });\n    }\n    catch (error) {\n        next(error);\n    }\n});\nexports.default = router;\n\n\n//# sourceURL=webpack://starter_template/./src/server/routes/api/index.ts?");
+eval("\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\n    return new (P || (P = Promise))(function (resolve, reject) {\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\n    });\n};\nvar __generator = (this && this.__generator) || function (thisArg, body) {\n    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;\n    return g = { next: verb(0), \"throw\": verb(1), \"return\": verb(2) }, typeof Symbol === \"function\" && (g[Symbol.iterator] = function() { return this; }), g;\n    function verb(n) { return function (v) { return step([n, v]); }; }\n    function step(op) {\n        if (f) throw new TypeError(\"Generator is already executing.\");\n        while (_) try {\n            if (f = 1, y && (t = op[0] & 2 ? y[\"return\"] : op[0] ? y[\"throw\"] || ((t = y[\"return\"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;\n            if (y = 0, t) op = [op[0] & 2, t.value];\n            switch (op[0]) {\n                case 0: case 1: t = op; break;\n                case 4: _.label++; return { value: op[1], done: false };\n                case 5: _.label++; y = op[1]; op = [0]; continue;\n                case 7: op = _.ops.pop(); _.trys.pop(); continue;\n                default:\n                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }\n                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }\n                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }\n                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }\n                    if (t[2]) _.ops.pop();\n                    _.trys.pop(); continue;\n            }\n            op = body.call(thisArg, _);\n        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }\n        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };\n    }\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nvar express = __webpack_require__(/*! express */ \"express\");\nvar fs = __webpack_require__(/*! fs */ \"fs\");\nvar path = __webpack_require__(/*! path */ \"path\");\nvar topics_1 = __webpack_require__(/*! ../../db/queries/topics */ \"./src/server/db/queries/topics.ts\");\nvar adminRouter_1 = __webpack_require__(/*! ./adminRouter */ \"./src/server/routes/api/adminRouter.ts\");\nvar router = express.Router();\nrouter.get(\"/test\", function (req, res, next) {\n    try {\n        var filePath = path.join(__dirname, \"../src/server/lectures/test.md\");\n        var readStream = fs.createReadStream(filePath);\n        readStream.pipe(res);\n    }\n    catch (error) {\n        next(error);\n    }\n});\nrouter.get(\"/topics/:id?\", function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {\n    var id, data, error_1;\n    return __generator(this, function (_a) {\n        switch (_a.label) {\n            case 0:\n                id = parseInt(req.params.id);\n                _a.label = 1;\n            case 1:\n                _a.trys.push([1, 6, , 7]);\n                if (!id) return [3 /*break*/, 3];\n                return [4 /*yield*/, topics_1.default.getOneTopic(id)];\n            case 2:\n                data = _a.sent();\n                return [3 /*break*/, 5];\n            case 3: return [4 /*yield*/, topics_1.default.getAllTopics()];\n            case 4:\n                data = _a.sent();\n                _a.label = 5;\n            case 5:\n                res.status(200).json(data);\n                return [3 /*break*/, 7];\n            case 6:\n                error_1 = _a.sent();\n                next(error_1);\n                return [3 /*break*/, 7];\n            case 7: return [2 /*return*/];\n        }\n    });\n}); });\nrouter.use(\"/admin\", adminRouter_1.default);\nexports.default = router;\n\n\n//# sourceURL=webpack://starter_template/./src/server/routes/api/index.ts?");
 
 /***/ }),
 
@@ -187,6 +217,16 @@ module.exports = require("dotenv");;
 /***/ ((module) => {
 
 module.exports = require("express");;
+
+/***/ }),
+
+/***/ "fs":
+/*!*********************!*\
+  !*** external "fs" ***!
+  \*********************/
+/***/ ((module) => {
+
+module.exports = require("fs");;
 
 /***/ }),
 

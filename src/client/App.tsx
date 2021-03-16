@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import GitIntro from "./views/GitIntro";
 import Home from "./views/Home";
+import { darkModeLoader } from "./utils/theme";
+import AddLecture from "./views/AddLecture";
 
 const App: React.FC = () => {
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -15,30 +17,10 @@ const App: React.FC = () => {
     setIsLoaded(true);
   }, [isLoaded]);
 
-  const darkModeLoader = () => {
-    const toggleMode = document.getElementById("checkbox") as HTMLInputElement;
-    const currentMode = localStorage.getItem("theme");
-    if (currentMode) {
-      document.documentElement.setAttribute("data-theme", currentMode);
-      if (currentMode === "dark") {
-        toggleMode.checked = true;
-      }
-    }
-    function changeTheme(event: any) {
-      if (event.target.checked) {
-        document.documentElement.setAttribute("data-theme", "dark");
-        localStorage.setItem("theme", "dark");
-      } else {
-        document.documentElement.setAttribute("data-theme", "light");
-        localStorage.setItem("theme", "light");
-      }
-    }
-    toggleMode.addEventListener("change", changeTheme);
-  };
-
   return (
     <Router>
       <main className="docs">
+        {/* Nav */}
         <Navbar />
         <div className="container-fluid container-docs">
           {/* Sidenav */}
@@ -49,6 +31,9 @@ const App: React.FC = () => {
             </Route>
             <Route exact path="/git-intro">
               <GitIntro />
+            </Route>
+            <Route exact path="/admin/add/lecture">
+              <AddLecture />
             </Route>
           </Switch>
         </div>
