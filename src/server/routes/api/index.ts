@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get("/lectures/:id?", (req, res, next) => {
   try {
-    let filePath = path.join(__dirname, "../src/server/lectures/test.md");
+    let filePath = path.join(__dirname, "../src/server/lectures/git-intro.md");
     let readStream = fs.createReadStream(filePath);
     readStream.pipe(res);
   } catch (error) {
