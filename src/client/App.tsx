@@ -24,8 +24,9 @@ const App: React.FC = () => {
   }, []);
 
   const fetchModules = async (controller: any) => {
+    let CurriculumID: number = 1;
     let res = await apiService(
-      "/api/resources/modules",
+      `/api/resources/modules/${CurriculumID}`,
       false,
       "GET",
       controller.signal

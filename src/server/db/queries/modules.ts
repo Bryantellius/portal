@@ -1,7 +1,7 @@
 import Query from "../models";
 
-const getOneModule = (id: number) => {
-  return Query("SELECT * FROM Modules WHERE ModuleID = ?", [id]);
+const getAllModulesByCurriculum = (id: number) => {
+  return Query("SELECT * FROM Modules WHERE CurriculumID = ?", [id]);
 };
 
 const getOneModuleByTopicID = (id: number) => {
@@ -17,7 +17,7 @@ const insertModule = (body: any) => {
 };
 
 export default {
-  getOneModule,
+  getAllModulesByCurriculum,
   getOneModuleByTopicID,
   getAllModules,
   insertModule,

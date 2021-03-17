@@ -1,17 +1,16 @@
 import * as React from "react";
 import Markdown from "markdown-to-jsx";
 import { apiService } from "../utils/apiService";
+import { useLocation } from "react-router";
 
 const TopicContent: React.FC<ITopicContentProps> = ({ topicId, title }) => {
-  const [lectureLoaded, setLectureLoaded] = React.useState<boolean>(false);
+  const location = useLocation();
+
   const [lecture, setLecture] = React.useState<string>("");
 
   React.useEffect(() => {
-    if (!lectureLoaded) {
-      fetchLecture();
-      setLectureLoaded(true);
-    }
-  }, [lectureLoaded]);
+    fetchLecture();
+  }, [location.pathname]);
 
   const fetchLecture = async () => {
     let res = await apiService(`/api/resources/lectures/${topicId}`, true);
@@ -25,10 +24,17 @@ const TopicContent: React.FC<ITopicContentProps> = ({ topicId, title }) => {
         {/* <!-- Docs title --> */}
         <div className="docs-title">
           <h1>{title}</h1>
-          <p className="lead mb-0">
-            This is where your course lectures, quizzes, exercises and resources
-            with be housed.
-          </p>
+          <div className="lead mb-0">
+            <a href="#lecture" className="h4">
+              # Lecture
+            </a>
+            <a href="#exercise" className="h4">
+              # Exercise
+            </a>
+            <a href="#quiz" className="h4">
+              # Quiz
+            </a>
+          </div>
         </div>
         {/* <!-- Docs content --> */}
         <div className="docs-content">

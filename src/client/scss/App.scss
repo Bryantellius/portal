@@ -299,12 +299,12 @@ samp {
   font-size: 1em;
 }
 
-pre {
-  overflow: auto;
+// pre {
+//   overflow: auto;
 
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
+//   margin-top: 0;
+//   margin-bottom: 1rem;
+// }
 
 figure {
   margin: 0 0 1rem;
@@ -312,7 +312,7 @@ figure {
 
 img {
   vertical-align: middle;
-
+  max-width: 100%;
   border-style: none;
 }
 
@@ -574,6 +574,9 @@ h6,
 .lead {
   font-size: 1.125rem;
   font-weight: 300;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .display-1 {
@@ -717,13 +720,8 @@ mark,
 
 code {
   font-size: 87.5%;
-
-  word-wrap: break-word;
-
-  color: #f074ad;
-}
-a > code {
-  color: inherit;
+  // word-wrap: break-word;
+  color: #f074ad !important;
 }
 
 kbd {
@@ -745,20 +743,12 @@ kbd kbd {
   box-shadow: none;
 }
 
-pre {
-  font-size: 87.5%;
+// pre {
+//   font-size: 87.5%;
 
-  display: block;
+//   display: block;
+// }
 
-  color: #273444;
-}
-pre code {
-  font-size: inherit;
-
-  word-break: normal;
-
-  color: inherit;
-}
 
 .pre-scrollable {
   overflow-y: scroll;
@@ -12586,15 +12576,13 @@ a.text-white:focus {
   abbr[title]::after {
     content: " (" attr(title) ")";
   }
-  pre {
-    white-space: pre-wrap !important;
-  }
-  pre,
-  blockquote {
-    border: 1px solid #a0aec0;
 
-    page-break-inside: avoid;
-  }
+  // pre,
+  // blockquote {
+  //   border: 1px solid #a0aec0;
+
+  //   page-break-inside: avoid;
+  // }
   thead {
     display: table-header-group;
   }
@@ -18688,6 +18676,12 @@ textarea[resize="horizontal"] {
 .docs .docs-content {
   margin-top: 80px;
 }
+.docs-content {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media (min-width: 992px) {
   .docs .docs-content {
     padding: 0 70px;
@@ -23292,9 +23286,6 @@ section {
 
   padding: 0.5em;
 
-  color: #dcdcdc;
-}
-.hljs pre code {
   color: #dcdcdc;
 }
 

@@ -11,8 +11,8 @@ router.get("/lectures/:id?", async (req, res, next) => {
   try {
     let { id } = req.params;
     let data: any = await lectures.getOneLectureByTopicID(parseInt(id));
-    let filePath = path.join(__dirname, "../src/server/lectures/git-intro.md");
-    // let filePath = path.join(__dirname, data[0].FilePath);
+    // let filePath = path.join(__dirname, "../src/server/lectures/git-intro.md");
+    let filePath = path.join(__dirname, data[0].FilePath);
     let readStream = fs.createReadStream(filePath);
     readStream.pipe(res);
   } catch (error) {
@@ -31,7 +31,7 @@ router.get(
     let data: any;
     try {
       if (id) {
-        data = await modules.getOneModule(id);
+        data = await modules.getAllModulesByCurriculum(id);
       } else {
         data = await modules.getAllModules();
       }

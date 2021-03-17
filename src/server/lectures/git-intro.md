@@ -1,9 +1,23 @@
-# Git Introduction
+Lecture Video Part 1
 
-| Video                                   | Video                                   |
+<video width="100%" height="auto" controls>
+  <source src="https://vimeo.com/499737170/cc52a139dc" type="video/mp4">
+</video>
+
+Lecture Video Part 2
+
+<video width="100%" height="auto" controls>
+  <source src="https://vimeo.com/499800324/4231788a62" type="video/mp4">
+</video>
+
+<!-- | Video                                   | Video                                   |
 | --------------------------------------- | --------------------------------------- |
 | ![Alt text](images/image1.gif)          | ![Alt text](images/image2.gif)          |
-| Click the gif to view the Lecture Video | Click the gif to view the Lecture Video |
+| Click the gif to view the Lecture Video | Click the gif to view the Lecture Video | -->
+
+---
+
+# Lecture
 
 ## Why:
 
@@ -32,7 +46,7 @@ Version Control allows you to:
 
 Version Control Systems are usually represented with a tree data structure
 
-![alt_text](images/image3.png "image_tooltip")
+![alt_text](assets/lectures/images/git-intro1.png)
 
 **Git:**
 
@@ -52,7 +66,7 @@ The traditional software expression of "saving" is synonymous with the Git term 
 
 The **git commit** command captures a snapshot of the project's currently staged changes.
 
-![alt_text](images/image4.png "image_tooltip")
+![alt_text](assets/lectures/images/git-intro2.png)
 
 Each circle in the above diagram is a commit – a **snapshot** of the project
 
@@ -78,7 +92,7 @@ With **Remote Repositories** we usually use these git commands:
 
 The **git add** command adds a change in the working directory to the **staging area**. It tells Git that you want to include updates to a particular file in the next commit. However, git add doesn't really affect the repository in any significant way—changes are not actually recorded until you run git commit.
 
-![alt_text](images/image5.png "image_tooltip")
+![alt_text](assets/lectures/images/git-intro3.png)
 
 **Moreover on Staging:**
 
@@ -178,7 +192,9 @@ Developing a project revolves around the basic **edit/stage/commit** pattern.
 
 [https://git-scm.com/book/en/v2](https://git-scm.com/book/en/v2)
 
-## Exercises:
+---
+
+## Exercise:
 
 [Windows Exercise Walkthrough Documentation](https://docs.google.com/document/d/1KtSjsFNv_XmiY9rvSN93BzmCUmlIlwgcfTVeRMLOyHw/edit?usp=sharing)
 
@@ -197,7 +213,13 @@ git init, git status, untracked files, git add, git commit -m “message”, git
 
 **Use this video to help guide you through the exercise 2**
 
-[How to Video](https://vimeo.com/501605388/9f41d9d902)
+How to Video
+
+<video width="100%" height="auto" controls>
+  <source src="https://vimeo.com/501605388/9f41d9d902" type="video/mp4">
+</video>
+
+<!-- [How to Video](https://vimeo.com/501605388/9f41d9d902) -->
 
 2. Work with git on a simple pizza delivery algorithm file that covers the steps involved with ordering a pizza, and show how cool git can be with backing up our work.
 
@@ -215,21 +237,21 @@ git init, git status, untracked files, git add, git commit -m “message”, git
    7. Initialize that folder as a git repository → git init
    8. Your terminal / command prompt will look something like this:
 
-![alt_text](images/image6.png "image_tooltip")
+![alt_text](assets/lectures/images/git-intro4.png)
 
 Continue to next steps below
 
-![alt_text](images/image7.png "image_tooltip")
+![alt_text](assets/lectures/images/git-intro5.png)
 
 Visual Studio Code is shown in the image above
 
 9. Using the Visual Studio Code application, create a new file named Algo inside of your PizzaAlgo folder and save it.
 
-![alt_text](images/image8.png "image_tooltip")
+![alt_text](assets/lectures/images/git-intro6.png)
 
 10. Now we will add instructions for ordering pizza in this file
 
-![alt_text](images/image9.png "image_tooltip")
+![alt_text](assets/lectures/images/git-intro7.png)
 
 11. Use git to commit your changes as you add steps to the file
 
@@ -242,17 +264,17 @@ Continue to steps below
 
 - Use the ‘new’ button on github
 
-![alt_text](images/image10.png "image_tooltip")
+![alt_text](assets/lectures/images/git-intro8.png)
 
 Your new repository should resemble the image above
 
-![alt_text](images/image11.png "image_tooltip")
+![alt_text](assets/lectures/images/git-intro9.png)
 
 Continue to the next steps below
 
 You will see a page that looks like this once created:
 
-![alt_text](images/image12.png "image_tooltip")
+![alt_text](assets/lectures/images/git-intro10.png)
 
 Copy the text from that page as you see above ^^
 
@@ -263,20 +285,24 @@ Example ANSWER:
 
 [https://github.com/mvdoyle/PizzaAlgo](https://github.com/mvdoyle/PizzaAlgo)
 
+---
+
 ## Quiz:
 
 [Take the Git Intro Quiz](https://forms.gle/AH2jspgH6tUWucue7)
 
-![Click the gif to watch the quiz recap after you’ve taken the quiz](images/image13.gif "image_tooltip")
+Quiz Walkthrough Video:
+
+<video width="100%" height="auto" controls>
+  <source src="https://vimeo.com/499770313/3e5d97d45d" type="video/mp4">
+</video>
+
+---
 
 ## Work Cited:
 
-[https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control)
+[Git Handbook](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control)
 
-GitHub Cheat Sheet:
+[GitHub Cheat Sheet:](https://education.github.com/git-cheat-sheet-education.pdf)
 
-[https://education.github.com/git-cheat-sheet-education.pdf](https://education.github.com/git-cheat-sheet-education.pdf)
-
-Getting Started Documentation and Tutorial:
-
-[https://www.learnenough.com/git-tutorial/getting_started](https://www.learnenough.com/git-tutorial/getting_started)
+[LearnEnough - Getting Started Documentation and Tutorial](https://www.learnenough.com/git-tutorial/getting_started)
