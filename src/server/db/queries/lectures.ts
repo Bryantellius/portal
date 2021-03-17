@@ -1,19 +1,24 @@
 import Query from "../models";
 
 const getOneLecture = (id: number) => {
-  return Query("SELECT * FROM Lectues WHERE LectureID = ?", [id]);
+  return Query("SELECT * FROM Lectures WHERE LectureID = ?", [id]);
 };
 
-const getAllLectues = () => {
-  return Query("SELECT LectureID, Title FROM Lectues");
+const getOneLectureByTopicID = (id: number) => {
+  return Query("SELECT * FROM Lectures WHERE TopicID = ?", [id]);
+};
+
+const getAllLectures = () => {
+  return Query("SELECT * FROM Lectures");
 };
 
 const insertLecture = (body: any) => {
-  return Query("INSERT INTO Lectues SET ?", [body]);
+  return Query("INSERT INTO Lectures SET ?", [body]);
 };
 
 export default {
   getOneLecture,
-  getAllLectues,
+  getOneLectureByTopicID,
+  getAllLectures,
   insertLecture,
 };

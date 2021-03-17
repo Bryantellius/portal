@@ -2,11 +2,12 @@ import * as express from "express";
 import * as fs from "fs";
 import * as path from "path";
 import db from "../../db/queries/topics";
+import resourceRouter from './resources';
 import adminRouter from './adminRouter';
 
 const router = express.Router();
 
-router.get("/test", (req, res, next) => {
+router.get("/lectures/:id?", (req, res, next) => {
   try {
     let filePath = path.join(__dirname, "../src/server/lectures/test.md");
     let readStream = fs.createReadStream(filePath);
@@ -40,5 +41,6 @@ router.get(
 );
 
 router.use("/admin", adminRouter);
+router.use("/resources", resourceRouter);
 
 export default router;

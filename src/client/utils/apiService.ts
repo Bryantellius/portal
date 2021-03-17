@@ -6,9 +6,17 @@ export let User: any = {
   role: localStorage.getItem("role") || null,
 };
 
+export const abortFetching = (controller: any) => {
+  console.log("Now aborting");
+  // Abort.
+  controller.abort();
+};
+
 export const apiService = async (
   url: string,
+  lecture: boolean = false,
   method: string = "GET",
+  signal?: any,
   body?: {}
 ) => {
   let headers: any = { "Content-Type": "application/json" };
@@ -18,9 +26,14 @@ export const apiService = async (
   }
 
   try {
-    let res = await fetch(url, { method, headers, body: JSON.stringify(body) });
+    let res = await fetch(url, {
+      method,
+      headers,
+      signal,
+      body: JSON.stringify(body),
+    });
     if (res.ok) {
-      return await res.json();
+      return lecture ? await res.text() : await res.json();
     } else {
       return false;
     }
