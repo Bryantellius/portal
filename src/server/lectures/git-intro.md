@@ -10,11 +10,6 @@ Lecture Video Part 2
   <source src="https://vimeo.com/499800324/4231788a62" type="video/mp4">
 </video>
 
-<!-- | Video                                   | Video                                   |
-| --------------------------------------- | --------------------------------------- |
-| ![Alt text](images/image1.gif)          | ![Alt text](images/image2.gif)          |
-| Click the gif to view the Lecture Video | Click the gif to view the Lecture Video | -->
-
 ---
 
 # Lecture
