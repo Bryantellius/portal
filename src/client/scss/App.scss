@@ -67,6 +67,19 @@
   --heading-color: #8b8b8c;
 }
 
+.docs-content h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 1.25rem !important;
+}
+
+.docs-content table {
+  width: 100%;
+}
+
 /*slider switch css */
 .theme-switch-wrapper {
   display: flex;
@@ -718,6 +731,12 @@ mark,
   color: var(--font-color);
 }
 
+pre {
+  background-color: var(--light);
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
 code {
   font-size: 87.5%;
   // word-wrap: break-word;
@@ -748,7 +767,6 @@ kbd kbd {
 
 //   display: block;
 // }
-
 
 .pre-scrollable {
   overflow-y: scroll;
