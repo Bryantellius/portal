@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
+import Layout from "./components/Layout";
+import Login from "./views/Login";
 import TopicContent from "./views/TopicContent";
 import Home from "./views/Home";
 import { darkModeLoader } from "./utils/theme";
@@ -46,27 +46,28 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <main className="docs">
-        {/* Nav */}
-        <Navbar />
-        <div className="container-fluid container-docs">
-          {/* Sidenav */}
-          <Sidebar modules={modules} topics={topics} />
-          <Switch>
-            <Route exact path="/">
-              <Home />
+      <Switch>
+        <Route exact path="/">
+          <Layout showSidebar modules={modules} topics={topics}>
+            <Home />
+          </Layout>
+        </Route>
+        {topics.map((topic) => {
+          let path: string = topic.Title.toLowerCase().replace(/ /g, "-");
+          return (
+            <Route key={topic.TitleID + "route"} exact path={`/${path}`}>
+              <Layout showSidebar modules={modules} topics={topics}>
+                <TopicContent title={topic.Title} topicId={topic.TopicID} />
+              </Layout>
             </Route>
-            {topics.map((topic) => {
-              let path: string = topic.Title.toLowerCase().replace(/ /g, "-");
-              return (
-                <Route key={topic.TitleID + "route"} exact path={`/${path}`}>
-                  <TopicContent title={topic.Title} topicId={topic.TopicID} />
-                </Route>
-              );
-            })}
-          </Switch>
-        </div>
-      </main>
+          );
+        })}
+        <Route exact path="/login">
+          <Layout showSidebar={false}>
+            <Login />
+          </Layout>
+        </Route>
+      </Switch>
     </Router>
   );
 };

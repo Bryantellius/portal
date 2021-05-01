@@ -1,5 +1,6 @@
 import * as React from "react";
 import { NavLink } from "react-router-dom";
+import { User } from "../utils/apiService";
 
 const Navbar = () => {
   return (
@@ -43,69 +44,86 @@ const Navbar = () => {
               </NavLink>
             </li>
           </ul>
-          {/* <!-- Navbar nav --> */}
-          <div className="collapse navbar-collapse" id="navbar-main-collapse">
-            {/* <!-- Right menu --> */}
-            <ul className="navbar-nav align-items-center mx-auto">
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/lectures">
-                  Lectures
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/quizzes">
-                  Quizzes
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/exercises" target="_blank">
-                  Exercises
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/resources" target="_blank">
-                  Resources
-                </NavLink>
-              </li>
-            </ul>
-          </div>
+          {User.userid ? (
+            <>
+              {/* <!-- Navbar nav --> */}
+              <div
+                className="collapse navbar-collapse"
+                id="navbar-main-collapse"
+              >
+                {/* <!-- Right menu --> */}
+                <ul className="navbar-nav align-items-center mx-auto">
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/lectures">
+                      Lectures
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/quizzes">
+                      Quizzes
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink
+                      className="nav-link"
+                      to="/exercises"
+                      target="_blank"
+                    >
+                      Exercises
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink
+                      className="nav-link"
+                      to="/resources"
+                      target="_blank"
+                    >
+                      Resources
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            </>
+          ) : null}
           <div className="theme-switch-wrapper">
             <label className="theme-switch" htmlFor="checkbox">
               <input type="checkbox" id="checkbox" />
               <div className="slider round"></div>
             </label>
           </div>
-          <li className="dropdown dropdown-animate" data-toggle="hover">
-            <a
-              className="p-3"
-              href="#"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <img
-                alt="Profile Image"
-                src="./assets/img/ben-headshot.png"
-                className="avatar rounded-circle avatar-md"
-              />
-            </a>
-            <div className="dropdown-menu dropdown-menu-single">
-              <NavLink to="/profile" className="dropdown-item">
-                Profile
-              </NavLink>
-              <NavLink to="/schedule-one-on-one" className="dropdown-item">
-                Schedule 1-on-1
-              </NavLink>
-              <NavLink to="/" className="dropdown-item">
-                Support
-              </NavLink>
-              <div className="dropdown-divider"></div>
-              <NavLink to="/login" className="dropdown-item">
-                Logout
-              </NavLink>
-            </div>
-          </li>
+          {User.userid ? (
+            <li className="dropdown dropdown-animate" data-toggle="hover">
+              <a
+                className="p-3"
+                href="#"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <img
+                  alt="Profile Image"
+                  src="./assets/img/ben-headshot.png"
+                  className="avatar rounded-circle avatar-md"
+                />
+              </a>
+              <div className="dropdown-menu dropdown-menu-single">
+                <NavLink to="/profile" className="dropdown-item">
+                  Profile
+                </NavLink>
+                <NavLink to="/schedule-one-on-one" className="dropdown-item">
+                  Schedule 1-on-1
+                </NavLink>
+                <NavLink to="/" className="dropdown-item">
+                  Support
+                </NavLink>
+                <div className="dropdown-divider"></div>
+                <NavLink to="/login" className="dropdown-item">
+                  Logout
+                </NavLink>
+              </div>
+            </li>
+          ) : null}
         </div>
       </nav>
     </header>
