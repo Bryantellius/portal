@@ -1,10 +1,15 @@
 import * as React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Layout from "./components/Layout";
 import Login from "./views/Login";
 import TopicContent from "./views/TopicContent";
 import Home from "./views/Home";
-import { apiService, abortFetching } from "./utils/apiService";
+import { apiService, abortFetching, AccessToken } from "./utils/apiService";
 
 const App: React.FC = () => {
   const [isLoaded, setIsLoaded] = React.useState<boolean>(false);
@@ -12,7 +17,6 @@ const App: React.FC = () => {
   const [topics, setTopics] = React.useState<any[]>([]);
 
   React.useEffect(() => {
-    console.log("useEffect");
     let controller = new AbortController();
     if (!isLoaded) {
       fetchModules(controller);
@@ -48,17 +52,25 @@ const App: React.FC = () => {
     <Router>
       <Switch>
         <Route exact path="/">
-          <Layout showSidebar modules={modules} topics={topics}>
-            <Home />
-          </Layout>
+          {AccessToken ? (
+            <Layout showSidebar modules={modules} topics={topics}>
+              <Home />
+            </Layout>
+          ) : (
+            <Redirect from="/" to="/login" />
+          )}
         </Route>
         {topics.map((topic) => {
           let path: string = topic.Title.toLowerCase().replace(/ /g, "-");
           return (
             <Route key={topic.TitleID + "route"} exact path={`/${path}`}>
-              <Layout showSidebar modules={modules} topics={topics}>
-                <TopicContent title={topic.Title} topicId={topic.TopicID} />
-              </Layout>
+              {AccessToken ? (
+                <Layout showSidebar modules={modules} topics={topics}>
+                  <TopicContent title={topic.Title} topicId={topic.TopicID} />
+                </Layout>
+              ) : (
+                <Redirect from="/:slug" to="/login" />
+              )}
             </Route>
           );
         })}
