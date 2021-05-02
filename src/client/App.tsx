@@ -4,7 +4,6 @@ import Layout from "./components/Layout";
 import Login from "./views/Login";
 import TopicContent from "./views/TopicContent";
 import Home from "./views/Home";
-import { darkModeLoader } from "./utils/theme";
 import { apiService, abortFetching } from "./utils/apiService";
 
 const App: React.FC = () => {
@@ -13,13 +12,14 @@ const App: React.FC = () => {
   const [topics, setTopics] = React.useState<any[]>([]);
 
   React.useEffect(() => {
+    console.log("useEffect");
     let controller = new AbortController();
     if (!isLoaded) {
-      darkModeLoader();
       fetchModules(controller);
       fetchTopics(controller);
     }
     setIsLoaded(true);
+
     return () => abortFetching(controller);
   }, []);
 

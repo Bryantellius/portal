@@ -1,13 +1,18 @@
+---
+title: "Operators"
+slug: "/javascript-operators"
+---
+
 Lecture Video Part 1
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/504984084/bee103445e" type="video/mp4">
+  <source src="https://vimeo.com/504984084/bee103445e" type="video/mp4" />
 </video>
 
 Lecture Video Part 2
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/504984217/a665a7c3cc" type="video/mp4">
+  <source src="https://vimeo.com/504984217/a665a7c3cc" type="video/mp4" />
 </video>
 
 ---
@@ -452,5 +457,5 @@ Use the code above to test and print the results.
 ### Quiz Review Video
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/505434933/7adb700738" type="video/mp4">
+  <source src="https://vimeo.com/505434933/7adb700738" type="video/mp4" />
 </video>

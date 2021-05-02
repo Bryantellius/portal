@@ -1,7 +1,12 @@
+---
+title: "Flexbox and Grid"
+slug: "/css-flexbox-and-grid"
+---
+
 Lecture Video
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/512728838/1f2b5d7393" type="video/mp4">
+  <source src="https://vimeo.com/512728838/1f2b5d7393" type="video/mp4" />
 </video>
 
 ---
@@ -18,7 +23,7 @@ Today, not every user is viewing your web app with the same size screen. In fact
 
 Flexbox is an extremely useful tool for responsive web design. Here’s how it works:
 
-![alt_text](assets/lectures/images/css-flexbox-and-grid1.png)
+![alt_text](././assets/lectures/css/css-flexbox-and-grid1.png)
 
 READING RESOURCE: _[Flexbox Cheat Sheets in 2021 by Joy Shaheb](https://dev.to/joyshaheb/flexbox-cheat-sheets-in-2021-css-2021-3edl)_
 
@@ -48,11 +53,11 @@ PRACTICE RESOURCE: [Flexbox Zombies, Learning Game](https://mastery.games/flexbo
 
 The result:
 
-![alt_text](assets/lectures/images/css-flexbox-and-grid2.png)
+![alt_text](./assets/lectures/css/css-flexbox-and-grid2.png)
 
 Or on mobile:
 
-![alt_text](assets/lectures/images/css-flexbox-and-grid3.png)
+![alt_text](./assets/lectures/css/css-flexbox-and-grid3.png)
 
 > “This is where the fun begins”
 
@@ -75,7 +80,7 @@ Above, we have 4 pixel values for the columns, and 4 pixel values for the rows.
 
 The values dictate how wide we want our columns to be (200px) and how tall we’d want our rows to be (200px). Let’s look at the result:
 
-![alt_text](assets/lectures/images/css-flexbox-and-grid4.png)
+![alt_text](./assets/lectures/css/css-flexbox-and-grid4.png)
 
 We can position or resize the boxes selecting them and using the **grid-column-start**, **grid-column-end**, **grid-row-start** and **grid-row-end** properties:
 
@@ -102,7 +107,7 @@ We can position or resize the boxes selecting them and using the **grid-column-s
 
 And now our grid looks like this:
 
-![alt_text](assets/lectures/images/css-flexbox-and-grid5.png)
+![alt_text](./assets/lectures/css/css-flexbox-and-grid5.png)
 
 Neat! But, we still haven’t reached a _responsive_ grid layout. Introducing the **fraction unit**. The fraction unit, **fr**, allows you to split the wrapper into as many fractions as you want.
 
@@ -162,7 +167,7 @@ Bootstrap allows you to utilize it’s CSS and JS framework to “quickly design
 
 Using Bootstrap is easy. The fastest way to get started is by adding a stylesheet link in your `<head></head>` tag in your html:
 
-![alt_text](assets/lectures/images/css-flexbox-and-grid6.png)
+![alt_text](./assets/lectures/css/css-flexbox-and-grid6.png)
 
 **NOTE: **Notice the placement of link tags in my head tag. You must put the Bootstrap link _before_ your own external stylesheet.
 
@@ -186,7 +191,7 @@ READING RESOURCE: [Materialize](https://materializecss.com/getting-started.html)
 
 - KenKen is a popular spinoff(?) of Sudoku puzzles. Below is an example:
 
-![alt_text](assets/lectures/images/css-flexbox-and-grid6.png)
+![alt_text](./assets/lectures/css/css-flexbox-and-grid6.png)
 
 - Use a CSS Grid to recreate this KenKen puzzle.
 

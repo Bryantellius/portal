@@ -1,7 +1,12 @@
+---
+title: "Selection Statements"
+slug: "/javascript-selection-statements"
+---
+
 Lecture Video
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/504984430/6429105714" type="video/mp4">
+  <source src="https://vimeo.com/504984430/6429105714" type="video/mp4" />
 </video>
 
 ---
@@ -229,7 +234,7 @@ Exercise Repo: [JavaScript Selection Statements](https://github.com/truecodersio
 [Exercise Walkthrough Documentation](https://docs.google.com/document/u/1/d/1DUrGSTy8XDMChQLx-RCWr2AfAQm4iVkkhGt-673G1bU/edit)
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/505435182/efcc5af38e" type="video/mp4">
+  <source src="https://vimeo.com/505435182/efcc5af38e" type="video/mp4" />
 </video>
 
 ---

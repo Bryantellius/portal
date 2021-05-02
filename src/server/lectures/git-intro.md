@@ -1,13 +1,18 @@
+---
+title: "Intro"
+slug: "/git-intro"
+---
+
 Lecture Video Part 1
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/499737170/cc52a139dc" type="video/mp4">
+  <source src="https://vimeo.com/499737170/cc52a139dc" type="video/mp4" />
 </video>
 
 Lecture Video Part 2
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/499800324/4231788a62" type="video/mp4">
+  <source src="https://vimeo.com/499800324/4231788a62" type="video/mp4" />
 </video>
 
 ---
@@ -41,7 +46,7 @@ Version Control allows you to:
 
 Version Control Systems are usually represented with a tree data structure
 
-![alt_text](assets/lectures/images/git-intro1.png)
+![alt_text](assets/lectures/git/git-intro1.png)
 
 **Git:**
 
@@ -61,7 +66,7 @@ The traditional software expression of "saving" is synonymous with the Git term 
 
 The **git commit** command captures a snapshot of the project's currently staged changes.
 
-![alt_text](assets/lectures/images/git-intro2.png)
+![alt_text](assets/lectures/git/git-intro2.png)
 
 Each circle in the above diagram is a commit – a **snapshot** of the project
 
@@ -87,7 +92,7 @@ With **Remote Repositories** we usually use these git commands:
 
 The **git add** command adds a change in the working directory to the **staging area**. It tells Git that you want to include updates to a particular file in the next commit. However, git add doesn't really affect the repository in any significant way—changes are not actually recorded until you run git commit.
 
-![alt_text](assets/lectures/images/git-intro3.png)
+![alt_text](assets/lectures/git/git-intro3.png)
 
 **Moreover on Staging:**
 
@@ -211,7 +216,7 @@ git init, git status, untracked files, git add, git commit -m “message”, git
 How to Video
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/501605388/9f41d9d902" type="video/mp4">
+  <source src="https://vimeo.com/501605388/9f41d9d902" type="video/mp4" />
 </video>
 
 <!-- [How to Video](https://vimeo.com/501605388/9f41d9d902) -->
@@ -232,21 +237,21 @@ How to Video
    7. Initialize that folder as a git repository → git init
    8. Your terminal / command prompt will look something like this:
 
-![alt_text](assets/lectures/images/git-intro4.png)
+![alt_text](assets/lectures/git/git-intro4.png)
 
 Continue to next steps below
 
-![alt_text](assets/lectures/images/git-intro5.png)
+![alt_text](assets/lectures/git/git-intro5.png)
 
 Visual Studio Code is shown in the image above
 
 9. Using the Visual Studio Code application, create a new file named Algo inside of your PizzaAlgo folder and save it.
 
-![alt_text](assets/lectures/images/git-intro6.png)
+![alt_text](assets/lectures/git/git-intro6.png)
 
 10. Now we will add instructions for ordering pizza in this file
 
-![alt_text](assets/lectures/images/git-intro7.png)
+![alt_text](assets/lectures/git/git-intro7.png)
 
 11. Use git to commit your changes as you add steps to the file
 
@@ -259,17 +264,17 @@ Continue to steps below
 
 - Use the ‘new’ button on github
 
-![alt_text](assets/lectures/images/git-intro8.png)
+![alt_text](assets/lectures/git/git-intro8.png)
 
 Your new repository should resemble the image above
 
-![alt_text](assets/lectures/images/git-intro9.png)
+![alt_text](assets/lectures/git/git-intro9.png)
 
 Continue to the next steps below
 
 You will see a page that looks like this once created:
 
-![alt_text](assets/lectures/images/git-intro10.png)
+![alt_text](assets/lectures/git/git-intro10.png)
 
 Copy the text from that page as you see above ^^
 
@@ -289,7 +294,7 @@ Example ANSWER:
 Quiz Walkthrough Video:
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/499770313/3e5d97d45d" type="video/mp4">
+  <source src="https://vimeo.com/499770313/3e5d97d45d" type="video/mp4" />
 </video>
 
 ---

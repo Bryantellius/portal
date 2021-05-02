@@ -1,7 +1,12 @@
+---
+title: "Loops"
+slug: "/javascript-loops"
+---
+
 Lecture Video
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/505435531/6d792ef097" type="video/mp4">
+  <source src="https://vimeo.com/505435531/6d792ef097" type="video/mp4" />
 </video>
 
 ---
@@ -279,7 +284,7 @@ Ex: 15 would print 'FIZZBUZZ', 33 would print 'FIZZ', and 35 would print 'BUZZ'
 [Exercise Walkthrough Documentation](https://docs.google.com/document/d/1DKeHV3lbtJ9zLACOprUOhXuNoxAHCW78HSwNmdvuEa4/edit?usp=sharing)
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/505435636/22b2d8d21b" type="video/mp4">
+  <source src="https://vimeo.com/505435636/22b2d8d21b" type="video/mp4" />
 </video>
 
 ---
@@ -289,5 +294,5 @@ Ex: 15 would print 'FIZZBUZZ', 33 would print 'FIZZ', and 35 would print 'BUZZ'
 [JS Selection Selection Statements Quiz](https://docs.google.com/forms/d/e/1FAIpQLSeYB7hVbr9eH9S73-M_gBIZbsYOVvZ_kzkjkrMJOeCJUSEv0g/viewform?authuser=3)
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/506290132/6a5bd742e8" type="video/mp4">
+  <source src="https://vimeo.com/506290132/6a5bd742e8" type="video/mp4" />
 </video>

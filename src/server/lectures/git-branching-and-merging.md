@@ -1,7 +1,12 @@
+---
+title: "Branching and Merging"
+slug: "/git-branching-and-merging"
+---
+
 Lecture Video
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/499767209/214ca8778b" type="video/mp4">
+  <source src="https://vimeo.com/499767209/214ca8778b" type="video/mp4" />
 </video>
 
 ---
@@ -30,11 +35,11 @@ The **master** branch is the default branch when you create a repository.
 
 We'll use other branches for development and then merge those branches back to the master branch upon completion.
 
-![alt_text](assets/lectures/images/git-branching-and-merging1.png)
+![alt_text](assets/lectures/git/git-branching-and-merging1.png)
 
 In this diagram below, we have two separate branches. Our Master Branch – which is our default branch – and our Feature branch. So we have two isolated lines of development:
 
-![alt_text](assets/lectures/images/git-branching-and-merging2.png)
+![alt_text](assets/lectures/git/git-branching-and-merging2.png)
 
 By developing them in branches, it’s not only possible to work on both of them in parallel, but it also keeps the main master branch free from questionable code.
 
@@ -189,5 +194,5 @@ In the Command prompt / Terminal:
 [Take the Git Branching and Merging Quiz](https://forms.gle/PukUudiDEdTrW2dY8)
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/470711832/17a657a350" type="video/mp4">
+  <source src="https://vimeo.com/470711832/17a657a350" type="video/mp4" />
 </video>

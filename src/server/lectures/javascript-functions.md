@@ -1,3 +1,8 @@
+---
+title: "Functions"
+slug: "/javascript-functions"
+---
+
 Lecture Video
 
 No lecture video available. Coming soon!
@@ -147,7 +152,7 @@ We’ve spent this whole time talking about declaring and defining functions, bu
 
 When you invoke a function, the context of the function in the program is placed in the call stack. The **_call stack_** is the place where the computer stores the context, or position, as it runs the code. When a function is invoked, the context is stored in memory on the top of the stack, when the function returns. It uses that context to continue the execution of your program.
 
-![alt_text](images/image9.png "image_tooltip")
+![alt_text](./assets/lectures/javascript/javascript-functions1.png "image_tooltip")
 
 #### Functions can be used Asynchronously
 
@@ -210,6 +215,5 @@ BONUS: Now that you do not know exactly what number may be passed in as `count`,
 [Exercise Walkthrough Documentation](https://docs.google.com/document/d/1Eyi0ESh0fTvSveKO2MbWr8bJ8-1JI9p9Sr9tUkx0Psg/edit?usp=sharing)
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/506290132/6a5bd742e8" type="video/mp4">
+  <source src="https://vimeo.com/506290132/6a5bd742e8" type="video/mp4" />
 </video>
-https://vimeo.com/505862552/505bec243a

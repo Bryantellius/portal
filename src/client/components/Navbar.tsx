@@ -1,8 +1,18 @@
 import * as React from "react";
+import { darkModeLoader } from "../utils/theme";
 import { NavLink } from "react-router-dom";
 import { User } from "../utils/apiService";
 
 const Navbar = () => {
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!isLoaded) {
+      darkModeLoader();
+      setIsLoaded(true);
+    }
+  }, []);
+
   return (
     // <!-- Nav -->
     <header className="header" id="header-main">

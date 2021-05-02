@@ -1,7 +1,12 @@
+---
+title: "Introduction and Variables"
+slug: "/javascript-introduction-and-variables"
+---
+
 Lecture Video
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/504606565/251f783c19" type="video/mp4">
+  <source src="https://vimeo.com/504606565/251f783c19" type="video/mp4" />
 </video>
 
 ---
@@ -261,7 +266,7 @@ JavaScript_Variables
 [Exercise Walkthrough Documentation](https://docs.google.com/document/d/1K5U9CyzSl49mFt7KjJB-GGBs16guQBLik4WuqUBFHRA/edit?usp=sharing)
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/504983940/96a22b9cd3" type="video/mp4">
+  <source src="https://vimeo.com/504983940/96a22b9cd3" type="video/mp4" />
 </video>
 
 ---
@@ -271,5 +276,5 @@ JavaScript_Variables
 [JavaScript Intro Quiz](https://docs.google.com/forms/d/e/1FAIpQLSfQ8xTLTQ7DXc2dJAH9no7AZLeche3L8h75gYveErjwsuz_aQ/viewform?authuser=3)
 
 <video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/504983824/a8a564a200" type="video/mp4">
+  <source src="https://vimeo.com/504983824/a8a564a200" type="video/mp4" />
 </video>
