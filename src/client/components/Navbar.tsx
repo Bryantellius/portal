@@ -1,7 +1,7 @@
 import * as React from "react";
 import { darkModeLoader } from "../utils/theme";
 import { NavLink } from "react-router-dom";
-import { User } from "../utils/apiService";
+import { removeAccessTokens, User } from "../utils/apiService";
 
 const Navbar = () => {
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -12,6 +12,8 @@ const Navbar = () => {
       setIsLoaded(true);
     }
   }, []);
+
+  console.log(User);
 
   return (
     // <!-- Nav -->
@@ -54,7 +56,7 @@ const Navbar = () => {
               </NavLink>
             </li>
           </ul>
-          {User.userid ? (
+          {User.UserID ? (
             <>
               {/* <!-- Navbar nav --> */}
               <div
@@ -101,7 +103,7 @@ const Navbar = () => {
               <div className="slider round"></div>
             </label>
           </div>
-          {User.userid ? (
+          {User.UserID ? (
             <li className="dropdown dropdown-animate" data-toggle="hover">
               <a
                 className="p-3"
@@ -118,6 +120,11 @@ const Navbar = () => {
                 />
               </a>
               <div className="dropdown-menu dropdown-menu-single">
+                {User.Title == "Admin" || User.Title == "Instructor" ? (
+                  <NavLink to="/admin" className="dropdown-item">
+                    Admin
+                  </NavLink>
+                ) : null}
                 <NavLink to="/profile" className="dropdown-item">
                   Profile
                 </NavLink>
@@ -128,7 +135,11 @@ const Navbar = () => {
                   Support
                 </NavLink>
                 <div className="dropdown-divider"></div>
-                <NavLink to="/login" className="dropdown-item">
+                <NavLink
+                  to="/login"
+                  className="dropdown-item"
+                  onClick={() => removeAccessTokens()}
+                >
                   Logout
                 </NavLink>
               </div>

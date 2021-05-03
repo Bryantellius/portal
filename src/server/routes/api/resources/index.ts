@@ -11,7 +11,6 @@ router.get("/lectures/:id?", async (req, res, next) => {
   try {
     let { id } = req.params;
     let data: any = await lectures.getOneLectureByTopicID(parseInt(id));
-    // let filePath = path.join(__dirname, "../src/server/lectures/git-intro.md");
     let filePath = path.join(__dirname, data[0].FilePath);
     let readStream = fs.createReadStream(filePath);
     readStream.pipe(res);

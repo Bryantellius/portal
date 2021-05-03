@@ -1,11 +1,14 @@
 import Query from "../models";
 
 const findOneUserById = (userid: number) => {
-  return Query("SELECT * FROM Users WHERE UserID = ?", [userid]);
+  return Query(
+    "SELECT u.UserID, u.FirstName, u.LastName, u.email, u.RoleID, u.AvatarUrl, r.Title, r.Access FROM USERS as u INNER JOIN Roles as r ON r.RoleID = u.RoleID WHERE u.UserID = ?",
+    [userid]
+  );
 };
 
 const findOneUserByEmail = (email: string) => {
-  return Query("SELECT * FROM Users WHERE Email = ?", [email]);
+  return Query("SELECT u.UserID, u.FirstName, u.LastName, u.email, u.password, u.RoleID, u.AvatarUrl, r.Title, r.Access FROM USERS as u INNER JOIN Roles as r ON r.RoleID = u.RoleID WHERE u.email = ?", [email]);
 };
 
 const insertUser = (user: any) => {

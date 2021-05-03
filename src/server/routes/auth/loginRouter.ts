@@ -9,11 +9,11 @@ router.post(
   passport.authenticate("local"),
   async (req: any, res: express.Response) => {
     try {
+      delete req.user.password;
       let token = await CreateToken({ userid: req.user.UserID });
       res.json({
         token,
-        role: req.user.Role,
-        userid: req.user.UserID,
+        user: req.user,
       });
     } catch (error) {
       console.log("Incorrect Log In!");

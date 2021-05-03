@@ -29,7 +29,8 @@ const Login = () => {
         }
       );
       if (res) {
-        setAccessToken(res.token, { userid: res.userid, role: res.role });
+        console.log("res", res);
+        setAccessToken(res.token, res.user);
         history.replace("/");
       } else {
         document.getElementById("errorAlert").style.display = "block";

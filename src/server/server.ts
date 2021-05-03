@@ -34,6 +34,7 @@ app.use(
     res: express.Response,
     next: express.NextFunction
   ) => {
+    console.log(err);
     res.status(500).json({ name: err.name, msg: err.message });
   }
 );
