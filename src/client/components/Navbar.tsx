@@ -13,8 +13,6 @@ const Navbar = () => {
     }
   }, []);
 
-  console.log(User);
-
   return (
     // <!-- Nav -->
     <header className="header" id="header-main">
