@@ -1,9 +1,9 @@
 import * as React from "react";
 import { darkModeLoader } from "../utils/theme";
 import { NavLink } from "react-router-dom";
-import { removeAccessTokens, User } from "../utils/apiService";
+import { removeAccessTokens } from "../utils/apiService";
 
-const Navbar = () => {
+const Navbar: React.FC<INavbarProps> = ({ setIsLoggedIn, isLoggedIn, user }) => {
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   React.useEffect(() => {
@@ -22,7 +22,7 @@ const Navbar = () => {
         id="navbar-main"
       >
         <div className="container-fluid justify-content-between">
-          {/* <!-- User's navbar --> */}
+          {/* <!-- user's navbar --> */}
           <div className="navbar-user d-lg-none">
             <ul className="navbar-nav flex-row align-items-center">
               <li className="nav-item">
@@ -54,7 +54,7 @@ const Navbar = () => {
               </NavLink>
             </li>
           </ul>
-          {User.UserID ? (
+          {isLoggedIn ? (
             <>
               {/* <!-- Navbar nav --> */}
               <div
@@ -69,17 +69,8 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink className="nav-link" to="/quizzes">
-                      Quizzes
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink
-                      className="nav-link"
-                      to="/exercises"
-                      target="_blank"
-                    >
-                      Exercises
+                    <NavLink className="nav-link" to="/videos">
+                      Videos
                     </NavLink>
                   </li>
                   <li className="nav-item">
@@ -101,7 +92,7 @@ const Navbar = () => {
               <div className="slider round"></div>
             </label>
           </div>
-          {User.UserID ? (
+          {isLoggedIn ? (
             <li className="dropdown dropdown-animate" data-toggle="hover">
               <a
                 className="p-3"
@@ -113,12 +104,12 @@ const Navbar = () => {
               >
                 <img
                   alt="Profile Image"
-                  src="./assets/img/ben-headshot.png"
+                  src={user.AvatarUrl}
                   className="avatar rounded-circle avatar-md"
                 />
               </a>
               <div className="dropdown-menu dropdown-menu-single">
-                {User.Title == "Admin" || User.Title == "Instructor" ? (
+                {user.Title == "Admin" || user.Title == "Instructor" ? (
                   <NavLink to="/admin" className="dropdown-item">
                     Admin
                   </NavLink>
@@ -136,7 +127,10 @@ const Navbar = () => {
                 <NavLink
                   to="/login"
                   className="dropdown-item"
-                  onClick={() => removeAccessTokens()}
+                  onClick={() => {
+                    removeAccessTokens();
+                    setIsLoggedIn(false);
+                  }}
                 >
                   Logout
                 </NavLink>
@@ -148,5 +142,11 @@ const Navbar = () => {
     </header>
   );
 };
+
+interface INavbarProps {
+  isLoggedIn: boolean;
+  setIsLoggedIn: any;
+  user: any;
+}
 
 export default Navbar;

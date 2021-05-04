@@ -10,23 +10,36 @@ import Login from "./views/Login";
 import TopicContent from "./views/TopicContent";
 import Home from "./views/Home";
 import Profile from "./views/Profile";
-import { apiService, abortFetching, AccessToken } from "./utils/apiService";
+import { apiService, abortFetching, User } from "./utils/apiService";
 
 const App: React.FC = () => {
-  const [isLoaded, setIsLoaded] = React.useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(
+    User ? true : false
+  );
   const [modules, setModules] = React.useState<any[]>([]);
   const [topics, setTopics] = React.useState<any[]>([]);
+  const [user, setUser] = React.useState<any>({});
 
   React.useEffect(() => {
     let controller = new AbortController();
-    if (!isLoaded) {
+    if (isLoggedIn) {
+      fetchUser(controller);
       fetchModules(controller);
       fetchTopics(controller);
     }
-    setIsLoaded(true);
 
     return () => abortFetching(controller);
-  }, []);
+  }, [isLoggedIn]);
+
+  const fetchUser = async (controller: any) => {
+    let [res] = await apiService(
+      `/api/users/${User.UserID}`,
+      false,
+      "GET",
+      controller.signal
+    );
+    setUser(res);
+  };
 
   const fetchModules = async (controller: any) => {
     let CurriculumID: number = 1;
@@ -52,23 +65,52 @@ const App: React.FC = () => {
   return (
     <Router>
       <Switch>
-        {AccessToken ? (
+        <Route exact path="/login">
+          <Layout
+            setIsLoggedIn={setIsLoggedIn}
+            user={user}
+            isLoggedIn={isLoggedIn}
+            showSidebar={false}
+          >
+            <Login setIsLoggedIn={setIsLoggedIn} />
+          </Layout>
+        </Route>
+        {isLoggedIn ? (
           <>
             <Route exact path="/">
-              <Layout showSidebar modules={modules} topics={topics}>
+              <Layout
+                setIsLoggedIn={setIsLoggedIn}
+                user={user}
+                isLoggedIn={isLoggedIn}
+                showSidebar
+                modules={modules}
+                topics={topics}
+              >
                 <Home />
               </Layout>
             </Route>
             <Route exact path="/profile">
-              <Layout showSidebar={false}>
-                <Profile />
+              <Layout
+                setIsLoggedIn={setIsLoggedIn}
+                user={user}
+                isLoggedIn={isLoggedIn}
+                showSidebar={false}
+              >
+                <Profile user={user} />
               </Layout>
             </Route>
             {topics.map((topic) => {
               let path: string = topic.Title.toLowerCase().replace(/ /g, "-");
               return (
                 <Route key={topic.TopicID + "route"} exact path={`/${path}`}>
-                  <Layout showSidebar modules={modules} topics={topics}>
+                  <Layout
+                    setIsLoggedIn={setIsLoggedIn}
+                    user={user}
+                    isLoggedIn={isLoggedIn}
+                    showSidebar
+                    modules={modules}
+                    topics={topics}
+                  >
                     <TopicContent title={topic.Title} topicId={topic.TopicID} />
                   </Layout>
                 </Route>
@@ -78,11 +120,6 @@ const App: React.FC = () => {
         ) : (
           <Redirect from="*" to="/login" />
         )}
-        <Route exact path="/login">
-          <Layout showSidebar={false}>
-            <Login />
-          </Layout>
-        </Route>
       </Switch>
     </Router>
   );

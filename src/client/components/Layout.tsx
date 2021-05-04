@@ -7,11 +7,18 @@ const Layout: React.FC<ILayoutProps> = ({
   modules,
   topics,
   showSidebar,
+  isLoggedIn,
+  setIsLoggedIn,
+  user,
 }) => {
   return (
     <main className="docs">
       {/* Nav */}
-      <Navbar />
+      <Navbar
+        user={user}
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+      />
       <div className="container-fluid container-docs">
         {/* Sidenav */}
         {showSidebar ? <Sidebar modules={modules} topics={topics} /> : null}
@@ -26,6 +33,9 @@ interface ILayoutProps {
   modules?: any;
   topics?: any;
   showSidebar: boolean;
+  isLoggedIn: boolean;
+  setIsLoggedIn: any;
+  user: any;
 }
 
 export default Layout;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { apiService, setAccessToken, abortFetching } from "../utils/apiService";
 
-const Login = () => {
+const Login: React.FC<ILoginProps> = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -29,8 +29,9 @@ const Login = () => {
         }
       );
       if (res) {
-        console.log("res", res);
+        console.log(res.user);
         setAccessToken(res.token, res.user);
+        setIsLoggedIn(true);
         history.replace("/");
       } else {
         document.getElementById("errorAlert").style.display = "block";
@@ -86,5 +87,9 @@ const Login = () => {
     </main>
   );
 };
+
+interface ILoginProps {
+  setIsLoggedIn: any;
+}
 
 export default Login;

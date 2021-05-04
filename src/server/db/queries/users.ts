@@ -2,13 +2,23 @@ import Query from "../models";
 
 const findOneUserById = (userid: number) => {
   return Query(
+    "SELECT u.UserID, u.FirstName, u.LastName, u.email, u.password FROM USERS as u WHERE u.UserID = ?",
+    [userid]
+  );
+};
+
+const getOneUserById = (userid: number) => {
+  return Query(
     "SELECT u.UserID, u.FirstName, u.LastName, u.email, u.RoleID, u.AvatarUrl, r.Title, r.Access FROM USERS as u INNER JOIN Roles as r ON r.RoleID = u.RoleID WHERE u.UserID = ?",
     [userid]
   );
 };
 
 const findOneUserByEmail = (email: string) => {
-  return Query("SELECT u.UserID, u.FirstName, u.LastName, u.email, u.password, u.RoleID, u.AvatarUrl, r.Title, r.Access FROM USERS as u INNER JOIN Roles as r ON r.RoleID = u.RoleID WHERE u.email = ?", [email]);
+  return Query(
+    "SELECT u.UserID, u.FirstName, u.LastName, u.email, u.password, u.RoleID, u.AvatarUrl, r.Title, r.Access FROM USERS as u INNER JOIN Roles as r ON r.RoleID = u.RoleID WHERE u.email = ?",
+    [email]
+  );
 };
 
 const insertUser = (user: any) => {
@@ -26,6 +36,7 @@ const removeUser = (userid: number) => {
 export default {
   findOneUserByEmail,
   findOneUserById,
+  getOneUserById,
   insertUser,
   updateUser,
   removeUser,

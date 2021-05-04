@@ -1,13 +1,12 @@
 import * as express from "express";
-import * as fs from "fs";
-import * as path from "path";
-import db from "../../db/queries/topics";
-import resourceRouter from './resources';
-import adminRouter from './adminRouter';
+import resourceRouter from "./resources";
+import userRouter from "./users";
+import adminRouter from "./adminRouter";
 
 const router = express.Router();
 
 router.use("/admin", adminRouter);
 router.use("/resources", resourceRouter);
+router.use("/users", userRouter);
 
 export default router;

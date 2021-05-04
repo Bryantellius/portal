@@ -1,7 +1,7 @@
 import fetch from "isomorphic-fetch";
 
 export let AccessToken: string = localStorage.getItem("token") || null;
-export let User: any = JSON.parse(localStorage.getItem("user")) || {};
+export let User: any = JSON.parse(localStorage.getItem("user")) || null;
 
 export const abortFetching = (controller: any) => {
   console.log("Now aborting");
@@ -51,5 +51,5 @@ export const setAccessToken = (token: string, user: {} = {}) => {
 export const removeAccessTokens = () => {
   localStorage.clear();
   AccessToken = null;
-  User = {};
+  User = null;
 };
