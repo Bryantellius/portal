@@ -49,14 +49,15 @@ router.get(
     res: express.Response,
     next: express.NextFunction
   ) => {
+    // let TopicID: number = parseInt(req.params.TopicID);
     let id: number = parseInt(req.params.id);
     let data: any;
     try {
-      if (id) {
-        data = await topics.getOneTopic(id);
-      } else {
-        data = await topics.getAllTopics();
-      }
+      // if (id) {
+      //   data = await topics.getOneTopic(id);
+      // } else {
+      data = await topics.getTopicsByCurriculum(id);
+      // }
 
       res.status(200).json(data);
     } catch (error) {

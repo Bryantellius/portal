@@ -13,6 +13,7 @@ const TopicContent: React.FC<ITopicContentProps> = ({ topicId, title }) => {
   }, [location.pathname]);
 
   const fetchLecture = async () => {
+    console.log("Pulling content for " + title);
     let res = await apiService(`/api/resources/lectures/${topicId}`, true);
     setLecture(res);
   };

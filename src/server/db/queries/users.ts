@@ -9,7 +9,7 @@ const findOneUserById = (userid: number) => {
 
 const getOneUserById = (userid: number) => {
   return Query(
-    "SELECT u.UserID, u.FirstName, u.LastName, u.email, u.RoleID, u.AvatarUrl, r.Title, r.Access FROM USERS as u INNER JOIN Roles as r ON r.RoleID = u.RoleID WHERE u.UserID = ?",
+    "SELECT u.UserID, u.FirstName, u.LastName, u.email, u.RoleID, u.AvatarUrl, u._created as created, r.Title, r.Access FROM USERS as u INNER JOIN Roles as r ON r.RoleID = u.RoleID WHERE u.UserID = ?",
     [userid]
   );
 };

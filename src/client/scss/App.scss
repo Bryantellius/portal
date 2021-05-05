@@ -350,6 +350,20 @@ samp {
   font-size: 1em;
 }
 
+.profile-settings {
+  margin-top: 80px;
+  min-width: 50%;
+}
+
+#errorAlert {
+  display: none;
+}
+
+#memberAlert {
+  display: none;
+  transition: display 1s;
+}
+
 // pre {
 //   overflow: auto;
 

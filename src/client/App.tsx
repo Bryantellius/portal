@@ -53,8 +53,9 @@ const App: React.FC = () => {
   };
 
   const fetchTopics = async (controller: any) => {
+    let CurriculumID: number = 1;
     let res = await apiService(
-      "/api/resources/topics",
+      `/api/resources/topics/${CurriculumID}`,
       false,
       "GET",
       controller.signal
