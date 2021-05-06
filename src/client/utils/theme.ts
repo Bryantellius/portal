@@ -9,7 +9,7 @@ export const darkModeLoader = () => {
     }
     const handleThemeChange = (event: any) => {
       if (event.target.checked) {
-        document.documentElement.setAttribute("data-theme", "dark");
+        document.documentElement.setAttribute("data-theme", "DarkOcean");
         localStorage.setItem("theme", "dark");
       } else {
         document.documentElement.setAttribute("data-theme", "light");

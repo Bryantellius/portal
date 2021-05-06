@@ -24,8 +24,6 @@ const App: React.FC = () => {
     let controller = new AbortController();
     if (isLoggedIn) {
       fetchUser(controller);
-      fetchModules(controller);
-      fetchTopics(controller);
     }
 
     return () => abortFetching(controller);
@@ -39,10 +37,13 @@ const App: React.FC = () => {
       controller.signal
     );
     setUser(res);
+      console.log(res);
+    await fetchModules(controller, res);
+    await fetchTopics(controller, res);
   };
 
-  const fetchModules = async (controller: any) => {
-    let CurriculumID: number = 1;
+  const fetchModules = async (controller: any, user: any) => {
+    let CurriculumID: number = user.CurriculumID || 1;
     let res = await apiService(
       `/api/resources/modules/${CurriculumID}`,
       false,
@@ -52,8 +53,8 @@ const App: React.FC = () => {
     setModules(res);
   };
 
-  const fetchTopics = async (controller: any) => {
-    let CurriculumID: number = 1;
+  const fetchTopics = async (controller: any, user: any) => {
+    let CurriculumID: number = user.CurriculumID || 1;
     let res = await apiService(
       `/api/resources/topics/${CurriculumID}`,
       false,
