@@ -11,6 +11,7 @@ import TopicContent from "./views/TopicContent";
 import Home from "./views/Home";
 import Profile from "./views/Profile";
 import { apiService, abortFetching, User } from "./utils/apiService";
+import Admin from "./views/Admin";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(
@@ -37,7 +38,6 @@ const App: React.FC = () => {
       controller.signal
     );
     setUser(res);
-      console.log(res);
     await fetchModules(controller, res);
     await fetchTopics(controller, res);
   };
@@ -89,6 +89,18 @@ const App: React.FC = () => {
                 topics={topics}
               >
                 <Home />
+              </Layout>
+            </Route>
+            <Route exact path="/admin">
+              <Layout
+                setIsLoggedIn={setIsLoggedIn}
+                user={user}
+                showSidebar={false}
+                isLoggedIn={isLoggedIn}
+                modules={modules}
+                topics={topics}
+              >
+                <Admin />
               </Layout>
             </Route>
             <Route exact path="/profile">

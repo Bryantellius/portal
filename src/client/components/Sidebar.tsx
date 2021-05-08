@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NavLink } from "react-router-dom";
 
-const Sidebar: React.FC<ISidebarProps> = ({ modules, topics }) => {
+const Sidebar: React.FC<ISidebarProps> = ({ modules, topics, course }) => {
   return (
     //   Side Navigation Bar
     <nav
@@ -11,6 +11,7 @@ const Sidebar: React.FC<ISidebarProps> = ({ modules, topics }) => {
       <div className="scrollbar-inner px-4">
         {/* <!-- Navigation --> */}
         <div className="docs-sidebar pt-6 pt-lg-7">
+          <h4>{course}</h4>
           {modules.map((module) => {
             return (
               <React.Fragment key={module.ModuleID}>
@@ -46,6 +47,7 @@ const Sidebar: React.FC<ISidebarProps> = ({ modules, topics }) => {
 interface ISidebarProps {
   modules: any[];
   topics: any[];
+  course: string;
 }
 
 export default Sidebar;

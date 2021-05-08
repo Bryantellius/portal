@@ -29,16 +29,17 @@ const Login: React.FC<ILoginProps> = ({ setIsLoggedIn }) => {
         }
       );
       if (res) {
-        console.log(res.user);
         setAccessToken(res.token, res.user);
         setIsLoggedIn(true);
         history.replace("/");
       } else {
+        console.log("else");
         document.getElementById("errorAlert").style.display = "block";
         document.getElementById("errorAlert").textContent =
           "Email or Password is incorrect. Try again.";
       }
     } catch (error) {
+      console.log("catch");
       console.log(error.message);
       document.getElementById("errorAlert").style.display = "block";
       document.getElementById("errorAlert").textContent =
@@ -48,11 +49,11 @@ const Login: React.FC<ILoginProps> = ({ setIsLoggedIn }) => {
 
   return (
     <main id="loginPage" className="container-fluid">
-      <div id="errorAlert" className="alert alert-danger"></div>
       <form className="loginForm card" onSubmit={checkLogin}>
         <div className="form-group">
           <h1>Welcome Back!</h1>
         </div>
+        <div id="errorAlert" className="alert alert-danger"></div>
         <hr />
         <div className="form-group">
           <label htmlFor="loginEmail">Email address</label>

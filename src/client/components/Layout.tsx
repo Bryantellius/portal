@@ -21,7 +21,7 @@ const Layout: React.FC<ILayoutProps> = ({
       />
       <div className="container-fluid container-docs">
         {/* Sidenav */}
-        {showSidebar ? <Sidebar modules={modules} topics={topics} /> : null}
+        {showSidebar ? <Sidebar course={user.Course} modules={modules} topics={topics} /> : null}
         {children}
       </div>
     </main>

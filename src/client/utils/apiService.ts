@@ -36,7 +36,6 @@ export const apiService = async (
     }
   } catch (error) {
     console.log(error);
-    throw error;
   }
 };
 
