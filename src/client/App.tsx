@@ -12,6 +12,7 @@ import Home from "./views/Home";
 import Profile from "./views/Profile";
 import { apiService, abortFetching, User } from "./utils/apiService";
 import Admin from "./views/Admin";
+import Dashboard from "./views/Dashboard";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(
@@ -84,6 +85,16 @@ const App: React.FC = () => {
                 setIsLoggedIn={setIsLoggedIn}
                 user={user}
                 isLoggedIn={isLoggedIn}
+                showSidebar={false}
+              >
+                <Dashboard course={user.Course} />
+              </Layout>
+            </Route>
+            <Route exact path="/learn">
+              <Layout
+                setIsLoggedIn={setIsLoggedIn}
+                user={user}
+                isLoggedIn={isLoggedIn}
                 showSidebar
                 modules={modules}
                 topics={topics}
@@ -97,8 +108,6 @@ const App: React.FC = () => {
                 user={user}
                 showSidebar={false}
                 isLoggedIn={isLoggedIn}
-                modules={modules}
-                topics={topics}
               >
                 <Admin />
               </Layout>
@@ -116,7 +125,11 @@ const App: React.FC = () => {
             {topics.map((topic) => {
               let path: string = topic.Title.toLowerCase().replace(/ /g, "-");
               return (
-                <Route key={topic.TopicID + "route"} exact path={`/${path}`}>
+                <Route
+                  key={topic.TopicID + "route"}
+                  exact
+                  path={`/learn/${path}`}
+                >
                   <Layout
                     setIsLoggedIn={setIsLoggedIn}
                     user={user}

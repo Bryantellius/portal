@@ -3,7 +3,11 @@ import { darkModeLoader } from "../utils/theme";
 import { NavLink } from "react-router-dom";
 import { removeAccessTokens } from "../utils/apiService";
 
-const Navbar: React.FC<INavbarProps> = ({ setIsLoggedIn, isLoggedIn, user }) => {
+const Navbar: React.FC<INavbarProps> = ({
+  setIsLoggedIn,
+  isLoggedIn,
+  user,
+}) => {
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   React.useEffect(() => {
@@ -41,7 +45,7 @@ const Navbar: React.FC<INavbarProps> = ({ setIsLoggedIn, isLoggedIn, user }) => 
           <NavLink className="navbar-brand" to="/">
             <img
               alt="Image placeholder"
-              src="./assets/img/brand/TrueCodersLogo_Inline.png"
+              src="assets/img/brand/TrueCodersLogo_Inline.png"
               id="navbar-logo"
             />
             <sup className="text-muted text-xs text-uppercase">APP</sup>
@@ -64,22 +68,13 @@ const Navbar: React.FC<INavbarProps> = ({ setIsLoggedIn, isLoggedIn, user }) => 
                 {/* <!-- Right menu --> */}
                 <ul className="navbar-nav align-items-center mx-auto">
                   <li className="nav-item">
-                    <NavLink className="nav-link" to="/lectures">
-                      Lectures
+                    <NavLink className="nav-link" exact to="/">
+                      Dashboard
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink className="nav-link" to="/videos">
-                      Videos
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink
-                      className="nav-link"
-                      to="/resources"
-                      target="_blank"
-                    >
-                      Resources
+                    <NavLink className="nav-link" exact to="/learn">
+                      Learn
                     </NavLink>
                   </li>
                 </ul>

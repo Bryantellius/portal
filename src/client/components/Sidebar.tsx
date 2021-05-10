@@ -25,7 +25,7 @@ const Sidebar: React.FC<ISidebarProps> = ({ modules, topics, course }) => {
                       );
                       return (
                         <NavLink
-                          to={`/${path}`}
+                          to={`/learn/${path}`}
                           key={topic.TopicID}
                           className="nav-link"
                         >
