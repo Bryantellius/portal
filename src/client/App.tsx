@@ -127,7 +127,6 @@ const App: React.FC = () => {
             </Route>
             {topics.map((topic, i, arr) => {
               let path: string = topic.Title.toLowerCase().replace(/ /g, "-");
-              console.log(arr[i]);
               return (
                 <Route
                   key={topic.TopicID + "route"}
@@ -143,12 +142,16 @@ const App: React.FC = () => {
                     topics={topics}
                   >
                     <TopicContent
+                      UserID={user.UserID}
                       title={topic.Title}
+                      nextID={
+                        i < arr.length - 1 ? arr[i + 1].TopicID : arr[i].TopicID
+                      }
                       prevT={
                         i && i < arr.length ? arr[i - 1].Title : arr[i].Title
                       }
                       nextT={
-                        i && i < arr.length - 1 ? arr[i + 1].Title : arr[i].Title
+                        i < arr.length - 1 ? arr[i + 1].Title : arr[i].Title
                       }
                       topicId={topic.TopicID}
                     />

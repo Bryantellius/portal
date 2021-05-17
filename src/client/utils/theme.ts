@@ -3,14 +3,14 @@ export const darkModeLoader = () => {
     const currentMode = localStorage.getItem("theme");
     if (currentMode) {
       document.documentElement.setAttribute("data-theme", currentMode);
-      if (currentMode === "dark") {
+      if (currentMode === "DarkOcean") {
         toggleMode.checked = true;
       }
     }
     const handleThemeChange = (event: any) => {
       if (event.target.checked) {
         document.documentElement.setAttribute("data-theme", "DarkOcean");
-        localStorage.setItem("theme", "dark");
+        localStorage.setItem("theme", "DarkOcean");
       } else {
         document.documentElement.setAttribute("data-theme", "light");
         localStorage.setItem("theme", "light");

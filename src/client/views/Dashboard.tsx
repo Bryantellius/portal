@@ -1,23 +1,27 @@
 import React from "react";
+import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import { apiService } from "../utils/apiService";
 
 const Dashboard: React.FC<IDashboardProps> = ({ course, LastLectureID }) => {
   const [lastLecture, setLastLecture] = React.useState(null);
 
+  const location = useLocation();
+
+  const controller = new AbortController();
+
   React.useEffect(() => {
-    if (!lastLecture) {
-      fetchLastLectureInfo();
-    }
-  });
+    fetchLastLectureInfo();
+  }, [location.pathname]);
 
   const fetchLastLectureInfo = async () => {
     let [data]: any = await apiService(
       `/api/resources/lectures-info/${LastLectureID ? LastLectureID : 1}`,
-      false
+      false,
+      "GET",
+      controller.signal
     );
     if (data) {
-      console.log(data);
       setLastLecture(data);
     }
   };
@@ -63,7 +67,10 @@ const Dashboard: React.FC<IDashboardProps> = ({ course, LastLectureID }) => {
                 <h4>Tutoring</h4>
               </div>
               <div className="card-body">
-                <NavLink to={"/1-on-1"} className="btn btn-sm btn-outline-primary">
+                <NavLink
+                  to={"/1-on-1"}
+                  className="btn btn-sm btn-outline-primary"
+                >
                   Schedule
                 </NavLink>
               </div>
@@ -75,7 +82,10 @@ const Dashboard: React.FC<IDashboardProps> = ({ course, LastLectureID }) => {
                 <h4>Career Services</h4>
               </div>
               <div className="card-body">
-                <NavLink to={"/schedule"} className="btn btn-sm btn-outline-primary">
+                <NavLink
+                  to={"/schedule"}
+                  className="btn btn-sm btn-outline-primary"
+                >
                   Calendar
                 </NavLink>
               </div>

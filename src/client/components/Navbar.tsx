@@ -45,7 +45,7 @@ const Navbar: React.FC<INavbarProps> = ({
           <NavLink className="navbar-brand" to="/">
             <img
               alt="Image placeholder"
-              src="assets/img/brand/TrueCodersLogo_Inline.png"
+              src={"../assets/img/brand/TrueCodersLogo_Inline.png"}
               id="navbar-logo"
             />
             <sup className="text-muted text-xs text-uppercase">APP</sup>

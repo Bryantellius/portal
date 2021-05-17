@@ -9,10 +9,32 @@ const TopicContent: React.FC<ITopicContentProps> = ({
   title,
   prevT,
   nextT,
+  nextID,
+  UserID,
 }) => {
   const location = useLocation();
+  const controller = new AbortController();
 
   const [lecture, setLecture] = React.useState<string>("");
+
+  const updateLastLesson = async () => {
+    try {
+      let res: any = await apiService(
+        "/api/users/update/" + UserID,
+        false,
+        "PUT",
+        controller.signal,
+        {
+          LastLectureID: nextID,
+        }
+      );
+      if (res) {
+        console.log("User next lesson updated");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   React.useEffect(() => {
     fetchLecture();
@@ -42,6 +64,7 @@ const TopicContent: React.FC<ITopicContentProps> = ({
             <NavLink
               to={`/learn/${nextT.toLowerCase().replace(/ /g, "-")}`}
               className="btn btn-sm btn-outline-primary"
+              onClick={updateLastLesson}
             >
               Next
             </NavLink>
@@ -76,7 +99,9 @@ interface ITopicContentProps {
   title: string;
   prevT: string;
   nextT: string;
+  nextID: number;
   topicId: number;
+  UserID: number;
 }
 
 export default TopicContent;
