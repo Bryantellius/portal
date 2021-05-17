@@ -12,8 +12,17 @@ router.get("/lectures/:id?", async (req, res, next) => {
     let { id } = req.params;
     let data: any = await lectures.getOneLectureByTopicID(parseInt(id));
     let filePath = path.join(__dirname, data[0].FilePath);
-    let readStream = fs.createReadStream(filePath);
-    readStream.pipe(res);
+    res.sendFile(filePath);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/lectures-info/:id?", async (req, res, next) => {
+  try {
+    let { id } = req.params;
+    let data: any = await lectures.getOneLectureByTopicID(parseInt(id));
+    res.json(data);
   } catch (error) {
     next(error);
   }

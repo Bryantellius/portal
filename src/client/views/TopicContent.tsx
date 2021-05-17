@@ -2,8 +2,14 @@ import * as React from "react";
 import Markdown from "markdown-to-jsx";
 import { apiService } from "../utils/apiService";
 import { useLocation } from "react-router";
+import { NavLink } from "react-router-dom";
 
-const TopicContent: React.FC<ITopicContentProps> = ({ topicId, title }) => {
+const TopicContent: React.FC<ITopicContentProps> = ({
+  topicId,
+  title,
+  prevT,
+  nextT,
+}) => {
   const location = useLocation();
 
   const [lecture, setLecture] = React.useState<string>("");
@@ -19,9 +25,28 @@ const TopicContent: React.FC<ITopicContentProps> = ({ topicId, title }) => {
   };
 
   return (
+    // Prompt Bar
     //   Main Content
     <div className="main-content row position-relative pb-5">
       <div className="col-xl-9 docs-content pb-5">
+        <div className="row pt-3 mt-3">
+          <div className="col-6 text-right">
+            <NavLink
+              to={`/learn/${prevT.toLowerCase().replace(/ /g, "-")}`}
+              className="btn btn-sm btn-outline-primary"
+            >
+              Back
+            </NavLink>
+          </div>
+          <div className="col-6">
+            <NavLink
+              to={`/learn/${nextT.toLowerCase().replace(/ /g, "-")}`}
+              className="btn btn-sm btn-outline-primary"
+            >
+              Next
+            </NavLink>
+          </div>
+        </div>
         {/* <!-- Docs title --> */}
         <div className="docs-title">
           <h1>{title}</h1>
@@ -49,6 +74,8 @@ const TopicContent: React.FC<ITopicContentProps> = ({ topicId, title }) => {
 
 interface ITopicContentProps {
   title: string;
+  prevT: string;
+  nextT: string;
   topicId: number;
 }
 

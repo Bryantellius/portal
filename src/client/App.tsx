@@ -87,7 +87,10 @@ const App: React.FC = () => {
                 isLoggedIn={isLoggedIn}
                 showSidebar={false}
               >
-                <Dashboard course={user.Course} />
+                <Dashboard
+                  course={user.Course}
+                  LastLectureID={user.LastLectureID}
+                />
               </Layout>
             </Route>
             <Route exact path="/learn">
@@ -122,8 +125,9 @@ const App: React.FC = () => {
                 <Profile user={user} />
               </Layout>
             </Route>
-            {topics.map((topic) => {
+            {topics.map((topic, i, arr) => {
               let path: string = topic.Title.toLowerCase().replace(/ /g, "-");
+              console.log(arr[i]);
               return (
                 <Route
                   key={topic.TopicID + "route"}
@@ -138,7 +142,16 @@ const App: React.FC = () => {
                     modules={modules}
                     topics={topics}
                   >
-                    <TopicContent title={topic.Title} topicId={topic.TopicID} />
+                    <TopicContent
+                      title={topic.Title}
+                      prevT={
+                        i && i < arr.length ? arr[i - 1].Title : arr[i].Title
+                      }
+                      nextT={
+                        i && i < arr.length - 1 ? arr[i + 1].Title : arr[i].Title
+                      }
+                      topicId={topic.TopicID}
+                    />
                   </Layout>
                 </Route>
               );

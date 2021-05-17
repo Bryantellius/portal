@@ -15,4 +15,16 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+router.put("/update/:id", async (req, res, next) => {
+  try {
+    let { id } = req.params;
+    let { body } = req;
+
+    let data: any = await users.updateUser(parseInt(id), body);
+    res.json(data);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;
