@@ -115,7 +115,7 @@ const Dashboard: React.FC<IDashboardProps> = ({
               </div>
               <div className="card-body">
                 <NavLink
-                  to={"/schedule"}
+                  to={"/career-services"}
                   className="btn btn-sm btn-outline-primary"
                 >
                   Calendar

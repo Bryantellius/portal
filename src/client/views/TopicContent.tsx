@@ -53,6 +53,7 @@ const TopicContent: React.FC<ITopicContentProps> = ({
       <div className="col-xl-9 docs-content pb-5">
         <div className="row pt-3 mt-3">
           <div className="col-6 text-right">
+            <span className="text-muted px-3 border-bottom border-info">{prevT}</span>
             <NavLink
               to={`/learn/${prevT.toLowerCase().replace(/ /g, "-")}`}
               className="btn btn-sm btn-outline-primary"
@@ -68,6 +69,7 @@ const TopicContent: React.FC<ITopicContentProps> = ({
             >
               Next
             </NavLink>
+            <span className="text-muted px-3 border-bottom border-info">{nextT}</span>
           </div>
         </div>
         {/* <!-- Docs title --> */}
@@ -88,6 +90,27 @@ const TopicContent: React.FC<ITopicContentProps> = ({
         {/* <!-- Docs content --> */}
         <div className="docs-content">
           <Markdown>{lecture}</Markdown>
+        </div>
+        <div className="row pt-3 mt-3">
+          <div className="col-6 text-right">
+            <span className="text-muted px-3 border-bottom border-info">{prevT}</span>
+            <NavLink
+              to={`/learn/${prevT.toLowerCase().replace(/ /g, "-")}`}
+              className="btn btn-sm btn-outline-primary"
+            >
+              Back
+            </NavLink>
+          </div>
+          <div className="col-6">
+            <NavLink
+              to={`/learn/${nextT.toLowerCase().replace(/ /g, "-")}`}
+              className="btn btn-sm btn-outline-primary"
+              onClick={updateLastLesson}
+            >
+              Next
+            </NavLink>
+            <span className="text-muted px-3 border-bottom border-info">{nextT}</span>
+          </div>
         </div>
       </div>
       <div className="col-xl-3 docs-sidebar d-none d-xl-block"></div>

@@ -14,6 +14,7 @@ import { apiService, abortFetching, User } from "./utils/apiService";
 import Admin from "./views/Admin";
 import Dashboard from "./views/Dashboard";
 import Tutoring from "./views/Tutoring";
+import CareerServices from "./views/CareerServices";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(
@@ -103,6 +104,16 @@ const App: React.FC = () => {
                 showSidebar={false}
               >
                 <Tutoring course={user.Course} />
+              </Layout>
+            </Route>
+            <Route exact path="/career-services">
+              <Layout
+                setIsLoggedIn={setIsLoggedIn}
+                user={user}
+                isLoggedIn={isLoggedIn}
+                showSidebar={false}
+              >
+                <CareerServices course={user.Course} />
               </Layout>
             </Route>
             <Route exact path="/learn">

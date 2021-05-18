@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useHistory } from "react-router";
 import { apiService } from "../utils/apiService";
 import moment from "moment";
 
@@ -37,21 +36,26 @@ const Profile: React.FC<IProfileProps> = ({ user }) => {
       fileName: `${inputElement.value.slice(12)}`,
     };
 
-    try {
-      const formData = new FormData();
-      formData.append("image", fileList[0]);
-      formData.append("id", user.UserID);
-      let res = await fetch("/api/users/update/assets", {
-        method: "POST",
-        headers: {
-          encoding: "binary",
-        },
-        body: formData,
-      });
-      let msg = await res.json();
-      console.log(msg);
-    } catch (err) {
-      throw err;
+    if (fileList.length > 0) {
+      try {
+        const formData = new FormData();
+        formData.append("image", fileList[0]);
+        formData.append("id", user.UserID);
+        let res = await fetch("/api/users/update/assets", {
+          method: "POST",
+          headers: {
+            encoding: "binary",
+          },
+          body: formData,
+        });
+        let msg = await res.json();
+        console.log(msg);
+      } catch (err) {
+        throw err;
+      }
+    } else {
+      delete body.AvatarUrl;
+      delete body.fileName;
     }
 
     let res = await apiService(
@@ -157,7 +161,6 @@ const Profile: React.FC<IProfileProps> = ({ user }) => {
                     document.getElementById("fileLabel").innerHTML =
                       e.target.value.slice(12);
                   }}
-                  required
                 />
                 <label id="fileLabel" className="custom-file-label">
                   Choose file
