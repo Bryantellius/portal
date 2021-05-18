@@ -4,7 +4,11 @@ import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import { apiService } from "../utils/apiService";
 
-const Dashboard: React.FC<IDashboardProps> = ({ course, LastLectureID }) => {
+const Dashboard: React.FC<IDashboardProps> = ({
+  course,
+  LastLectureID,
+  FirstName,
+}) => {
   const [lastLecture, setLastLecture] = React.useState(null);
 
   const location = useLocation();
@@ -34,18 +38,31 @@ const Dashboard: React.FC<IDashboardProps> = ({ course, LastLectureID }) => {
       <div className="mt-3">
         <div className="row">
           <div className="col-12">
-            <div className="card">
-              <div className="card-body d-flex justify-content-between align-items-center">
-                <h1>{course}</h1>
-                <p>{moment().format("MMM DD yyyy")}</p>
+            <div className="card shadow">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-md-4 text-center">
+                    <p className="h4 h-100">Welcome back, {FirstName}!</p>
+                  </div>
+                  <div className="col-md-4 text-center">
+                    <h1 className="h-100">{course}</h1>
+                  </div>
+                  <div className="col-md-4 text-center">
+                    <p className="h-100">{moment().format("MMM DD yyyy")}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div className="row">
           <div className="col-md-4">
-            <div className="card bg-light h-100">
-            <img src="../assets/svg/learn.svg" alt="One On One's" className="card-img-top" />
+            <div className="card shadow bg-light h-100">
+              <img
+                src="../assets/svg/learn.svg"
+                alt="One On One's"
+                className="card-img-top"
+              />
               <div className="card-header">
                 <h4>{lastLecture ? lastLecture.Title : "Loading..."}</h4>
               </div>
@@ -67,8 +84,12 @@ const Dashboard: React.FC<IDashboardProps> = ({ course, LastLectureID }) => {
             </div>
           </div>
           <div className="col-md-4">
-            <div className="card bg-light h-100">
-              <img src="../assets/svg/experts.svg" alt="One On One's" className="card-img-top" />
+            <div className="card shadow bg-light h-100">
+              <img
+                src="../assets/svg/experts.svg"
+                alt="One On One's"
+                className="card-img-top"
+              />
               <div className="card-header">
                 <h4>Tutoring</h4>
               </div>
@@ -83,8 +104,12 @@ const Dashboard: React.FC<IDashboardProps> = ({ course, LastLectureID }) => {
             </div>
           </div>
           <div className="col-md-4">
-            <div className="card bg-light h-100">
-            <img src="../assets/svg/career-services.svg" alt="One On One's" className="card-img-top" />
+            <div className="card shadow bg-light h-100">
+              <img
+                src="../assets/svg/career-services.svg"
+                alt="One On One's"
+                className="card-img-top"
+              />
               <div className="card-header">
                 <h4>Career Services</h4>
               </div>
@@ -107,6 +132,7 @@ const Dashboard: React.FC<IDashboardProps> = ({ course, LastLectureID }) => {
 interface IDashboardProps {
   course: string;
   LastLectureID: number;
+  FirstName: string;
 }
 
 export default Dashboard;

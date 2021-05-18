@@ -1,88 +1,84 @@
 import * as React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router";
+import { apiService } from "../utils/apiService";
 import moment from "moment";
 
 const Profile: React.FC<IProfileProps> = ({ user }) => {
-  const history: any = useHistory();
+  const controller = new AbortController();
 
-  const [email, setEmail] = React.useState<string>("");
-  const [firstname, setFirstname] = React.useState<string>("");
-  const [lastname, setLastname] = React.useState<string>("");
-  const [imageURL, setImageURL] = React.useState<string>("");
+  const [email, setEmail] = React.useState<string>(user.email);
+  const [firstname, setFirstname] = React.useState<string>(user.FirstName);
+  const [lastname, setLastname] = React.useState<string>(user.LastName);
 
   const updateUser = async (e: any) => {
     e.preventDefault();
 
-    console.log(firstname, lastname, email, imageURL);
+    let alertDiv = document.getElementById("memberAlert");
+    if (firstname === "" || lastname === "" || email === "") {
+      alertDiv.classList.remove("alert-success");
+      alertDiv.classList.add("alert-danger");
+      alertDiv.innerHTML = "All input fields must have values.";
+      alertDiv.style.display = "block";
+      setTimeout(() => (alertDiv.style.display = "none"), 10000);
+      return;
+    }
 
-    // let alertDiv = document.getElementById("memberAlert");
-    // if (
-    //   firstname === "" ||
-    //   lastname === "" ||
-    //   title === "" ||
-    //   location === ""
-    // ) {
-    //   alertDiv.classList.remove("alert-success");
-    //   alertDiv.classList.add("alert-danger");
-    //   alertDiv.innerHTML = "All input fields must have values.";
-    //   alertDiv.style.display = "block";
-    //   setTimeout(() => (alertDiv.style.display = "none"), 10000);
-    //   return;
-    // }
+    let form: any = document.querySelector("input[type=file]");
+    let fileList = form.files;
+    const inputElement = document.getElementById(
+      "fileInput"
+    ) as HTMLInputElement;
 
-    // let form: any = document.querySelector("input[type=file]");
-    // let fileList = form.files;
-    // const inputElement = document.getElementById(
-    //   "fileInput"
-    // ) as HTMLInputElement;
-    // setImageURL(`/assets/${inputElement.value.slice(12)}`);
+    let body = {
+      firstname,
+      lastname,
+      email,
+      AvatarUrl: `../assets/img/${user.UserID}`,
+      fileName: `${inputElement.value.slice(12)}`,
+    };
 
-    // let body = {
-    //   firstname,
-    //   lastname,
-    //   title,
-    //   location,
-    //   imageURL: `/assets/${inputElement.value.slice(12)}`,
-    // };
+    try {
+      const formData = new FormData();
+      formData.append("image", fileList[0]);
+      formData.append("id", user.UserID);
+      let res = await fetch("/api/users/update/assets", {
+        method: "POST",
+        headers: {
+          encoding: "binary",
+        },
+        body: formData,
+      });
+      let msg = await res.json();
+      console.log(msg);
+    } catch (err) {
+      throw err;
+    }
 
-    // try {
-    //   const formData = new FormData();
-    //   formData.append("image", fileList[0]);
-    //   let res = await fetch("/api/assets", {
-    //     method: "POST",
-    //     headers: {
-    //       encoding: "binary",
-    //     },
-    //     body: formData,
-    //   });
-    //   let msg = await res.json();
-    // } catch (err) {
-    //   throw err;
-    // }
-
-    // let res = await apiService(
-    //   `/api/members/update_user/${params.id}`,
-    //   "PUT",
-    //   body
-    // );
-    // if (res) {
-    //   alertDiv.classList.remove("alert-danger");
-    //   alertDiv.classList.add("alert-success");
-    //   alertDiv.innerHTML = "Member Updated!";
-    //   alertDiv.style.display = "block";
-    //   setTimeout(() => (alertDiv.style.display = "none"), 10000);
-    // } else {
-    //   alertDiv.classList.remove("alert-success");
-    //   alertDiv.classList.add("alert-danger");
-    //   alertDiv.innerHTML = "Failed to update Member!";
-    //   alertDiv.style.display = "block";
-    //   setTimeout(() => (alertDiv.style.display = "none"), 10000);
-    // }
+    let res = await apiService(
+      `/api/users/update/${user.UserID}`,
+      false,
+      "PUT",
+      controller.signal,
+      body
+    );
+    if (res) {
+      alertDiv.classList.remove("alert-danger");
+      alertDiv.classList.add("alert-success");
+      alertDiv.innerHTML = "Member Updated!";
+      alertDiv.style.display = "block";
+      setTimeout(() => (alertDiv.style.display = "none"), 10000);
+    } else {
+      alertDiv.classList.remove("alert-success");
+      alertDiv.classList.add("alert-danger");
+      alertDiv.innerHTML = "Failed to update Member!";
+      alertDiv.style.display = "block";
+      setTimeout(() => (alertDiv.style.display = "none"), 10000);
+    }
   };
 
   return (
     <div className="profile-settings mx-auto">
-      <div className="container">
+      <div className="container card shadow mt-2">
         <section className="row my-2 justify-content-center">
           <div className="col-md-6 d-flex flex-column justify-content-start align-items-center">
             <img
@@ -148,18 +144,6 @@ const Profile: React.FC<IProfileProps> = ({ user }) => {
                 required
               />
             </div>
-            {/* <div className="mb-3">
-              <label>Location:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Member Location"
-                value={location}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setLocation(e.target.value)
-                }
-              />
-            </div> */}
             <div className="mb-3">
               <label>Image:</label>
               <div className="custom-file">
@@ -170,10 +154,8 @@ const Profile: React.FC<IProfileProps> = ({ user }) => {
                   id="fileInput"
                   accept="image/*"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    document.getElementById(
-                      "fileLabel"
-                    ).innerHTML = e.target.value.slice(12);
-                    setImageURL(`/assets/${e.target.value.slice(12)}`);
+                    document.getElementById("fileLabel").innerHTML =
+                      e.target.value.slice(12);
                   }}
                   required
                 />
