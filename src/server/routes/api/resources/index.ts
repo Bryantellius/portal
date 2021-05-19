@@ -1,9 +1,10 @@
 import * as express from "express";
-import * as fs from "fs";
 import * as path from "path";
 import lectures from "../../../db/queries/lectures";
 import topics from "../../../db/queries/topics";
 import modules from "../../../db/queries/modules";
+import roles from "../../../db/queries/roles";
+import courses from "../../../db/queries/courses";
 
 const router = express.Router();
 
@@ -74,5 +75,23 @@ router.get(
     }
   }
 );
+
+router.get("/roles", async (req, res, next) => {
+  try {
+    let data: any = await roles.getAllRoles();
+    res.json(data);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/courses", async (req, res, next) => {
+  try {
+    let data: any = await courses.getAllCourses();
+    res.json(data);
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default router;

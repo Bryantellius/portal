@@ -3,6 +3,7 @@ import * as fileUpload from "express-fileupload";
 import { writeFile } from "fs";
 import { extname, join } from "path";
 import users from "../../../db/queries/users";
+import { hashPassword } from "../../../utils/security/passwords";
 
 const router = express.Router();
 
@@ -65,5 +66,21 @@ router.post(
     }
   }
 );
+
+router.post("/", async (req, res, next) => {
+  try {
+    const {
+      body: { user, classlist },
+    } = req;
+
+    user.password = hashPassword(user.password);
+    let insertResponse: any = await users.insertUser(user);
+    classlist.UserID = insertResponse.insertId;
+    let courseSubscription: any = await users.insertUserToCourseList(classlist);
+    res.json(courseSubscription);
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default router;

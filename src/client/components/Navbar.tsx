@@ -99,7 +99,7 @@ const Navbar: React.FC<INavbarProps> = ({
               >
                 <img
                   alt="Profile Image"
-                  src={user.AvatarUrl}
+                  src={user.AvatarUrl || "../assets/img/default.png"}
                   className="avatar rounded-circle avatar-md"
                 />
               </a>

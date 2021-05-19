@@ -64,7 +64,7 @@ const Dashboard: React.FC<IDashboardProps> = ({
                 className="card-img-top"
               />
               <div className="card-header">
-                <h4>{lastLecture ? lastLecture.Title : "Loading..."}</h4>
+                <h4>{lastLecture ? lastLecture.Title : "Lectures"}</h4>
               </div>
               <div className="card-body">
                 <NavLink

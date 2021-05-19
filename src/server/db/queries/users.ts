@@ -25,6 +25,10 @@ const insertUser = (user: any) => {
   return Query("INSERT INTO Users SET ?", [user]);
 };
 
+const insertUserToCourseList = (record: any) => {
+  return Query("INSERT INTO ClassList SET ?", [record]);
+};
+
 const updateUser = (userid: number, user: any) => {
   return Query("UPDATE Users SET ? WHERE UserID = ?", [user, userid]);
 };
@@ -38,6 +42,7 @@ export default {
   findOneUserById,
   getOneUserById,
   insertUser,
+  insertUserToCourseList,
   updateUser,
   removeUser,
 };

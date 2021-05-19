@@ -15,6 +15,7 @@ import Admin from "./views/Admin";
 import Dashboard from "./views/Dashboard";
 import Tutoring from "./views/Tutoring";
 import CareerServices from "./views/CareerServices";
+import AdminEdit from "./views/AdminEdit";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(
@@ -136,6 +137,16 @@ const App: React.FC = () => {
                 isLoggedIn={isLoggedIn}
               >
                 <Admin />
+              </Layout>
+            </Route>
+            <Route exact path="/admin/add-edit">
+              <Layout
+                setIsLoggedIn={setIsLoggedIn}
+                user={user}
+                showSidebar={false}
+                isLoggedIn={isLoggedIn}
+              >
+                <AdminEdit />
               </Layout>
             </Route>
             <Route exact path="/profile">

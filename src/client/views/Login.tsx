@@ -49,7 +49,6 @@ const Login: React.FC<ILoginProps> = ({ setIsLoggedIn }) => {
 
   return (
     <main id="loginPage" className="container-fluid">
-
       <form className="loginForm card" onSubmit={checkLogin}>
         <div className="form-group">
           <h1>Welcome Back!</h1>
@@ -81,7 +80,7 @@ const Login: React.FC<ILoginProps> = ({ setIsLoggedIn }) => {
         <hr />
         <div className="form-group">
           <p>
-            Don't have an account? Contact{" "}
+            Can't login? Contact{" "}
             <a href="mailto:support@truecoders.io">support@truecoders.io</a>.
           </p>
         </div>

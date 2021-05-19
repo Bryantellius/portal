@@ -86,7 +86,7 @@ const Profile: React.FC<IProfileProps> = ({ user }) => {
         <section className="row my-2 justify-content-center">
           <div className="col-md-6 d-flex flex-column justify-content-start align-items-center">
             <img
-              src={user.AvatarUrl}
+              src={user.AvatarUrl || "../assets/img/default.png"}
               alt={`${user.LastName} Profile Image`}
               className="avatar-2xl"
             />
