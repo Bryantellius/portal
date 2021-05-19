@@ -84,7 +84,11 @@
   background-size: cover;
 }
 
-.errorAlert {
+.invalid-password-match {
+  border: 2px solid red !important;
+}
+
+.validationAlert {
   display: none;
 }
 

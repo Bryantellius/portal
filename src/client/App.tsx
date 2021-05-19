@@ -16,6 +16,7 @@ import Dashboard from "./views/Dashboard";
 import Tutoring from "./views/Tutoring";
 import CareerServices from "./views/CareerServices";
 import AdminEdit from "./views/AdminEdit";
+import SignUp from "./views/SignUp";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(
@@ -79,6 +80,16 @@ const App: React.FC = () => {
             showSidebar={false}
           >
             <Login setIsLoggedIn={setIsLoggedIn} />
+          </Layout>
+        </Route>
+        <Route exact path="/update/:token&:UserID">
+          <Layout
+            setIsLoggedIn={setIsLoggedIn}
+            user={user}
+            isLoggedIn={isLoggedIn}
+            showSidebar={false}
+          >
+            <SignUp setIsLoggedIn={setIsLoggedIn} />
           </Layout>
         </Route>
         {isLoggedIn ? (

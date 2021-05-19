@@ -134,6 +134,7 @@ const AdminEdit: React.FC<IAdminEditProps> = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setEmail(e.target.value)
                 }
+                autoComplete="off"
                 required
               />
             </div>
@@ -147,6 +148,7 @@ const AdminEdit: React.FC<IAdminEditProps> = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setPassword(e.target.value)
                 }
+                autoComplete="off"
                 required
               />
             </div>
