@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { apiService, setAccessToken, abortFetching } from "../utils/apiService";
+import { apiService, abortFetching } from "../utils/apiService";
 
 const PasswordReset: React.FC<IPasswordResetProps> = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
@@ -22,7 +22,7 @@ const PasswordReset: React.FC<IPasswordResetProps> = ({ setIsLoggedIn }) => {
     const val = document.getElementById("passValidation");
     const p2 = document.getElementById("resetPassword2") as HTMLInputElement;
     if (password !== p2.value) {
-      val.classList.remove("validationAlert");
+      val.classList.add("validationAlert");
       p2.classList.add("invalid-password-match");
     } else {
       p2.classList.remove("invalid-password-match");
@@ -32,28 +32,29 @@ const PasswordReset: React.FC<IPasswordResetProps> = ({ setIsLoggedIn }) => {
         let res = await apiService(
           "/auth/register",
           false,
-          "POST",
+          "PUT",
           controller.signal,
           {
-            email,
-            password,
-            token: params.token,
-            UserID: params.UserID,
+            user: {
+              email,
+              password,
+            },
+            creds: {
+              token: params.token,
+              UserID: params.UserID,
+            },
           }
         );
-        if (res) {
-          setAccessToken(res.token, res.user);
-          setIsLoggedIn(true);
-          history.replace("/");
+        if (res.successful) {
+          console.log(res);
+          history.replace("/login");
         } else {
-          console.log("else");
           document.getElementById("errorAlert").style.display = "block";
           document.getElementById("errorAlert").textContent =
             "Could not update credentials. Try again later.";
         }
       } catch (error) {
         console.log("catch");
-        console.log(error.message);
         document.getElementById("errorAlert").style.display = "block";
         document.getElementById("errorAlert").textContent =
           "Something went wrong. Try again later.";
@@ -91,10 +92,7 @@ const PasswordReset: React.FC<IPasswordResetProps> = ({ setIsLoggedIn }) => {
         <div className="form-group">
           <label htmlFor="resetPassword">Re-type Password</label>
           <input type="password" className="form-control" id="resetPassword2" />
-          <p
-            id="passValidation"
-            className="text-danger validationAlert"
-          >
+          <p id="passValidation" className="text-danger validationAlert">
             Passwords must match!
           </p>
         </div>

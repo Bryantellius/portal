@@ -7,6 +7,10 @@ const findToken = (tokenid: number, token: string) => {
   ]);
 };
 
+const findTokenByVal = (token: string) => {
+  return Query("SELECT * FROM AccessTokens WHERE Token = ?", [token]);
+};
+
 const addToken = (userid: number) => {
   return Query("INSERT INTO AccessTokens SET UserID = ?", [userid]);
 };
@@ -20,6 +24,7 @@ const updateToken = (TokenID: number, token: string) => {
 
 export default {
   findToken,
+  findTokenByVal,
   addToken,
   updateToken,
 };

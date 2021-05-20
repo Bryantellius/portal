@@ -140,26 +140,6 @@ const App: React.FC = () => {
                 <Home />
               </Layout>
             </Route>
-            <Route exact path="/admin">
-              <Layout
-                setIsLoggedIn={setIsLoggedIn}
-                user={user}
-                showSidebar={false}
-                isLoggedIn={isLoggedIn}
-              >
-                <Admin />
-              </Layout>
-            </Route>
-            <Route exact path="/admin/add-edit">
-              <Layout
-                setIsLoggedIn={setIsLoggedIn}
-                user={user}
-                showSidebar={false}
-                isLoggedIn={isLoggedIn}
-              >
-                <AdminEdit />
-              </Layout>
-            </Route>
             <Route exact path="/profile">
               <Layout
                 setIsLoggedIn={setIsLoggedIn}
@@ -169,6 +149,34 @@ const App: React.FC = () => {
               >
                 <Profile user={user} />
               </Layout>
+            </Route>
+            <Route exact path="/admin">
+              {user.Title == "Admin" || user.Title == "Instructor" ? (
+                <Layout
+                  setIsLoggedIn={setIsLoggedIn}
+                  user={user}
+                  showSidebar={false}
+                  isLoggedIn={isLoggedIn}
+                >
+                  <Admin />
+                </Layout>
+              ) : (
+                <Redirect from="/admin" to="/" />
+              )}
+            </Route>
+            <Route exact path="/admin/add-edit">
+              {user.Title == "Admin" || user.Title == "Instructor" ? (
+                <Layout
+                  setIsLoggedIn={setIsLoggedIn}
+                  user={user}
+                  showSidebar={false}
+                  isLoggedIn={isLoggedIn}
+                >
+                  <AdminEdit />
+                </Layout>
+              ) : (
+                <Redirect from="/admin-edit" to="/" />
+              )}
             </Route>
             {topics.map((topic, i, arr) => {
               let path: string = topic.Title.toLowerCase().replace(/ /g, "-");
