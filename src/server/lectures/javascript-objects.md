@@ -1,8 +1,3 @@
----
-title: "Objects"
-slug: "javascript-objects"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>
@@ -170,7 +165,7 @@ In real life, a car is an object.
 
 A car has properties like weight and color, and methods like start and stop:
 
-![alt_text](assets/lectures/javascript/javascript-objects1.png "image_tooltip")
+![alt_text](../assets/lectures/images/javascript/javascript-objects1.png "image_tooltip")
 
 All cars have the same properties, but the property values differ from car to car.
 

@@ -1,8 +1,3 @@
----
-title: "Object-Oriented Programming"
-slug: "javascript-oop"
----
-
 Lecture Video Part 1
 
 <video width="100%" height="auto" controls>
@@ -58,7 +53,7 @@ Object.prototype &lt;= Math.prototype, Object.prototype &lt;= Array.prototype, e
 
 The base object in JavaScript is the **_Object prototype_**. All objects that are based from the Object prototype share it’s properties and methods. You can override these properties or methods by defining them on a prototype object.
 
-![Prototypes](assets/lectures/javascript/javascript-oop1.png "image_tooltip")
+![Prototypes](../assets/lectures/images/javascript/javascript-oop1.png "image_tooltip")
 
 You use **_Object.create_** to create an object with a specific prototype:
 

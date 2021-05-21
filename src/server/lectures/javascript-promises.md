@@ -1,8 +1,3 @@
----
-title: "Promises"
-slug: "javascript-promises"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>

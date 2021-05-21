@@ -1,8 +1,3 @@
----
-title: "APIs"
-slug: "javascript-apis"
----
-
 Lecture Video 1
 
 <video width="100%" height="auto" controls>
@@ -178,7 +173,7 @@ You should now be able to open the HTML file in your browser, and while you wonâ
 
 Now we have a JavaScript object and if you inspect it closely enough youâ€™ll find that the data we need (an image URL) is nested rather deeply inside the object:
 
-![alt_text](assets/lectures/javascript/javascript-apis1.png "image_tooltip")
+![alt_text](../assets/lectures/images/javascript/javascript-apis1.png "image_tooltip")
 
 To get to the data we need to drill down through the layers of the object until we find what we want!
 

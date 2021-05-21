@@ -1,8 +1,3 @@
----
-title: "Selection Statements"
-slug: "/javascript-selection-statements"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>

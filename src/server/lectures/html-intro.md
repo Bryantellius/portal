@@ -1,8 +1,3 @@
----
-title: "Intro"
-slug: "/html-intro"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>
@@ -38,13 +33,13 @@ So what is a markup language anyways? In computer text processing, a **markup la
 
 The example above will display “Hello world!” on the webpage. The text “This is a title” is in the head element and therefore will not be shown.
 
-![alt_text](./assets/lectures/html/html-intro1.png)
+![alt_text](../assets/lectures/images/html/html-intro1.png)
 
 ## How:
 
 HTML documents are files that end with a .**_html_** or **_.htm _**extension. You can view them using any web browser (such as Google Chrome, Safari, or Mozilla Firefox). To open an HTML file double click on that file (with either a .html or .htm extension) and it will open up in your browser.
 
-![alt_text](./assets/lectures/html/html-intro2.png)
+![alt_text](../assets/lectures/images/html/html-intro2.png)
 
 The **Document Object Model** (**DOM**) is the data representation of the objects that comprise the structure and content of a document on the web.The Document Object Model (DOM) is a programming interface for HTML and XML documents. It represents the page so that programs can change the document structure, style, and content. The DOM represents the document as nodes and objects. That way, programming languages can connect to the page.
 
@@ -64,21 +59,21 @@ The three block level tags every HTML document needs to contain are &lt;html> , 
 
 3.  Finally, the `<body></body>` tag encloses all the content that appears on the page.
 
-![alt_text](./assets/lectures/html/html-intro3.png)
+![alt_text](../assets/lectures/images/html/html-intro3.png)
 
 4.  The Heading tags `<h1></h1>` are another common block-level tag and they range from `<h1></h1>` to `<h6></h6>`. The h1 tag is the largest and the h6 tag is the lowest.
 
-![alt_text](./assets/lectures/html/html-intro4.png)
+![alt_text](../assets/lectures/images/html/html-intro4.png)
 
 5.  The Paragraph tag `<p></p>` is used to enclose text
 
-![alt_text](./assets/lectures/html/html-intro5.png)
+![alt_text](../assets/lectures/images/html/html-intro5.png)
 
 6.  The Division tag `<div></div>` is a large container which usually contains several other HTML elements within it, even including other div tags (nesting elements within elements). \
 
-![alt_text](./assets/lectures/html/html-intro6.png)
+![alt_text](../assets/lectures/images/html/html-intro6.png)
 
-![alt_text](./assets/lectures/html/html-intro7.png)
+![alt_text](../assets/lectures/images/html/html-intro7.png)
 
 ### Inline Tags
 

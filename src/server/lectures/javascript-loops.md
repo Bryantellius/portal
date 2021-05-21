@@ -1,8 +1,3 @@
----
-title: "Loops"
-slug: "/javascript-loops"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>

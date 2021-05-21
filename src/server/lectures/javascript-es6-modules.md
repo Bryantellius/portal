@@ -1,8 +1,3 @@
----
-title: "ES6 Modules"
-slug: "javascript-es6-modules"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>

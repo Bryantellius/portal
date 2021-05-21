@@ -1,8 +1,3 @@
----
-title: "Introduction and Variables"
-slug: "/javascript-introduction-and-variables"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>

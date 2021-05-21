@@ -1,8 +1,3 @@
----
-title: "Error Handling"
-slug: "javascript-error-handling"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>
@@ -15,7 +10,7 @@ Lecture Video
 
 We’ve been learning our way through the JavaScript language, and by now we’ve encountered an error or three.
 
-![alt_text](assets/lectures/javascript/javascript-error-handling1.png "image_tooltip")
+![alt_text](../assets/lectures/images/javascript/javascript-error-handling1.png "image_tooltip")
 
 Mistakes in code are referred to as **_bugs_**. The JavaScript language is loosely written, so the computer will not usually throw many errors.
 
@@ -52,7 +47,7 @@ function repeatMessage(message = "Hello World", repeat = 1) {
 repeatMessage();
 ```
 
-![alt_text](assets/lectures/javascript/javascript-error-handling2.png "image_tooltip")
+![alt_text](../assets/lectures/images/javascript/javascript-error-handling2.png "image_tooltip")
 
 Here we see an example of **Strict Mode** catching an error that JavaScript would solve during run time. JavaScript would create a _global variable_ for i (let i;) and use that global variable without throwing an exception.
 

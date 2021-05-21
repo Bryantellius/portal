@@ -1,8 +1,3 @@
----
-title: "CSS Intro"
-slug: "/css-intro"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>
@@ -64,7 +59,7 @@ With this method, all styling rules are contained in a single text file, which i
 
 To create custom CSS for our HTML we must follow the rules for CSS syntax.
 
-![alt_text](./assets/lectures/css/css-intro1.png)
+![alt_text](../assets/lectures/images/css/css-intro1.png)
 
 The selector points to the HTML element you want to style. The declaration block contains one or more declarations separated by semicolons. Each declaration includes a CSS property name and a value, separated by a colon. Multiple CSS declarations are separated with semicolons, and declaration blocks are surrounded by curly braces.
 

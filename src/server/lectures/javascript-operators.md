@@ -1,8 +1,3 @@
----
-title: "Operators"
-slug: "/javascript-operators"
----
-
 Lecture Video Part 1
 
 <video width="100%" height="auto" controls>

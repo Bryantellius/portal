@@ -1,8 +1,3 @@
----
-title: "Higher-Order Functions"
-slug: "javascript-higher-order-functions"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>

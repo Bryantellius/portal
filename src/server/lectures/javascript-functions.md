@@ -1,8 +1,3 @@
----
-title: "Functions"
-slug: "/javascript-functions"
----
-
 Lecture Video
 
 No lecture video available. Coming soon!
@@ -152,7 +147,7 @@ We’ve spent this whole time talking about declaring and defining functions, bu
 
 When you invoke a function, the context of the function in the program is placed in the call stack. The **_call stack_** is the place where the computer stores the context, or position, as it runs the code. When a function is invoked, the context is stored in memory on the top of the stack, when the function returns. It uses that context to continue the execution of your program.
 
-![alt_text](./assets/lectures/javascript/javascript-functions1.png "image_tooltip")
+![alt_text](../assets/lectures/images/javascript/javascript-functions1.png "image_tooltip")
 
 #### Functions can be used Asynchronously
 

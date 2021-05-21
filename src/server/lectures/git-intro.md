@@ -1,8 +1,3 @@
----
-title: "Intro"
-slug: "/git-intro"
----
-
 Lecture Video Part 1
 
 <video width="100%" height="auto" controls>
@@ -46,7 +41,7 @@ Version Control allows you to:
 
 Version Control Systems are usually represented with a tree data structure
 
-![alt_text](assets/lectures/git/git-intro1.png)
+![alt_text](../assets/lectures/images/git/git-intro1.png)
 
 **Git:**
 
@@ -66,7 +61,7 @@ The traditional software expression of "saving" is synonymous with the Git term 
 
 The **git commit** command captures a snapshot of the project's currently staged changes.
 
-![alt_text](assets/lectures/git/git-intro2.png)
+![alt_text](../assets/lectures/images/git/git-intro2.png)
 
 Each circle in the above diagram is a commit – a **snapshot** of the project
 
@@ -92,7 +87,7 @@ With **Remote Repositories** we usually use these git commands:
 
 The **git add** command adds a change in the working directory to the **staging area**. It tells Git that you want to include updates to a particular file in the next commit. However, git add doesn't really affect the repository in any significant way—changes are not actually recorded until you run git commit.
 
-![alt_text](assets/lectures/git/git-intro3.png)
+![alt_text](../assets/lectures/images/git/git-intro3.png)
 
 **Moreover on Staging:**
 
@@ -108,19 +103,19 @@ Developing a project revolves around the basic **edit/stage/commit** pattern.
 
 **Stage**
 
-1.  When you’re ready to save a copy of the current state of the project, you can stage all your changes with:
+2.  When you’re ready to save a copy of the current state of the project, you can stage all your changes with:
 
 **git add .**
 
 **Commit**
 
-1.  After you’re happy with the staged snapshot, you commit it to the project history with:
+3.  After you’re happy with the staged snapshot, you commit it to the project history with:
 
 **git commit –m "a descriptive message"**
 
 **Send to GitHub (remote repository) – git push -u origin (only for first push)**
 
-1.  In addition to git add and git commit, a third command **git push** is essential for a complete collaborative Git workflow. **git push is utilized to send the committed changes to remote repositories for collaboration**. This enables other team members to access a set of saved changes.
+4.  In addition to git add and git commit, a third command **git push** is essential for a complete collaborative Git workflow. **git push is utilized to send the committed changes to remote repositories for collaboration**. This enables other team members to access a set of saved changes.
 
 **Basic Terminal/Git Bash Commands:**
 
@@ -205,7 +200,7 @@ Developing a project revolves around the basic **edit/stage/commit** pattern.
 [https://www.katacoda.com/courses/git](https://www.katacoda.com/courses/git)
 Complete Scenario 1
 
-**https://vimeo.com/449361446/b36121e1a2**
+[Video Walkthrough](https://vimeo.com/449361446/b36121e1a2)
 
 **Topics covered in the tutorial:**
 
@@ -237,21 +232,21 @@ How to Video
    7. Initialize that folder as a git repository → git init
    8. Your terminal / command prompt will look something like this:
 
-![alt_text](assets/lectures/git/git-intro4.png)
+![alt_text](../assets/lectures/images/git/git-intro4.png)
 
 Continue to next steps below
 
-![alt_text](assets/lectures/git/git-intro5.png)
+![alt_text](../assets/lectures/images/git/git-intro5.png)
 
 Visual Studio Code is shown in the image above
 
 9. Using the Visual Studio Code application, create a new file named Algo inside of your PizzaAlgo folder and save it.
 
-![alt_text](assets/lectures/git/git-intro6.png)
+![alt_text](../assets/lectures/images/git/git-intro6.png)
 
 10. Now we will add instructions for ordering pizza in this file
 
-![alt_text](assets/lectures/git/git-intro7.png)
+![alt_text](../assets/lectures/images/git/git-intro7.png)
 
 11. Use git to commit your changes as you add steps to the file
 
@@ -264,17 +259,17 @@ Continue to steps below
 
 - Use the ‘new’ button on github
 
-![alt_text](assets/lectures/git/git-intro8.png)
+![alt_text](../assets/lectures/images/git/git-intro8.png)
 
 Your new repository should resemble the image above
 
-![alt_text](assets/lectures/git/git-intro9.png)
+![alt_text](../assets/lectures/images/git/git-intro9.png)
 
 Continue to the next steps below
 
 You will see a page that looks like this once created:
 
-![alt_text](assets/lectures/git/git-intro10.png)
+![alt_text](../assets/lectures/images/git/git-intro10.png)
 
 Copy the text from that page as you see above ^^
 

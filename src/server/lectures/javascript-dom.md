@@ -1,8 +1,3 @@
----
-title: "DOM"
-slug: "javascript-dom"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>
@@ -25,7 +20,7 @@ The **DOM of an HTML document** can be represented as a nested set of boxes:
 
 These nodes have certain relations to other nodes! For example, in our tree data structure (pictured below), if a node falls in a level below, yet directly correlated to the node above, then it’s known as a CHILD node. Where the node that those elements fall underneath, is the PARENT node. If two elements fall on the same level, then they’re known as SIBLING nodes.
 
-![alt_text](assets/lectures/javascript/javascript-dom1.png "image_tooltip")
+![alt_text](../assets/lectures/images/javascript/javascript-dom1.png "image_tooltip")
 
 For the example above:
 
@@ -309,7 +304,7 @@ function displayAlert() {
 }
 ```
 
-![alt_text](assets/lectures/javascript/javascript-dom2.png "image_tooltip")
+![alt_text](../assets/lectures/images/javascript/javascript-dom2.png "image_tooltip")
 
 We can also assign event handlers to elements. First we assign an element to a variable using one of the selection methods. Then we use dot notation to specify an event (element.onclick) then assign a function to it.
 

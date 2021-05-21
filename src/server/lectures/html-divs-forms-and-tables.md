@@ -1,8 +1,3 @@
----
-title: "Divs, Forms, and Tables"
-slug: "/html-divs-forms-and-tables"
----
-
 Lecture Video
 
 <video width="100%" height="auto" controls>
@@ -94,7 +89,7 @@ The input type “text” defines a single line input where a user can enter str
 
 For example, to display this form:
 
-![alt_text](./assets/lectures/html/html-divs-forms-and-tables1.png)
+![alt_text](../assets/lectures/images/html/html-divs-forms-and-tables1.png)
 
 We would need this code:
 
@@ -148,7 +143,7 @@ For example, this code :
 
 Would render this table :
 
-![alt_text](./assets/lectures/html/html-intro2.png)
+![alt_text](../assets/lectures/images/html/html-intro2.png)
 
 ## How:
 
@@ -198,7 +193,7 @@ HTML also gives us the ability to implement Browser validation with the required
 
 When we try to submit the form with a missing value, we get this error:
 
-![alt_text](./assets/lectures/html/html-intro3.png)
+![alt_text](../assets/lectures/images/html/html-intro3.png)
 
 Now lets see how we can add structure and consistency to our form by nesting it in an HTML table!
 
@@ -282,7 +277,7 @@ Next, were going to want to wrap each of our labels inputs in their own table ro
 </table>
 ```
 
-![alt_text](./assets/lectures/html/html-intro4.png)
+![alt_text](../assets/lectures/images/html/html-intro4.png)
 
 We get a neatly aligned form!
 

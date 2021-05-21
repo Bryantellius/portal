@@ -1,8 +1,3 @@
----
-title: "NPM, Yarn, & Webpack"
-slug: "javascript-npm-yarn-webpack"
----
-
 Lecture Video 1
 
 <video width="100%" height="auto" controls>
@@ -19,7 +14,7 @@ Lecture Video 2
 
 ## Why:
 
-![alt_text](assets/lectures/javascript/javascript-npm-yarn-webpack1.png "image_tooltip")
+![alt_text](../assets/lectures/images/javascript/javascript-npm-yarn-webpack1.png "image_tooltip")
 
 Why do we even need or want this stuff? What do you gain from all of this added complexity? These are good questions.. with good answers.
 
