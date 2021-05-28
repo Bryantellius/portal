@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv";
+import * as path from "path";
 
 const envFound = dotenv.config();
 
@@ -15,4 +16,5 @@ export default {
   },
   port: parseInt(process.env.PORT, 10),
   secret_key: process.env.SECRET_KEY,
+  lecturesDir: path.join(__dirname, "../src/server/lectures")
 };

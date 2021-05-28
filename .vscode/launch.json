@@ -1,0 +1,27 @@
+{
+    "configurations": [
+      {
+        "name": "Debug Server",
+        "type": "node",
+        "runtimeVersion": "14.17.0",
+        "request": "launch",
+        "cwd": "${workspaceRoot}",
+        "program": "${workspaceRoot}/src/server/server.ts",
+        "outFiles": [
+          "${workspaceRoot}/dist/server.js"
+        ],
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+            "webpack:///./src/**/*": "${webRoot}/dist/**/*",
+            "webpack:///src/*": "${webRoot}/dist/**/*"
+        }
+      },
+      {
+        "name": "Debug Client",
+        "type": "pwa-chrome",
+        "request": "launch",
+        "url": "http://localhost:3000",
+        "webRoot": "${workspaceRoot}/src/client"
+      }
+    ]
+  }

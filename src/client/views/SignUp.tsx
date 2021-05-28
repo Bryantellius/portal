@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { apiService, abortFetching } from "../utils/apiService";
+import ApiClient from "../utils/apiClient";
 
-const PasswordReset: React.FC<IPasswordResetProps> = ({ setIsLoggedIn }) => {
+const PasswordReset: FunctionComponent<IPasswordResetProps> = ({ setIsLoggedIn }) => {
+  const apiClient = new ApiClient();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const params: any = useParams();
   const history = useHistory();
   const controller = new AbortController();
-
-  useEffect(() => {
-    return function cleanup() {
-      abortFetching(controller);
-    };
-  }, []);
 
   const resetPassword = async (e: any) => {
     e.preventDefault();
@@ -29,11 +25,8 @@ const PasswordReset: React.FC<IPasswordResetProps> = ({ setIsLoggedIn }) => {
       val.classList.remove("validationAlert");
 
       try {
-        let res = await apiService(
+        const registerResponse = await apiClient.post(
           "/auth/register",
-          false,
-          "PUT",
-          controller.signal,
           {
             user: {
               email,
@@ -41,12 +34,11 @@ const PasswordReset: React.FC<IPasswordResetProps> = ({ setIsLoggedIn }) => {
             },
             creds: {
               token: params.token,
-              UserID: params.UserID,
-            },
+              userId: params.userID,
+            }
           }
         );
-        if (res.successful) {
-          console.log(res);
+        if (registerResponse.status === 200) {
           history.replace("/login");
         } else {
           document.getElementById("errorAlert").style.display = "block";

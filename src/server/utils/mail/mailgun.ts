@@ -1,4 +1,4 @@
-import * as mailgunLoader from "mailgun-js";
+import mailgunLoader from "mailgun-js";
 
 const mg = mailgunLoader({
   apiKey: process.env.MAILGUNAPIKEY,

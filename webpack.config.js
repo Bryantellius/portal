@@ -4,6 +4,7 @@ const nodeExternals = require("webpack-node-externals");
 const serverConfig = {
   mode: process.env.NODE_ENV || "development",
   entry: "./src/server/server.ts",
+  devtool: "source-map",
   module: {
     rules: [
       {
@@ -21,19 +22,17 @@ const serverConfig = {
   },
   output: {
     filename: "server.js",
+    devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     path: path.resolve(__dirname, "dist"),
   },
   target: "node",
-  node: {
-    __dirname: false,
-  },
   externals: [nodeExternals()],
 };
 
 const clientConfig = {
   mode: process.env.NODE_ENV || "development",
   entry: "./src/client/index.tsx",
-  devtool: "inline-source-map",
+  devtool: "source-map",
   module: {
     rules: [
       {

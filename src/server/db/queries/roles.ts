@@ -1,4 +1,4 @@
-import Query from "../models";
+import Query from "../query";
 
 const getAllRoles = () => {
   return Query("SELECT * FROM ROLES");

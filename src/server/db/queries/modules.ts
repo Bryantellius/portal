@@ -1,4 +1,4 @@
-import Query from "../models";
+import Query from "../query";
 
 const getAllModulesByCurriculum = (id: number) => {
   return Query("SELECT * FROM Modules WHERE CurriculumID = ?", [id]);

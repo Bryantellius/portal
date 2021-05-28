@@ -2,13 +2,14 @@ import React from "react";
 import moment from "moment";
 import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
-import { apiService } from "../utils/apiService";
+import ApiClient from "../utils/apiClient";
 
 const Dashboard: React.FC<IDashboardProps> = ({
   course,
-  LastLectureID,
-  FirstName,
+  lastLectureId,
+  firstName,
 }) => {
+  const apiClient = new ApiClient();
   const [lastLecture, setLastLecture] = React.useState(null);
 
   const location = useLocation();
@@ -16,20 +17,15 @@ const Dashboard: React.FC<IDashboardProps> = ({
   const controller = new AbortController();
 
   React.useEffect(() => {
-    if (LastLectureID) {
+    if (lastLectureId) {
       fetchLastLectureInfo();
     }
-  }, [LastLectureID, location.pathname]);
+  }, [lastLectureId, location.pathname]);
 
   const fetchLastLectureInfo = async () => {
-    let [data]: any = await apiService(
-      `/api/resources/lectures-info/${LastLectureID}`,
-      false,
-      "GET",
-      controller.signal
-    );
-    if (data) {
-      setLastLecture(data);
+    const lastLecture = await apiClient.get(`/lecture/${ lastLectureId }`);
+    if (lastLecture) {
+      setLastLecture(lastLecture);
     }
   };
 
@@ -42,7 +38,7 @@ const Dashboard: React.FC<IDashboardProps> = ({
               <div className="card-body">
                 <div className="row">
                   <div className="col-md-4 text-center">
-                    <p className="h4 h-100">Welcome back, {FirstName}!</p>
+                    <p className="h4 h-100">Welcome back, {firstName}!</p>
                   </div>
                   <div className="col-md-4 text-center">
                     <h1 className="h-100">{course}</h1>
@@ -64,13 +60,13 @@ const Dashboard: React.FC<IDashboardProps> = ({
                 className="card-img-top"
               />
               <div className="card-header">
-                <h4>{lastLecture ? lastLecture.Title : "Lectures"}</h4>
+                <h4>{lastLecture ? lastLecture.title : "Lectures"}</h4>
               </div>
               <div className="card-body">
                 <NavLink
                   to={
                     lastLecture
-                      ? `/learn/${lastLecture.Title.toLowerCase().replace(
+                      ? `/learn/${lastLecture.title.toLowerCase().replace(
                           / /g,
                           "-"
                         )}`
@@ -131,8 +127,8 @@ const Dashboard: React.FC<IDashboardProps> = ({
 
 interface IDashboardProps {
   course: string;
-  LastLectureID: number;
-  FirstName: string;
+  lastLectureId: number;
+  firstName: string;
 }
 
 export default Dashboard;

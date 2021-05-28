@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { NavLink } from "react-router-dom";
 
-const Admin: React.FC<IAdminProps> = () => {
+const Admin: FunctionComponent<IAdminProps> = () => {
   return (
     <div className="profile-settings mx-auto">
       <div className="container mt-3">

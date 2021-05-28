@@ -1,9 +1,11 @@
 import React from "react";
+import ApiClient from "../utils/apiClient";
 
 const AdminCreateBulk: React.FC<IAdminCreateBulkProps> = ({
   courses,
   roles,
 }) => {
+  const apiClient = new ApiClient();
   const [role, setRole] = React.useState("");
   const [course, setCourse] = React.useState("");
 
@@ -20,17 +22,15 @@ const AdminCreateBulk: React.FC<IAdminCreateBulkProps> = ({
         formData.append("csv", fileList[0]);
         formData.append("RoleID", role);
         formData.append("CourseID", course);
-        let res = await fetch("/auth/register/bulk", {
-          method: "POST",
-          headers: {
-            encoding: "binary",
-          },
-          body: formData,
-        });
-        let msg = await res.json();
-        console.log(msg);
+        const bulkRegisterResponse = await apiClient.post("/auth/bulk-register", 
+          formData, {
+            headers: {
+              encoding: "binary",
+            }
+          }
+        );
 
-        if (msg) {
+        if (bulkRegisterResponse) {
           alertDiv.classList.remove("alert-danger");
           alertDiv.classList.add("alert-success");
           alertDiv.innerHTML = "User Created!";
@@ -93,8 +93,8 @@ const AdminCreateBulk: React.FC<IAdminCreateBulkProps> = ({
           <datalist id="user-roles">
             {roles.map((r) => {
               return (
-                <option key={r.RoleID} value={r.RoleID}>
-                  {r.Title}
+                <option key={r.id} value={r.id}>
+                  {r.title}
                 </option>
               );
             })}
@@ -115,8 +115,8 @@ const AdminCreateBulk: React.FC<IAdminCreateBulkProps> = ({
           <datalist id="courses">
             {courses.map((c) => {
               return (
-                <option key={c.CourseID} value={c.CourseID}>
-                  {c.Title}
+                <option key={c.id} value={c.id}>
+                  {c.title}
                 </option>
               );
             })}

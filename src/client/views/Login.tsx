@@ -1,39 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { apiService, setAccessToken, abortFetching } from "../utils/apiService";
+import ApiClient from "../utils/apiClient";
+import AuthService from "../utils/authService";
+
+const apiClient = new ApiClient();
+const authService = new AuthService();
 
 const Login: React.FC<ILoginProps> = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const history = useHistory();
-  const controller = new AbortController();
-
-  useEffect(() => {
-    return function cleanup() {
-      abortFetching(controller);
-    };
-  }, []);
 
   const checkLogin = async (e: any) => {
     try {
       e.preventDefault();
-      let res = await apiService(
-        "/auth/login",
-        false,
-        "POST",
-        controller.signal,
-        {
+      const loginResponse = await apiClient.post("/auth/login", {
           email,
           password,
         }
       );
-      if (res) {
-        setAccessToken(res.token, res.user);
+
+      if (loginResponse && loginResponse.token) {
+        authService.saveCredentials(loginResponse.token, loginResponse.user);
         setIsLoggedIn(true);
         history.replace("/");
       } else {
-        console.log("else");
         document.getElementById("errorAlert").style.display = "block";
         document.getElementById("errorAlert").textContent =
           "Email or Password is incorrect. Try again.";

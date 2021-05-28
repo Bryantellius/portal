@@ -1,5 +1,6 @@
 import React from "react";
-import { apiService } from "../utils/apiService";
+import ApiClient from "../utils/apiClient";
+const apiClient = new ApiClient();
 
 const AdminCreateSingle: React.FC<IAdminCreateSingleProps> = ({
   roles,
@@ -18,23 +19,17 @@ const AdminCreateSingle: React.FC<IAdminCreateSingleProps> = ({
 
     const body = {
       user: {
-        FirstName: firstname,
-        LastName: lastname,
+        firstName: firstname,
+        lastName: lastname,
         email,
-        RoleID: role,
+        roleID: role,
       },
-      classlist: {
-        CourseID: course,
+      classList: {
+        courseID: course,
       },
     };
 
-    let insertResponse: any = await apiService(
-      "/auth/register",
-      false,
-      "POST",
-      controller.signal,
-      body
-    );
+    const insertResponse: any = await apiClient.post("/auth/register", body);
 
     let alertDiv = document.getElementById("errorAlert");
 
@@ -114,8 +109,8 @@ const AdminCreateSingle: React.FC<IAdminCreateSingleProps> = ({
           <datalist id="user-roles">
             {roles.map((r) => {
               return (
-                <option key={r.RoleID} value={r.RoleID}>
-                  {r.Title}
+                <option key={r.id} value={r.id}>
+                  {r.title}
                 </option>
               );
             })}
@@ -136,8 +131,8 @@ const AdminCreateSingle: React.FC<IAdminCreateSingleProps> = ({
           <datalist id="courses">
             {courses.map((c) => {
               return (
-                <option key={c.CourseID} value={c.CourseID}>
-                  {c.Title}
+                <option key={c.id} value={c.id}>
+                  {c.title}
                 </option>
               );
             })}

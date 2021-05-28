@@ -1,4 +1,4 @@
-import Query from "../models";
+import Query from "../query";
 
 const getAllCourses = () => {
   return Query("SELECT * FROM Courses");

@@ -1,4 +1,4 @@
-import Query from "../models";
+import Query from "../query";
 
 const getOneTopic = (id: number) => {
   return Query("SELECT * FROM Topics WHERE TopicID = ?", [id]);

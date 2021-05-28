@@ -1,17 +1,60 @@
-import * as mysql from "mysql";
-import config from "../../config";
+import fs from "fs";
+import path from "path";
+import { Sequelize } from "sequelize";
+import config from "../../config/database"
+import AccessTokenFactory from "./accesstoken"
+import ClassListFactory from "./classlist";
+import CourseFactory from "./course";
+import CurriculumFactory from "./curriculum";
+import LectureFactory from "./lecture";
+import LectureGroupFactory from "./lecturegroup";
+import ModuleFactory from "./module";
+import QuizFactory from "./quiz";
+import QuizQuestionFactory from "./quizquestion";
+import QuizQuestionOptionFactory from "./quizquestionoption";
+import QuizQuestionResponseFactory from "./quizquestionresponse";
+import RoleFactory from "./role";
+import UserFactory from "./user";
 
-const connection = mysql.createPool(config.mysql);
 
-const Query = (query: string, values?: Array<any>) => {
-  return new Promise((resolve, reject) => {
-    connection.query(query, values, (err: Error, results: JSON) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(results);
-    });
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || 'development';
+const envConfig = config[env];
+
+if (envConfig.use_env_variable) {
+  var sequelize = new Sequelize(process.env[envConfig.use_env_variable], envConfig);
+} else {
+  var sequelize = new Sequelize(envConfig.database, envConfig.username, envConfig.password, envConfig);
+}
+
+const modelFiles = fs
+  .readdirSync(path.resolve("src/server/db/models"))
+  .filter(file => {
+    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js' || file.slice(-3) === '.ts');
   });
+
+const db = {
+  sequelize,
+  Sequelize,
+  AccessToken: AccessTokenFactory(sequelize, Sequelize),
+  ClassList: ClassListFactory(sequelize, Sequelize),
+  Course: CourseFactory(sequelize, Sequelize),
+  Curriculum: CurriculumFactory(sequelize, Sequelize),
+  Lecture: LectureFactory(sequelize, Sequelize),
+  LectureGroup: LectureGroupFactory(sequelize, Sequelize),
+  Module: ModuleFactory(sequelize, Sequelize),
+  Quiz: QuizFactory(sequelize, Sequelize),
+  QuizQuestion: QuizQuestionFactory(sequelize, Sequelize),
+  QuizQuestionOption: QuizQuestionOptionFactory(sequelize, Sequelize),
+  QuizQuestionResponse: QuizQuestionResponseFactory(sequelize, Sequelize),
+  Role: RoleFactory(sequelize, Sequelize),
+  User: UserFactory(sequelize, Sequelize)
 };
 
-export default Query;
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  } 
+});
+
+export default db;

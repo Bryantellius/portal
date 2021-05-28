@@ -1,22 +1,30 @@
-import * as crypto from "crypto";
-import * as jwt from "jsonwebtoken";
-import db from "../../db/queries/tokens";
+import crypto from "crypto";
+import jwt from "jsonwebtoken";
+import models from "../../db/models";
 import config from "../../config";
 import { IPayload } from "../types";
 
 export const CreateToken = async (payload: IPayload) => {
-  let data: any = await db.addToken(payload.userid);
-  payload.accesstokenid = data.insertId;
   payload.unique = crypto.randomBytes(32).toString("hex");
-  let token = await jwt.sign(payload, config.secret_key);
-  data = await db.updateToken(payload.accesstokenid, token);
+  let token = jwt.sign(payload, config.secret_key);
+  await models.AccessToken.create({
+    userId: payload.userid,
+    token: token
+  });
+
   return token;
 };
 
-export const ValidToken = async (token: string) => {
-  let payload: IPayload = <IPayload>jwt.decode(token);
-  let accesstokenid: any = await db.findToken(payload.accesstokenid, token);
-  if (!accesstokenid[0]) {
+export const ValidToken = async (token: any, userId: number) => {
+  const payload: IPayload = <IPayload>jwt.decode(token);
+  const validatedToken: any = await models.AccessToken.findOne({
+    where: {
+      id: payload.accesstokenid,
+      userId: userId
+    }
+  });
+
+  if (!validatedToken) {
     throw new Error("Invalid Token");
   } else {
     return payload;

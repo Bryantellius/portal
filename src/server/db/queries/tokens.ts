@@ -1,4 +1,4 @@
-import Query from "../models";
+import Query from "../query";
 
 const findToken = (tokenid: number, token: string) => {
   return Query("SELECT * FROM AccessTokens WHERE TokenID = ? AND Token = ?", [

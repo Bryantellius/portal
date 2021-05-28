@@ -1,5 +1,5 @@
-import * as passport from "passport";
-import * as BearerStrategy from "passport-http-bearer";
+import passport from "passport";
+import BearerStrategy from "passport-http-bearer";
 import { ValidToken } from "../utils/security/tokens";
 import db from "../db/queries/users";
 import { IPayload } from "../utils/types";

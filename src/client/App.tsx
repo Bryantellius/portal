@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,26 +7,34 @@ import {
 } from "react-router-dom";
 import Layout from "./components/Layout";
 import Login from "./views/Login";
-import TopicContent from "./views/TopicContent";
+import LectureGroupContent from "./views/LectureGroupContent";
 import Home from "./views/Home";
 import Profile from "./views/Profile";
-import { apiService, abortFetching, User } from "./utils/apiService";
+import { apiService, abortFetching } from "./utils/apiService";
 import Admin from "./views/Admin";
 import Dashboard from "./views/Dashboard";
 import Tutoring from "./views/Tutoring";
 import CareerServices from "./views/CareerServices";
 import AdminEdit from "./views/AdminEdit";
 import SignUp from "./views/SignUp";
+import ApiClient from "./utils/apiClient";
+import AuthService from "./utils/authService";
 
-const App: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(
-    User ? true : false
+const App: FunctionComponent = () => {
+  const apiClient = new ApiClient();
+  const authService = new AuthService();
+
+  const storedUser = authService.getUser();
+
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+     storedUser ? true : false
   );
-  const [modules, setModules] = React.useState<any[]>([]);
-  const [topics, setTopics] = React.useState<any[]>([]);
-  const [user, setUser] = React.useState<any>({});
 
-  React.useEffect(() => {
+  const [modules, setModules] = useState<any[]>([]);
+  const [lectureGroups, setLectureGroups] = useState<any[]>([]);
+  const [user, setUser] = useState<any>(storedUser);
+
+  useEffect(() => {
     let controller = new AbortController();
     if (isLoggedIn) {
       fetchUser(controller);
@@ -36,37 +44,22 @@ const App: React.FC = () => {
   }, [isLoggedIn]);
 
   const fetchUser = async (controller: any) => {
-    let [res] = await apiService(
-      `/api/users/${User.UserID}`,
-      false,
-      "GET",
-      controller.signal
-    );
-    setUser(res);
-    await fetchModules(controller, res);
-    await fetchTopics(controller, res);
+    const userResponse = await apiClient.get(`/user/${storedUser.id}`);
+    setUser(userResponse);
+    fetchModules(controller, userResponse);
+    fetchLectureGroups(controller, userResponse);
   };
 
   const fetchModules = async (controller: any, user: any) => {
-    let CurriculumID: number = user.CurriculumID || 1;
-    let res = await apiService(
-      `/api/resources/modules/${CurriculumID}`,
-      false,
-      "GET",
-      controller.signal
-    );
-    setModules(res);
+    const curriculumId = user.curriculumId || 1;
+    const moduleResponse = await apiClient.get(`/curriculum/${ curriculumId }/module`);
+    setModules(moduleResponse);
   };
 
-  const fetchTopics = async (controller: any, user: any) => {
-    let CurriculumID: number = user.CurriculumID || 1;
-    let res = await apiService(
-      `/api/resources/topics/${CurriculumID}`,
-      false,
-      "GET",
-      controller.signal
-    );
-    setTopics(res);
+  const fetchLectureGroups = async (controller: any, user: any) => {
+    const curriculumId = user.curriculumId || 1;
+    const lectureGroups = await apiClient.get(`/curriculum/${ curriculumId }/lecture`);
+    setLectureGroups(lectureGroups);
   };
 
   return (
@@ -102,9 +95,9 @@ const App: React.FC = () => {
                 showSidebar={false}
               >
                 <Dashboard
-                  course={user.Course}
-                  LastLectureID={user.LastLectureID}
-                  FirstName={user.FirstName}
+                  course={user.course}
+                  lastLectureId={user.lastLectureId}
+                  firstName={user.firstName}
                 />
               </Layout>
             </Route>
@@ -115,7 +108,7 @@ const App: React.FC = () => {
                 isLoggedIn={isLoggedIn}
                 showSidebar={false}
               >
-                <Tutoring course={user.Course} />
+                <Tutoring course={user.course} />
               </Layout>
             </Route>
             <Route exact path="/career-services">
@@ -125,7 +118,7 @@ const App: React.FC = () => {
                 isLoggedIn={isLoggedIn}
                 showSidebar={false}
               >
-                <CareerServices course={user.Course} />
+                <CareerServices course={user.course} />
               </Layout>
             </Route>
             <Route exact path="/learn">
@@ -134,8 +127,8 @@ const App: React.FC = () => {
                 user={user}
                 isLoggedIn={isLoggedIn}
                 showSidebar
-                modules={modules}
-                topics={topics}
+                modules={Array.isArray(modules) ? modules : [modules]}
+                lectureGroups={lectureGroups}
               >
                 <Home />
               </Layout>
@@ -151,7 +144,7 @@ const App: React.FC = () => {
               </Layout>
             </Route>
             <Route exact path="/admin">
-              {user.Title == "Admin" || user.Title == "Instructor" ? (
+              {user.title == "Admin" || user.title == "Instructor" ? (
                 <Layout
                   setIsLoggedIn={setIsLoggedIn}
                   user={user}
@@ -165,7 +158,7 @@ const App: React.FC = () => {
               )}
             </Route>
             <Route exact path="/admin/add-edit">
-              {user.Title == "Admin" || user.Title == "Instructor" ? (
+              {user.title == "Admin" || user.title == "Instructor" ? (
                 <Layout
                   setIsLoggedIn={setIsLoggedIn}
                   user={user}
@@ -178,11 +171,11 @@ const App: React.FC = () => {
                 <Redirect from="/admin-edit" to="/" />
               )}
             </Route>
-            {topics.map((topic, i, arr) => {
-              let path: string = topic.Title.toLowerCase().replace(/ /g, "-");
+            {lectureGroups && lectureGroups.map((lectureGroup, i, arr) => {
+              const path = lectureGroup.title.toLowerCase().replace(/ /g, "-");
               return (
                 <Route
-                  key={topic.TopicID + "route"}
+                  key={lectureGroup.id + "route"}
                   exact
                   path={`/learn/${path}`}
                 >
@@ -192,21 +185,22 @@ const App: React.FC = () => {
                     isLoggedIn={isLoggedIn}
                     showSidebar
                     modules={modules}
-                    topics={topics}
+                    lectureGroups={lectureGroups}
                   >
-                    <TopicContent
-                      UserID={user.UserID}
-                      title={topic.Title}
-                      nextID={
-                        i < arr.length - 1 ? arr[i + 1].TopicID : arr[i].TopicID
+                    <LectureGroupContent
+                      userId={user.id}
+                      title={lectureGroup.title}
+                      nextId={
+                        i < arr.length - 1 ? arr[i + 1].lectureGroupId : arr[i].lectureGroupId
                       }
                       prevT={
-                        i && i < arr.length ? arr[i - 1].Title : arr[i].Title
+                        i && i < arr.length ? arr[i - 1].Title : arr[i].title
                       }
                       nextT={
-                        i < arr.length - 1 ? arr[i + 1].Title : arr[i].Title
+                        i < arr.length - 1 ? arr[i + 1].Title : arr[i].title
                       }
-                      topicId={topic.TopicID}
+                      lectureGroupId={lectureGroup.id}
+                      quiz={lectureGroup.Quiz}
                     />
                   </Layout>
                 </Route>

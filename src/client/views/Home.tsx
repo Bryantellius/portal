@@ -1,6 +1,6 @@
-import * as React from "react";
+import React, { FunctionComponent } from "react";
 
-const Home: React.FC = () => {
+const Home: FunctionComponent = () => {
   return (
     //   Main Content
     <div className="main-content row position-relative pb-5">

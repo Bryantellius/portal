@@ -1,15 +1,18 @@
 {
     "compilerOptions": {
       "outDir": "./public/js/",
+      "sourceMap": true,
       "noImplicitAny": true,
-      "module": "es6",
-      "target": "es5",
+      "module": "commonjs",
+      "target": "es6",
       "jsx": "react",
       "allowSyntheticDefaultImports": true,
+      "moduleResolution": "node",
       "allowJs": true,
       "lib":[
           "es2015", "dom"
-      ]
+      ],
+      "esModuleInterop": true
     },
     "include": [
         "src/client/**/*"
@@ -18,5 +21,3 @@
         "node_modules"
     ]
   }
-
-  

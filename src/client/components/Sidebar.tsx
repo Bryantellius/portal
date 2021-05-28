@@ -1,7 +1,7 @@
-import * as React from "react";
+import React, { FunctionComponent } from "react";
 import { NavLink } from "react-router-dom";
 
-const Sidebar: React.FC<ISidebarProps> = ({ modules, topics, course }) => {
+const Sidebar: FunctionComponent<ISidebarProps> = ({ modules, lectureGroups, course }) => {
   return (
     //   Side Navigation Bar
     <nav
@@ -12,24 +12,24 @@ const Sidebar: React.FC<ISidebarProps> = ({ modules, topics, course }) => {
         {/* <!-- Navigation --> */}
         <div className="docs-sidebar pt-6 pt-lg-7">
           <h4>{course}</h4>
-          {modules.map((module) => {
+          {modules && modules.map((module) => {
             return (
-              <React.Fragment key={module.ModuleID}>
-                <h6 className="mt-4">{module.Title}</h6>
+              <React.Fragment key={module.id}>
+                <h6 className="mt-4">{module.title}</h6>
                 <ul className="nav flex-column">
-                  {topics.map((topic) => {
-                    if (topic.ModuleID === module.ModuleID) {
-                      let path: string = topic.Title.toLowerCase().replace(
+                  {lectureGroups.map((lectureGroup) => {
+                    if (lectureGroup.moduleId === module.id) {
+                      let path: string = lectureGroup.title.toLowerCase().replace(
                         / /g,
                         "-"
                       );
                       return (
                         <NavLink
                           to={`/learn/${path}`}
-                          key={topic.TopicID}
+                          key={lectureGroup.id}
                           className="nav-link"
                         >
-                          {topic.Title}
+                          {lectureGroup.title}
                         </NavLink>
                       );
                     }
@@ -46,7 +46,7 @@ const Sidebar: React.FC<ISidebarProps> = ({ modules, topics, course }) => {
 
 interface ISidebarProps {
   modules: any[];
-  topics: any[];
+  lectureGroups: any[];
   course: string;
 }
 

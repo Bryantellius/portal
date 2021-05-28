@@ -1,6 +1,6 @@
-import * as passport from "passport";
-import * as LocalStrategy from "passport-local";
-import db from "../db/queries/users";
+import passport from "passport";
+import LocalStrategy from "passport-local";
+import models from "../db/models";
 import { comparePassword } from "../utils/security/passwords";
 
 passport.serializeUser((user, next) => next(null, user));
@@ -11,9 +11,14 @@ passport.use(
     { usernameField: "email", session: false },
     async (email, password, next) => {
       try {
-        let user: any = await db.findOneUserByEmail(email);
-        if (user[0] && comparePassword(password, user[0].password)) {
-          next(null, user[0]);
+        let user: any = await models.User.findOne({
+          where: {
+            email: email
+          },
+          include: [models.Role]
+        });
+        if (user && (await comparePassword(password, user.password))) {
+          next(null, user);
         } else {
           next(null, false);
         }

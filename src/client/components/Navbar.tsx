@@ -1,16 +1,16 @@
-import * as React from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 import { darkModeLoader } from "../utils/theme";
 import { NavLink } from "react-router-dom";
 import { removeAccessTokens } from "../utils/apiService";
 
-const Navbar: React.FC<INavbarProps> = ({
+const Navbar: FunctionComponent<INavbarProps> = ({
   setIsLoggedIn,
   isLoggedIn,
   user,
 }) => {
-  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isLoaded) {
       darkModeLoader();
       setIsLoaded(true);
@@ -104,7 +104,7 @@ const Navbar: React.FC<INavbarProps> = ({
                 />
               </a>
               <div className="dropdown-menu dropdown-menu-single">
-                {user.Title == "Admin" || user.Title == "Instructor" ? (
+                {user.title == "Admin" || user.title == "Instructor" ? (
                   <NavLink to="/admin" className="dropdown-item">
                     Admin
                   </NavLink>

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 
-const Tutoring: React.FC<ITutoringProps> = ({ course }) => {
+const Tutoring: FunctionComponent<ITutoringProps> = ({ course }) => {
   return (
     <div className="profile-settings mx-auto">
       <div className="container mt-3">

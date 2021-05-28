@@ -1,4 +1,4 @@
-import Query from "../models";
+import Query from "../query";
 
 const getOneLecture = (id: number) => {
   return Query("SELECT * FROM Lectures WHERE LectureID = ?", [id]);

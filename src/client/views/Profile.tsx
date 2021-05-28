@@ -1,18 +1,19 @@
 import * as React from "react";
-import { apiService } from "../utils/apiService";
 import moment from "moment";
+import ApiClient from "../utils/apiClient";
 
 const Profile: React.FC<IProfileProps> = ({ user }) => {
   const controller = new AbortController();
+  const apiClient = new ApiClient();
 
   const [email, setEmail] = React.useState<string>(user.email);
-  const [firstname, setFirstname] = React.useState<string>(user.FirstName);
-  const [lastname, setLastname] = React.useState<string>(user.LastName);
+  const [firstname, setFirstname] = React.useState<string>(user.firstName);
+  const [lastname, setLastname] = React.useState<string>(user.lastName);
 
   const updateUser = async (e: any) => {
     e.preventDefault();
 
-    let alertDiv = document.getElementById("memberAlert");
+    const alertDiv = document.getElementById("memberAlert");
     if (firstname === "" || lastname === "" || email === "") {
       alertDiv.classList.remove("alert-success");
       alertDiv.classList.add("alert-danger");
@@ -22,50 +23,41 @@ const Profile: React.FC<IProfileProps> = ({ user }) => {
       return;
     }
 
-    let form: any = document.querySelector("input[type=file]");
-    let fileList = form.files;
+    const form: any = document.querySelector("input[type=file]");
+    const fileList = form.files;
     const inputElement = document.getElementById(
       "fileInput"
     ) as HTMLInputElement;
 
-    let body = {
+    const body = {
       firstname,
       lastname,
       email,
-      AvatarUrl: `../assets/img/${user.UserID}`,
+      avatarUrl: `../assets/img/${user.id}`,
       fileName: `${inputElement.value.slice(12)}`,
     };
 
     if (fileList.length > 0) {
-      try {
-        const formData = new FormData();
-        formData.append("image", fileList[0]);
-        formData.append("id", user.UserID);
-        let res = await fetch("/api/users/update/assets", {
-          method: "POST",
+      const formData = new FormData();
+      formData.append("image", fileList[0]);
+      formData.append("id", user.id);
+      const updateAssetsResponse = await apiClient.post(
+        `/user/${ user.id }/assets`,
+        formData, 
+        {
           headers: {
             encoding: "binary",
-          },
-          body: formData,
-        });
-        let msg = await res.json();
-        console.log(msg);
-      } catch (err) {
-        throw err;
-      }
+          }
+        }
+      );
     } else {
-      delete body.AvatarUrl;
+      delete body.avatarUrl;
       delete body.fileName;
     }
 
-    let res = await apiService(
-      `/api/users/update/${user.UserID}`,
-      false,
-      "PUT",
-      controller.signal,
-      body
-    );
-    if (res) {
+    const updateUserResponse = await apiClient.put(`/user/${user.id}`, body);
+    
+    if (updateUserResponse.status === 200) {
       alertDiv.classList.remove("alert-danger");
       alertDiv.classList.add("alert-success");
       alertDiv.innerHTML = "Member Updated!";
@@ -86,16 +78,16 @@ const Profile: React.FC<IProfileProps> = ({ user }) => {
         <section className="row my-2 justify-content-center">
           <div className="col-md-6 d-flex flex-column justify-content-start align-items-center">
             <img
-              src={user.AvatarUrl || "../assets/img/default.png"}
-              alt={`${user.LastName} Profile Image`}
+              src={user.avatarUrl || "../assets/img/default.png"}
+              alt={`${user.lastName} Profile Image`}
               className="avatar-2xl"
             />
             <h1 className="text-center">
-              {user.FirstName} {user.LastName}
+              {user.firstName} {user.lastName}
             </h1>
-            <p className="text-center">{user.Title}</p>
+            <p className="text-center">{user.title}</p>
             <small className="text-muted text-center d-block">
-              Member since {moment(user.created).format("MMM Do YYYY")}
+              Member since {moment(user.createdAt).format("MMM Do YYYY")}
             </small>
           </div>
         </section>
