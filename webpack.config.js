@@ -72,6 +72,11 @@ const clientConfig = {
     filename: "app.js",
     path: path.resolve(__dirname, "public/js"),
   },
+  devServer: {
+    port: 4000,
+    open: true,
+    hot: true
+  }
 };
 
 module.exports = [serverConfig, clientConfig];

@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { hot } from "react-hot-loader";
 import {
   BrowserRouter as Router,
   Switch,
@@ -198,4 +199,4 @@ const App: FunctionComponent = () => {
   );
 };
 
-export default App;
+export default hot(module)(App);

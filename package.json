@@ -1,10 +1,10 @@
 {
-  "name": "starter_template",
+  "name": "portal",
   "version": "1.0.0",
-  "description": "Starter template with JS, Node, Express, React",
+  "description": "Student portal for accessing lecture content",
   "main": "dist/server.js",
   "scripts": {
-    "watch:build": "npx webpack -w",
+    "watch:build": "webpack serve --config ./webpack.config.js",
     "watch:server": "nodemon dist/server.js",
     "dev": "npm-run-all --parallel watch:*",
     "start": "node dist/server.js"
@@ -19,9 +19,11 @@
     "@types/sequelize": "^4.28.9",
     "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
+    "react-hot-loader": "^4.13.0",
     "sequelize-cli": "^6.2.0",
     "ts-node": "^10.0.0",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
