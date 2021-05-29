@@ -1,1 +1,0 @@
-{"version":3,"file":"courses.js","sourceRoot":"","sources":["../../../src/server/db/queries/courses.ts"],"names":[],"mappings":";;AAAA,oCAA8B;AAE9B,IAAM,aAAa,GAAG;IACpB,OAAO,gBAAK,CAAC,uBAAuB,CAAC,CAAC;AACxC,CAAC,CAAC;AAEF,kBAAe,EAAE,aAAa,eAAA,EAAE,CAAC"}

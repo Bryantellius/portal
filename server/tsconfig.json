@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "sourceMap": true,
+      "watch": true,  
+      "outDir": "./dist/",
+      "noImplicitAny": true,
+      "module": "commonJs",
+      "target": "es6",
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "moduleResolution": "node",
+      "lib": [
+          "es2017"
+      ],
+      "types": [
+          "node", "express"
+      ]
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+  }
