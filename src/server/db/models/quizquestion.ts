@@ -1,6 +1,6 @@
 import { Model } from "sequelize";
 
-export default (sequelize, DataTypes) => {
+export default (sequelize: any, DataTypes: any) => {
   class QuizQuestion extends Model {
     static quiz: any;
     static options: any;

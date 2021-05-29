@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Col, Form } from "react-bootstrap";
 import ApiClient from "../utils/apiClient";
 
 const AdminCreateBulk: React.FC<IAdminCreateBulkProps> = ({
@@ -56,14 +57,13 @@ const AdminCreateBulk: React.FC<IAdminCreateBulkProps> = ({
   };
 
   return (
-    <div className="col-md-6 p-4">
+    <Col className="col-md-6 p-4">
       <h3 className="text-center">Create In Bulk</h3>
-      <form className="form-group p-3" onSubmit={insertUsersBulk}>
-        <div className="mb-3">
-          <label>CSV File:</label>
-          <div className="custom-file">
-            <input
-              type="file"
+      <Form onSubmit={insertUsersBulk}>
+        <Form.Group className="p-3">
+          <div className="mb-3">
+            <Form.Label>CSV File:</Form.Label>
+            <Form.File
               name="uploadFile"
               className="custom-file-input"
               id="fileInput"
@@ -73,63 +73,61 @@ const AdminCreateBulk: React.FC<IAdminCreateBulkProps> = ({
                   e.target.value.slice(12);
               }}
             />
-            <label id="fileLabel" className="custom-file-label">
+            <Form.Label id="fileLabel" className="custom-file-label">
               Choose file
-            </label>
+            </Form.Label>
           </div>
-        </div>
-        <div className="mb-3">
-          <label>Role:</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="User Role"
-            value={role}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setRole(e.target.value)
-            }
-            list="user-roles"
-          />
-          <datalist id="user-roles">
-            {roles.map((r) => {
-              return (
-                <option key={r.id} value={r.id}>
-                  {r.title}
-                </option>
-              );
-            })}
-          </datalist>
-        </div>
-        <div className="mb-3">
-          <label>Course:</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="User Course"
-            value={course}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setCourse(e.target.value)
-            }
-            list="courses"
-          />
-          <datalist id="courses">
-            {courses.map((c) => {
-              return (
-                <option key={c.id} value={c.id}>
-                  {c.title}
-                </option>
-              );
-            })}
-          </datalist>
-        </div>
-        <button
-          className="btn btn-info w-50 mx-auto d-block my-3"
-          type="submit"
-        >
-          Create
-        </button>
-      </form>
-    </div>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Role:</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="User Role"
+              value={role}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setRole(e.target.value)
+              }
+              list="user-roles"
+            />
+            <datalist id="user-roles">
+              {roles.map((r) => {
+                return (
+                  <option key={r.id} value={r.id}>
+                    {r.title}
+                  </option>
+                );
+              })}
+            </datalist>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Course:</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="User Course"
+              value={course}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setCourse(e.target.value)
+              }
+              list="courses"
+            />
+            <datalist id="courses">
+              {courses.map((c) => {
+                return (
+                  <option key={c.id} value={c.id}>
+                    {c.title}
+                  </option>
+                );
+              })}
+            </datalist>
+          </Form.Group>
+          <Button
+            variant="info"
+            className="w-50 mx-auto d-block my-3"
+            type="submit">
+            Create
+          </Button>
+      </Form>
+    </Col>
   );
 };
 

@@ -6,7 +6,7 @@ import { IPayload } from "../types";
 
 export const CreateToken = async (payload: IPayload) => {
   payload.unique = crypto.randomBytes(32).toString("hex");
-  let token = jwt.sign(payload, config.secret_key);
+  const token = jwt.sign(payload, config.secret_key);
   await models.AccessToken.create({
     userId: payload.userid,
     token: token
@@ -15,12 +15,11 @@ export const CreateToken = async (payload: IPayload) => {
   return token;
 };
 
-export const ValidToken = async (token: any, userId: number) => {
+export const ValidToken = async (token: any) => {
   const payload: IPayload = <IPayload>jwt.decode(token);
   const validatedToken: any = await models.AccessToken.findOne({
     where: {
-      id: payload.accesstokenid,
-      userId: userId
+      id: payload.accesstokenid
     }
   });
 

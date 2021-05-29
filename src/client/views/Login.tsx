@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Alert, Container, Form, Card, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import ApiClient from "../utils/apiClient";
 import AuthService from "../utils/authService";
@@ -40,44 +41,53 @@ const Login: React.FC<ILoginProps> = ({ setIsLoggedIn }) => {
   };
 
   return (
-    <main id="loginPage" className="container-fluid">
-      <form className="loginForm card" onSubmit={checkLogin}>
-        <div className="form-group">
-          <h1>Welcome Back!</h1>
-        </div>
-        <div id="errorAlert" className="alert alert-danger"></div>
-        <hr />
-        <div className="form-group">
-          <label htmlFor="loginEmail">Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            id="loginEmail"
-            aria-describedby="emailHelp"
-            onChange={(e: any) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="loginPassword">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="loginPassword"
-            onChange={(e: any) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Login
-        </button>
-        <hr />
-        <div className="form-group">
-          <p>
-            Can't login? Contact{" "}
-            <a href="mailto:support@truecoders.io">support@truecoders.io</a>.
-          </p>
-        </div>
-      </form>
-    </main>
+    <Container id="loginPage" as="main" fluid>
+      <Card
+        as="form"
+        className="loginForm"
+        onSubmit={checkLogin}>
+          <Form.Group>
+            <h1>Welcome Back!</h1>
+          </Form.Group>
+          <Alert id="errorAlert" variant="danger" />
+          <hr />
+          <Form.Group>
+            <Form.Label>
+              Email address
+            </Form.Label>
+            <Form.Control
+              type="email"
+              id="loginEmail"
+              aria-describedby="emailHelp"
+              onChange={(e: any) => setEmail(e.target.value)} 
+            />
+          </Form.Group>
+          <Form.Group>
+        <label htmlFor="loginPassword">Password</label>
+        <Form.Control
+          type="password"
+          className="form-control"
+          id="loginPassword"
+          onChange={(e: any) => setPassword(e.target.value)}
+        />
+      </Form.Group>
+
+      <Button 
+        type="submit"
+        variant="primary">
+        Login
+      </Button>
+
+      <hr />
+
+      <Form.Group>
+        <p>
+          Can't login? Contact{" "}
+          <a href="mailto:support@truecoders.io">support@truecoders.io</a>.
+        </p>
+      </Form.Group>
+      </Card>
+    </Container>
   );
 };
 

@@ -1,6 +1,6 @@
 const serverUrl = "http://localhost:3000";
 
-const clientConfig = {
+const clientConfig: any = {
     serverUrl: serverUrl,
     apiRoot: `${ serverUrl }/api`,
     apiTimeout: 10000

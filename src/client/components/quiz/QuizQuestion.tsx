@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+import { Card } from "react-bootstrap";
 import { QuizQuestionType } from "../../utils/enums";
 import QuizQuestionResponse from "./QuizQuestionResponse";
 
@@ -23,19 +24,21 @@ const QuizQuestion: FunctionComponent<QuizQuestionProps> = ({
     onUpdate
 }) => {
     return (
-        <div className="card">
-            <div className="card-body">
-                <h4 className="card-title">{questionText}</h4>
-            
+        <Card>
+            <Card.Body>
+                <Card.Title>
+                    {questionText}
+                </Card.Title>
+
                 <QuizQuestionResponse
                     questionId={questionId}
                     type={type}
                     options={options}
                     onUpdate={onUpdate}
                 />
-            </div>
-        </div>
-    )
+            </Card.Body>
+        </Card>
+    );
 }
 
 export default QuizQuestion

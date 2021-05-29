@@ -1,13 +1,12 @@
 import fs from "fs";
 import path from "path";
 import { Sequelize } from "sequelize";
-import config from "../../config/database"
+import config from "../../config/database";
 import AccessTokenFactory from "./accesstoken"
 import ClassListFactory from "./classlist";
 import CourseFactory from "./course";
 import CurriculumFactory from "./curriculum";
 import LectureFactory from "./lecture";
-import LectureGroupFactory from "./lecturegroup";
 import ModuleFactory from "./module";
 import QuizFactory from "./quiz";
 import QuizQuestionFactory from "./quizquestion";
@@ -19,7 +18,9 @@ import UserFactory from "./user";
 
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const envConfig = config[env];
+
+// @ts-ignore
+const envConfig= config[env];
 
 if (envConfig.use_env_variable) {
   var sequelize = new Sequelize(process.env[envConfig.use_env_variable], envConfig);
@@ -33,7 +34,7 @@ const modelFiles = fs
     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js' || file.slice(-3) === '.ts');
   });
 
-const db = {
+const db: any = {
   sequelize,
   Sequelize,
   AccessToken: AccessTokenFactory(sequelize, Sequelize),
@@ -41,7 +42,6 @@ const db = {
   Course: CourseFactory(sequelize, Sequelize),
   Curriculum: CurriculumFactory(sequelize, Sequelize),
   Lecture: LectureFactory(sequelize, Sequelize),
-  LectureGroup: LectureGroupFactory(sequelize, Sequelize),
   Module: ModuleFactory(sequelize, Sequelize),
   Quiz: QuizFactory(sequelize, Sequelize),
   QuizQuestion: QuizQuestionFactory(sequelize, Sequelize),

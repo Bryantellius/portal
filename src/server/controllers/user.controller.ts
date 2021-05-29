@@ -15,7 +15,7 @@ const findById = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const createUser = async (req, res, next) => {
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { user, classList } = req.body;
 

@@ -1,72 +1,73 @@
 import moment from "moment";
 import React from "react";
+import { Container, Card, Row, Col, Image, Button } from "react-bootstrap";
 
 const CareerServices: React.FC<ICareerServicesProps> = ({ course }) => {
   return (
     <div className="profile-settings mx-auto">
-      <div className="container mt-3">
-        <div className="row">
-          <div className="col-12">
+      <Container className="mt-3">
+        <Row className="row">
+          <Col xs={12}>
             <h1 className="text-center">Career Services</h1>
-          </div>
-          <div className="col-md-6">
-            <div className="card shadow bg-light h-100">
-              <img
+          </Col>
+          <Col xs={6}>
+            <Card bg="light" className="shadow h-100">
+              <Card.Img
+                variant="top"
                 src="../assets/svg/career-services.svg"
-                alt="One On One's"
-                className="card-img-top"
+                alt="One on Ones"
               />
-              <div className="card-header">
+              <Card.Header>
                 <h1 className="text-center">Career Services Calendar</h1>
-              </div>
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-12 text-center">
+              </Card.Header>
+              <Card.Body>
+                <Row className="row">
+                  <Col xs={12} className="text-center">
                     {moment().day() == 3 || moment().day() == 5 ? (
                       <p>No Career Workshop Today!</p>
                     ) : (
-                      <a
+                      <Button
+                        variant="primary"
+                        className="text-white"
+                        as="a"
                         href="https://us02web.zoom.us/j/81193680506?pwd=dmUrREFYQjlGajJnUzVqb3Nkbmlvdz09"
-                        target="_blank"
-                        className="btn btn-outline-primary"
-                      >
+                        target="_blank">
                         Join the Career Workshop
-                      </a>
+                      </Button>
                     )}
-                  </div>
-                </div>
+                  </Col>
+                </Row>
                 <hr />
                 <p className="p-2">
                   Need support? Contact{" "}
                   <a
                     className="supportEmail"
-                    href="mailto:support@truecoders.io"
-                  >
+                    href="mailto:support@truecoders.io">
                     support@truecoders.io
                   </a>
                 </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="card shadow h-100 bg-light">
-              <div className="card-header">
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md="6">
+            <Card bg="light" className="shadow h-100">
+              <Card.Header>
                 <h3 className="text-center">Schedule An Appointment</h3>
-              </div>
-              <div className="card-body">
+              </Card.Header>
+              <Card.Body>
                 <iframe
                   className="w-100 h-100"
                   srcDoc={`
-<div id="SOIDIV_1on1WJobPlacementProfessional" data-so-page="1on1WJobPlacementProfessional" data-height="550" data-style="border: 1px solid #d8d8d8; min-height: 500px; min-width: 290px; max-width: 900px;" data-psz="00"></div>
-<script type="text/javascript" src="https://cdn.oncehub.com/mergedjs/so.js"></script>
-          `}
-                  frameBorder="0"
-                ></iframe>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                    <div id="SOIDIV_1on1WJobPlacementProfessional" data-so-page="1on1WJobPlacementProfessional" data-height="550" data-style="border: 1px solid #d8d8d8; min-height: 500px; min-width: 290px; max-width: 900px;" data-psz="00"></div>
+                    <script type="text/javascript" src="https://cdn.oncehub.com/mergedjs/so.js"></script>
+                  `}
+                  frameBorder="0">
+                </iframe>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 export interface IPayload {
   [key: string]: any;
-  userid: number;
+  userid?: number;
   unique?: string;
-}
+};

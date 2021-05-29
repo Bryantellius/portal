@@ -1,9 +1,6 @@
 import { Model } from "sequelize";
 export default (sequelize: any, DataTypes: any) => {
   class Lecture extends Model {
-    filePath(arg0: string, arg1: string, filePath: any) {
-        throw new Error("Method not implemented.");
-    }
     static quiz: any;
     static module: any;
     /**
@@ -13,11 +10,11 @@ export default (sequelize: any, DataTypes: any) => {
      */
     static associate(models: any) {
       this.quiz = this.hasOne(models.Quiz, { foreignKey: 'lectureId' });
+      this.module = this.belongsTo(models.Module, { foreignKey: 'moduleId' });
     }
   };
   Lecture.init({
     moduleId: DataTypes.INTEGER,
-    lectureGroupId: DataTypes.INTEGER,
     title: DataTypes.STRING,
     fileName: DataTypes.STRING
   }, {

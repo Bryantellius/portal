@@ -205,7 +205,7 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     const { password } = req.body.user;
     const { token } = req.body.creds;
     const userId = parseInt(req.body.creds.userId.toString());
-    const isAuthenticated = yield tokens_1.ValidToken(token, userId);
+    const isAuthenticated = yield tokens_1.ValidToken(token);
     if (!isAuthenticated) {
         throw new Error("Invalid token. Please try again later.");
     }
@@ -286,18 +286,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const models_1 = __importDefault(__webpack_require__(/*! ../db/models */ "./src/server/db/models/index.ts"));
 const path_1 = __importDefault(__webpack_require__(/*! path */ "path"));
-const { Lecture, LectureGroup, Quiz, QuizQuestion, QuizQuestionOption, Module } = models_1.default;
+const { Lecture, Module } = models_1.default;
 const findAll = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { lectureGroupId } = req.params;
-    const findOptions = {
-        include: { all: true }
-    };
-    if (lectureGroupId !== undefined) {
-        findOptions.where = {
-            lectureGroupId: lectureGroupId
-        };
+    const { lectureId } = req.params;
+    let includes = [
+        { all: true, nested: true }
+    ];
+    if (req.params.curriculumId) {
+        includes.push({
+            model: Module,
+            attributes: ["curriculumId"],
+            where: {
+                curriculumId: req.params.curriculumId
+            }
+        });
     }
-    const lectures = yield models_1.default.Lecture.findAll(findOptions);
+    let whereCriteria = {};
+    if (lectureId !== undefined) {
+        whereCriteria.lectureId = req.params.lectureId;
+    }
+    const findOptions = {
+        where: whereCriteria,
+        include: includes
+    };
+    const lectures = yield Lecture.findAll(findOptions);
     res.json(lectures);
 });
 const findById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -306,43 +318,18 @@ const findById = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     });
     res.json(lecture);
 });
-const findByCurriculumId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const lectureGroups = yield LectureGroup.findAll({
-        include: [{
-                model: Module,
-                attributes: ["curriculumId"],
-                where: {
-                    curriculumId: req.params.curriculumId
-                }
-            }, {
-                all: true,
-                nested: true
-            }]
-    });
-    res.json(lectureGroups);
-});
-const findByLectureGroupId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const lecture = yield Lecture.findAll({
-        where: {
-            lectureGroupId: req.params.lectureGroupId
-        },
-        include: { all: true }
-    });
-    res.json(lecture);
-});
 const getLectureContent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const lecture = yield models_1.default.Lecture.findByPk(id);
     const filePath = path_1.default.join(process.cwd(), "src/server/lectures", lecture.fileName);
+    lecture.id;
     res.sendFile(filePath);
 });
 exports.default = {
+    findAll,
     findById,
-    findByLectureGroupId,
-    findByCurriculumId,
     getLectureContent
 };
-1;
 
 
 /***/ }),
@@ -723,7 +710,6 @@ const classlist_1 = __importDefault(__webpack_require__(/*! ./classlist */ "./sr
 const course_1 = __importDefault(__webpack_require__(/*! ./course */ "./src/server/db/models/course.ts"));
 const curriculum_1 = __importDefault(__webpack_require__(/*! ./curriculum */ "./src/server/db/models/curriculum.ts"));
 const lecture_1 = __importDefault(__webpack_require__(/*! ./lecture */ "./src/server/db/models/lecture.ts"));
-const lecturegroup_1 = __importDefault(__webpack_require__(/*! ./lecturegroup */ "./src/server/db/models/lecturegroup.ts"));
 const module_1 = __importDefault(__webpack_require__(/*! ./module */ "./src/server/db/models/module.ts"));
 const quiz_1 = __importDefault(__webpack_require__(/*! ./quiz */ "./src/server/db/models/quiz.ts"));
 const quizquestion_1 = __importDefault(__webpack_require__(/*! ./quizquestion */ "./src/server/db/models/quizquestion.ts"));
@@ -733,6 +719,7 @@ const role_1 = __importDefault(__webpack_require__(/*! ./role */ "./src/server/d
 const user_1 = __importDefault(__webpack_require__(/*! ./user */ "./src/server/db/models/user.ts"));
 const basename = path_1.default.basename(__filename);
 const env = "development" || 0;
+// @ts-ignore
 const envConfig = database_1.default[env];
 if (envConfig.use_env_variable) {
     var sequelize = new sequelize_1.Sequelize(process.env[envConfig.use_env_variable], envConfig);
@@ -753,7 +740,6 @@ const db = {
     Course: course_1.default(sequelize, sequelize_1.Sequelize),
     Curriculum: curriculum_1.default(sequelize, sequelize_1.Sequelize),
     Lecture: lecture_1.default(sequelize, sequelize_1.Sequelize),
-    LectureGroup: lecturegroup_1.default(sequelize, sequelize_1.Sequelize),
     Module: module_1.default(sequelize, sequelize_1.Sequelize),
     Quiz: quiz_1.default(sequelize, sequelize_1.Sequelize),
     QuizQuestion: quizquestion_1.default(sequelize, sequelize_1.Sequelize),
@@ -783,9 +769,6 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const sequelize_1 = __webpack_require__(/*! sequelize */ "sequelize");
 exports.default = (sequelize, DataTypes) => {
     class Lecture extends sequelize_1.Model {
-        filePath(arg0, arg1, filePath) {
-            throw new Error("Method not implemented.");
-        }
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -793,12 +776,12 @@ exports.default = (sequelize, DataTypes) => {
          */
         static associate(models) {
             this.quiz = this.hasOne(models.Quiz, { foreignKey: 'lectureId' });
+            this.module = this.belongsTo(models.Module, { foreignKey: 'moduleId' });
         }
     }
     ;
     Lecture.init({
         moduleId: DataTypes.INTEGER,
-        lectureGroupId: DataTypes.INTEGER,
         title: DataTypes.STRING,
         fileName: DataTypes.STRING
     }, {
@@ -806,42 +789,6 @@ exports.default = (sequelize, DataTypes) => {
         modelName: 'Lecture',
     });
     return Lecture;
-};
-
-
-/***/ }),
-
-/***/ "./src/server/db/models/lecturegroup.ts":
-/*!**********************************************!*\
-  !*** ./src/server/db/models/lecturegroup.ts ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const sequelize_1 = __webpack_require__(/*! sequelize */ "sequelize");
-exports.default = (sequelize, DataTypes) => {
-    class LectureGroup extends sequelize_1.Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate(models) {
-            this.lectures = this.hasMany(models.Lecture, { foreignKey: 'lectureGroupId' });
-            this.module = this.belongsTo(models.Module, { foreignKey: 'id' });
-            this.quiz = this.hasOne(models.Quiz, { foreignKey: 'lectureGroupId' });
-        }
-    }
-    ;
-    LectureGroup.init({
-        moduleId: DataTypes.INTEGER,
-        title: DataTypes.STRING
-    }, {
-        sequelize,
-        modelName: 'LectureGroup',
-    });
-    return LectureGroup;
 };
 
 
@@ -1088,119 +1035,6 @@ exports.default = (sequelize, DataTypes) => {
 
 /***/ }),
 
-/***/ "./src/server/db/queries/users.ts":
-/*!****************************************!*\
-  !*** ./src/server/db/queries/users.ts ***!
-  \****************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const query_1 = __importDefault(__webpack_require__(/*! ../query */ "./src/server/db/query.ts"));
-const findOneUserById = (userid) => {
-    return query_1.default("SELECT u.UserID, u.FirstName, u.LastName, u.email, u.password FROM USERS as u WHERE u.UserID = ?", [userid]);
-};
-const getOneUserById = (userid) => {
-    return query_1.default("SELECT u.UserID, u.FirstName, u.LastName, u.email, u.RoleID, u.AvatarUrl, u.LastLectureID, u._created as created, c.CurriculumID, c.Title as Course, r.Title, r.Access FROM USERS as u INNER JOIN Roles as r ON r.RoleID = u.RoleID INNER JOIN classlist as cl ON cl.UserID = u.UserID INNER JOIN courses as c ON c.CourseID = cl.CourseID WHERE u.UserID = ?", [userid]);
-};
-const findOneUserByEmail = (email) => {
-    return query_1.default("SELECT u.UserID, u.FirstName, u.LastName, u.email, u.password, u.RoleID, u.AvatarUrl, u.LastLectureID, r.Title, r.Access FROM USERS as u INNER JOIN Roles as r ON r.RoleID = u.RoleID WHERE u.email = ?", [email]);
-};
-const insertUser = (user) => {
-    return query_1.default("INSERT INTO Users SET ?", [user]);
-};
-const insertUserToCourseList = (record) => {
-    return query_1.default("INSERT INTO ClassList SET ?", [record]);
-};
-const updateUser = (userid, user) => {
-    return query_1.default("UPDATE Users SET ? WHERE UserID = ?", [user, userid]);
-};
-const removeUser = (userid) => {
-    return query_1.default("DELETE FROM Users WHERE UserID = ?", [userid]);
-};
-exports.default = {
-    findOneUserByEmail,
-    findOneUserById,
-    getOneUserById,
-    insertUser,
-    insertUserToCourseList,
-    updateUser,
-    removeUser,
-};
-
-
-/***/ }),
-
-/***/ "./src/server/db/query.ts":
-/*!********************************!*\
-  !*** ./src/server/db/query.ts ***!
-  \********************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.QuerySingle = void 0;
-const mysql = __importStar(__webpack_require__(/*! mysql */ "mysql"));
-const config_1 = __importDefault(__webpack_require__(/*! ../config */ "./src/server/config/index.ts"));
-const connection = mysql.createPool(config_1.default.mysql);
-const Query = (query, values) => __awaiter(void 0, void 0, void 0, function* () {
-    const queryPromise = new Promise((resolve, reject) => {
-        connection.query(query, values, (err, results) => {
-            if (err) {
-                reject(err);
-            }
-            resolve(results);
-        });
-    });
-    const results = yield queryPromise;
-    return [].slice.call(results, 0);
-});
-const QuerySingle = (query, values) => __awaiter(void 0, void 0, void 0, function* () {
-    let results = [].slice.call(yield Query(query, values), 0);
-    return results.length > 0
-        ? results[0]
-        : [];
-});
-exports.QuerySingle = QuerySingle;
-exports.default = Query;
-
-
-/***/ }),
-
 /***/ "./src/server/middleware/auth.ts":
 /*!***************************************!*\
   !*** ./src/server/middleware/auth.ts ***!
@@ -1249,11 +1083,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const passport_1 = __importDefault(__webpack_require__(/*! passport */ "passport"));
 const passport_http_bearer_1 = __importDefault(__webpack_require__(/*! passport-http-bearer */ "passport-http-bearer"));
 const tokens_1 = __webpack_require__(/*! ../utils/security/tokens */ "./src/server/utils/security/tokens.ts");
-const users_1 = __importDefault(__webpack_require__(/*! ../db/queries/users */ "./src/server/db/queries/users.ts"));
+const models_1 = __importDefault(__webpack_require__(/*! ../db/models */ "./src/server/db/models/index.ts"));
 passport_1.default.use(new passport_http_bearer_1.default.Strategy((token, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let payload = yield tokens_1.ValidToken(token);
-        let [user] = yield users_1.default.findOneUserById(payload.userid);
+        let [user] = yield models_1.default.User.findByPk(payload.userid);
         if (user) {
             next(null, user);
         }
@@ -1418,7 +1252,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const express_1 = __webpack_require__(/*! express */ "express");
 const lecture_controller_1 = __importDefault(__webpack_require__(/*! ../../controllers/lecture.controller */ "./src/server/controllers/lecture.controller.ts"));
 const lectureRouter = express_1.Router({ mergeParams: true });
-lectureRouter.get("/", lecture_controller_1.default.findByCurriculumId);
+lectureRouter.get("/", lecture_controller_1.default.findAll);
 lectureRouter.get("/:id", lecture_controller_1.default.findById);
 lectureRouter.get("/:id/content", lecture_controller_1.default.getLectureContent);
 exports.default = lectureRouter;
@@ -1681,7 +1515,7 @@ const models_1 = __importDefault(__webpack_require__(/*! ../../db/models */ "./s
 const config_1 = __importDefault(__webpack_require__(/*! ../../config */ "./src/server/config/index.ts"));
 const CreateToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     payload.unique = crypto_1.default.randomBytes(32).toString("hex");
-    let token = jsonwebtoken_1.default.sign(payload, config_1.default.secret_key);
+    const token = jsonwebtoken_1.default.sign(payload, config_1.default.secret_key);
     yield models_1.default.AccessToken.create({
         userId: payload.userid,
         token: token
@@ -1689,12 +1523,11 @@ const CreateToken = (payload) => __awaiter(void 0, void 0, void 0, function* () 
     return token;
 });
 exports.CreateToken = CreateToken;
-const ValidToken = (token, userId) => __awaiter(void 0, void 0, void 0, function* () {
+const ValidToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     const payload = jsonwebtoken_1.default.decode(token);
     const validatedToken = yield models_1.default.AccessToken.findOne({
         where: {
-            id: payload.accesstokenid,
-            userId: userId
+            id: payload.accesstokenid
         }
     });
     if (!validatedToken) {
@@ -1796,16 +1629,6 @@ module.exports = require("mailgun-js");;
 /***/ ((module) => {
 
 module.exports = require("morgan");;
-
-/***/ }),
-
-/***/ "mysql":
-/*!************************!*\
-  !*** external "mysql" ***!
-  \************************/
-/***/ ((module) => {
-
-module.exports = require("mysql");;
 
 /***/ }),
 

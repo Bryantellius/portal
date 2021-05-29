@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from "react";
+import { Row, Col } from "react-bootstrap";
 
 const Home: FunctionComponent = () => {
   return (
     //   Main Content
-    <div className="main-content row position-relative pb-5">
-      <div className="col-xl-9 docs-content pb-5">
+    <Row className="main-content position-relative pb-5">
+      <Col xs={9} className="docs-content pb-5">
         {/* <!-- Docs title --> */}
         <div className="docs-title">
           <h1>Welcome to TrueCoders</h1>
@@ -14,9 +15,9 @@ const Home: FunctionComponent = () => {
           </p>
         </div>
         {/* <!-- Docs content --> */}
-      </div>
-      <div className="col-xl-3 docs-sidebar d-none d-xl-block"></div>
-    </div>
+      </Col>
+      <Col xs={3} className="docs-sidebar d-none d-xl-block"></Col>
+    </Row>
   );
 };
 

@@ -1,51 +1,45 @@
-import React from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
+import { Alert, Container, Row } from "react-bootstrap";
 import AdminCreateBulk from "../components/AdminCreateBulk";
 import AdminCreateSingle from "../components/AdminCreateSingle";
-import { apiService } from "../utils/apiService";
+import ApiClient from "../utils/apiClient";
 
-const AdminEdit: React.FC<IAdminEditProps> = () => {
-  const [roles, setRoles] = React.useState([]);
-  const [courses, setCourses] = React.useState([]);
+const AdminEdit: FunctionComponent<IAdminEditProps> = () => {
+  const apiClient = new ApiClient();
+  const [roles, setRoles] = useState([]);
+  const [courses, setCourses] = useState([]);
 
   const controller = new AbortController();
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchRoles();
     fetchCourses();
   }, []);
 
   const fetchRoles = async () => {
-    let roles: any = await apiService(
-      "/api/resources/roles",
-      false,
-      "GET",
-      controller.signal
-    );
+    const roles = await apiClient.get("/role");
     setRoles(roles);
   };
 
   const fetchCourses = async () => {
-    let courses: any = await apiService(
-      "/api/resources/courses",
-      false,
-      "GET",
-      controller.signal
-    );
+    const courses = await apiClient.get("/course");
     setCourses(courses);
   };
 
   return (
     <div className="profile-settings mx-auto">
-      <div className="container">
+      <Container>
         <h1 className="text-center">Create Users</h1>
-        <div id="errorAlert" className="alert alert-danger">
+        <Alert 
+          id="errorAlert" 
+          variant="danger">
           Error. Try again.
-        </div>
-        <section className="row">
+        </Alert>
+        <Row as="section">
           <AdminCreateBulk courses={courses} roles={roles} />
           <AdminCreateSingle courses={courses} roles={roles} />
-        </section>
-      </div>
+        </Row>
+      </Container>
     </div>
   );
 };

@@ -17,14 +17,15 @@ const Navbar: FunctionComponent<INavbarProps> = ({
     }
   }, []);
 
+
+  // TODO: implement this in react-bootstrap
   return (
     // <!-- Nav -->
     <header className="header" id="header-main">
       {/* <!-- Main navbar --> */}
       <nav
         className="navbar navbar-main navbar-expand-lg fixed-top navbar-shadow navbar-light bg-white border-bottom"
-        id="navbar-main"
-      >
+        id="navbar-main">
         <div className="container-fluid justify-content-between">
           {/* <!-- user's navbar --> */}
           <div className="navbar-user d-lg-none">
@@ -34,8 +35,7 @@ const Navbar: FunctionComponent<INavbarProps> = ({
                   to="/"
                   className="nav-link nav-link-icon sidenav-toggler"
                   data-action="sidenav-pin"
-                  data-target="#sidenav-main"
-                >
+                  data-target="#sidenav-main">
                   <i data-feather="menu"></i>
                 </NavLink>
               </li>
@@ -63,8 +63,7 @@ const Navbar: FunctionComponent<INavbarProps> = ({
               {/* <!-- Navbar nav --> */}
               <div
                 className="collapse navbar-collapse"
-                id="navbar-main-collapse"
-              >
+                id="navbar-main-collapse">
                 {/* <!-- Right menu --> */}
                 <ul className="navbar-nav align-items-center mx-auto">
                   <li className="nav-item">
@@ -95,8 +94,7 @@ const Navbar: FunctionComponent<INavbarProps> = ({
                 role="button"
                 data-toggle="dropdown"
                 aria-haspopup="true"
-                aria-expanded="false"
-              >
+                aria-expanded="false">
                 <img
                   alt="Profile Image"
                   src={user.AvatarUrl || "../assets/img/default.png"}
@@ -125,8 +123,7 @@ const Navbar: FunctionComponent<INavbarProps> = ({
                   onClick={() => {
                     removeAccessTokens();
                     setIsLoggedIn(false);
-                  }}
-                >
+                  }}>
                   Logout
                 </NavLink>
               </div>

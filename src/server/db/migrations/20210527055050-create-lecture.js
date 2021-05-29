@@ -15,13 +15,6 @@ module.exports = {
           key: 'id'
         }
       },
-      lectureGroupId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'LectureGroups',
-          key: 'id'
-        }
-      },
       title: {
         type: Sequelize.STRING
       },

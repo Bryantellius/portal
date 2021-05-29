@@ -1,4 +1,7 @@
 import React, { FunctionComponent } from "react";
+import {
+    Form
+} from 'react-bootstrap';
 import Select from "react-select";
 import { QuizQuestionType } from "../../utils/enums";
 
@@ -29,43 +32,32 @@ const QuizQuestionResponse: FunctionComponent<QuizQuestionResponseProps> = ({
         case QuizQuestionType.TrueFalse:
             return (
                 <div className="quiz-question-response form">
-                    <div className="form-check">
-                        <label className="form-check-label">
-                            <input 
-                                type="radio"
-                                className="form-check-input" 
-                                name={nameAttribute} 
-                                value="true" 
-                                onChange={(event: any) => onUpdate(event.target.value)}
-                            />
-                            True
-                        </label>
-                    </div>
-                    <div className="form-check">
-                        <label className="form-check-label">
-                            <input 
-                                type="radio" 
-                                className="form-check-input" 
-                                name={nameAttribute} 
-                                value="false" 
-                                onChange={(event: any) => onUpdate(event.target.value)}
-                            />
-                            False
-                        </label>
+                    <div className="mb-3">
+                        <Form.Check
+                            label="True"
+                            type="radio"
+                            value="true"
+                            name={nameAttribute} 
+                            onChange={(event: any) => onUpdate(event.target.value)}
+                        />
+                        <Form.Check
+                            label="False"
+                            type="radio"
+                            value="false"
+                            name={nameAttribute}
+                            onChange={(event: any) => onUpdate(event.target.value)}
+                        />
                     </div>
                 </div>
             );
         case QuizQuestionType.Text:
             return (
-                <div className="quiz-question-response form">
-                    <input 
+                    <Form.Control
                         type="text" 
-                        className="form-control" 
-                        name={nameAttribute} 
                         placeholder="Enter your answer"
+                        name={nameAttribute}
                         onChange={event => onUpdate(event.target.value)}
                     />
-                </div>
             );
         case QuizQuestionType.Select:
             return (
@@ -77,15 +69,12 @@ const QuizQuestionResponse: FunctionComponent<QuizQuestionResponseProps> = ({
             );
         case QuizQuestionType.MultiSelect:
             return (
-                <div className="quiz-question-response form">
-
-                    <Select
-                        closeMenuOnSelect={false}
-                        isMulti
-                        options={selectOptions}
-                        onChange={(val: any) => onUpdate(val)}
-                    />
-                </div>
+                <Select
+                    closeMenuOnSelect={false}
+                    isMulti
+                    options={selectOptions}
+                    onChange={(val: any) => onUpdate(val)}
+                />
             );
         default: 
             return <></>;

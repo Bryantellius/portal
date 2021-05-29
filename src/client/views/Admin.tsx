@@ -1,59 +1,56 @@
 import React, { FunctionComponent } from "react";
+import { Container, Row, Col, Image, Card } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-const Admin: FunctionComponent<IAdminProps> = () => {
+const Admin: FunctionComponent = () => {
   return (
     <div className="profile-settings mx-auto">
-      <div className="container mt-3">
-        <div className="row">
-          <div className="col-12">
+      <Container className="mt-3">
+        <Row>
+          <Col xs={12}>
             <h1 className="text-center">Admin View</h1>
             <p className="text-muted text-center">What are you looking for?</p>
-          </div>
-          <div className="col-md-6">
+          </Col>
+          <Col md={6}>
             <div className="card shadow bg-light h-100">
-              <img
+              <Image
                 src="../assets/svg/admin-view.svg"
-                alt="One On One's"
+                alt="One on Ones"
                 className="card-img-top"
               />
               <div className="card-body">
                 <div className="d-flex justify-content-center align-items-center">
                   <NavLink
                     className="btn btn-lg btn-outline-primary"
-                    to="/admin/view"
-                  >
+                    to="/admin/view">
                     View
                   </NavLink>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="col-md-6">
-            <div className="card shadow bg-light h-100">
-              <img
+          </Col>
+          <Col md={6}>
+            <Card bg="light" className="shadow h-100">
+              <Card.Img
+                variant="top"
                 src="../assets/svg/admin-edit.svg"
-                alt="One On One's"
-                className="card-img-top"
+                alt="One on Ones"
               />
-              <div className="card-body">
+              <Card.Body>
                 <div className="d-flex justify-content-center align-items-center">
                   <NavLink
                     className="btn btn-lg btn-outline-primary"
-                    to="/admin/add-edit"
-                  >
+                    to="/admin/add-edit">
                     Add/Edit
                   </NavLink>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
-
-interface IAdminProps {}
 
 export default Admin;

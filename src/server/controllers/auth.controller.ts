@@ -156,7 +156,7 @@ const startPasswordReset = async (req: Request, res: Response, next: NextFunctio
 
     const userId = parseInt(req.body.creds.userId.toString());
 
-    const isAuthenticated = await ValidToken(token, userId);
+    const isAuthenticated = await ValidToken(token);
 
     if (!isAuthenticated) {
         throw new Error("Invalid token. Please try again later.");

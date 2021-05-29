@@ -7,10 +7,9 @@ import {
 } from "react-router-dom";
 import Layout from "./components/Layout";
 import Login from "./views/Login";
-import LectureGroupContent from "./views/LectureGroupContent";
+import LectureContent from "./views/LectureContent";
 import Home from "./views/Home";
 import Profile from "./views/Profile";
-import { apiService, abortFetching } from "./utils/apiService";
 import Admin from "./views/Admin";
 import Dashboard from "./views/Dashboard";
 import Tutoring from "./views/Tutoring";
@@ -26,28 +25,23 @@ const App: FunctionComponent = () => {
 
   const storedUser = authService.getUser();
 
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-     storedUser ? true : false
-  );
-
   const [modules, setModules] = useState<any[]>([]);
-  const [lectureGroups, setLectureGroups] = useState<any[]>([]);
+  const [lectures, setLectures] = useState<any[]>([]);
   const [user, setUser] = useState<any>(storedUser);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(storedUser !== undefined);
 
   useEffect(() => {
     let controller = new AbortController();
     if (isLoggedIn) {
       fetchUser(controller);
     }
-
-    return () => abortFetching(controller);
   }, [isLoggedIn]);
 
   const fetchUser = async (controller: any) => {
     const userResponse = await apiClient.get(`/user/${storedUser.id}`);
     setUser(userResponse);
     fetchModules(controller, userResponse);
-    fetchLectureGroups(controller, userResponse);
+    fetchLectures(controller, userResponse);
   };
 
   const fetchModules = async (controller: any, user: any) => {
@@ -56,10 +50,10 @@ const App: FunctionComponent = () => {
     setModules(moduleResponse);
   };
 
-  const fetchLectureGroups = async (controller: any, user: any) => {
+  const fetchLectures = async (controller: any, user: any) => {
     const curriculumId = user.curriculumId || 1;
-    const lectureGroups = await apiClient.get(`/curriculum/${ curriculumId }/lecture`);
-    setLectureGroups(lectureGroups);
+    const lectures = await apiClient.get(`/curriculum/${ curriculumId }/lecture`);
+    setLectures(lectures);
   };
 
   return (
@@ -70,8 +64,7 @@ const App: FunctionComponent = () => {
             setIsLoggedIn={setIsLoggedIn}
             user={user}
             isLoggedIn={isLoggedIn}
-            showSidebar={false}
-          >
+            showSidebar={false}>
             <Login setIsLoggedIn={setIsLoggedIn} />
           </Layout>
         </Route>
@@ -80,8 +73,7 @@ const App: FunctionComponent = () => {
             setIsLoggedIn={setIsLoggedIn}
             user={user}
             isLoggedIn={isLoggedIn}
-            showSidebar={false}
-          >
+            showSidebar={false}>
             <SignUp setIsLoggedIn={setIsLoggedIn} />
           </Layout>
         </Route>
@@ -92,8 +84,7 @@ const App: FunctionComponent = () => {
                 setIsLoggedIn={setIsLoggedIn}
                 user={user}
                 isLoggedIn={isLoggedIn}
-                showSidebar={false}
-              >
+                showSidebar={false}>
                 <Dashboard
                   course={user.course}
                   lastLectureId={user.lastLectureId}
@@ -106,8 +97,7 @@ const App: FunctionComponent = () => {
                 setIsLoggedIn={setIsLoggedIn}
                 user={user}
                 isLoggedIn={isLoggedIn}
-                showSidebar={false}
-              >
+                showSidebar={false}>
                 <Tutoring course={user.course} />
               </Layout>
             </Route>
@@ -116,8 +106,7 @@ const App: FunctionComponent = () => {
                 setIsLoggedIn={setIsLoggedIn}
                 user={user}
                 isLoggedIn={isLoggedIn}
-                showSidebar={false}
-              >
+                showSidebar={false}>
                 <CareerServices course={user.course} />
               </Layout>
             </Route>
@@ -128,8 +117,7 @@ const App: FunctionComponent = () => {
                 isLoggedIn={isLoggedIn}
                 showSidebar
                 modules={Array.isArray(modules) ? modules : [modules]}
-                lectureGroups={lectureGroups}
-              >
+                lectures={lectures}>
                 <Home />
               </Layout>
             </Route>
@@ -138,8 +126,7 @@ const App: FunctionComponent = () => {
                 setIsLoggedIn={setIsLoggedIn}
                 user={user}
                 isLoggedIn={isLoggedIn}
-                showSidebar={false}
-              >
+                showSidebar={false}>
                 <Profile user={user} />
               </Layout>
             </Route>
@@ -149,8 +136,7 @@ const App: FunctionComponent = () => {
                   setIsLoggedIn={setIsLoggedIn}
                   user={user}
                   showSidebar={false}
-                  isLoggedIn={isLoggedIn}
-                >
+                  isLoggedIn={isLoggedIn}>
                   <Admin />
                 </Layout>
               ) : (
@@ -163,44 +149,41 @@ const App: FunctionComponent = () => {
                   setIsLoggedIn={setIsLoggedIn}
                   user={user}
                   showSidebar={false}
-                  isLoggedIn={isLoggedIn}
-                >
+                  isLoggedIn={isLoggedIn}>
                   <AdminEdit />
                 </Layout>
               ) : (
                 <Redirect from="/admin-edit" to="/" />
               )}
             </Route>
-            {lectureGroups && lectureGroups.map((lectureGroup, i, arr) => {
-              const path = lectureGroup.title.toLowerCase().replace(/ /g, "-");
+            {lectures && lectures.map((lecture, i, arr) => {
+              const path = lecture.title.toLowerCase().replace(/ /g, "-");
               return (
                 <Route
-                  key={lectureGroup.id + "route"}
+                  key={lecture.id + "route"}
                   exact
-                  path={`/learn/${path}`}
-                >
+                  path={`/learn/${path}`}>
                   <Layout
                     setIsLoggedIn={setIsLoggedIn}
                     user={user}
                     isLoggedIn={isLoggedIn}
                     showSidebar
                     modules={modules}
-                    lectureGroups={lectureGroups}
-                  >
-                    <LectureGroupContent
+                    lectures={lectures}>
+                    <LectureContent
                       userId={user.id}
-                      title={lectureGroup.title}
+                      title={lecture.title}
                       nextId={
-                        i < arr.length - 1 ? arr[i + 1].lectureGroupId : arr[i].lectureGroupId
+                        i < arr.length - 1 ? arr[i + 1].lectureId : arr[i].lectureId
                       }
-                      prevT={
+                      previousLecture={
                         i && i < arr.length ? arr[i - 1].Title : arr[i].title
                       }
-                      nextT={
+                      nextLecture={
                         i < arr.length - 1 ? arr[i + 1].Title : arr[i].title
                       }
-                      lectureGroupId={lectureGroup.id}
-                      quiz={lectureGroup.Quiz}
+                      lectureId={lecture.id}
+                      quiz={lecture.Quiz} 
                     />
                   </Layout>
                 </Route>

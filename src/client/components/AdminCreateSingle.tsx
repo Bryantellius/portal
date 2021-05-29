@@ -1,20 +1,19 @@
-import React from "react";
+import React, { FunctionComponent, useState, ChangeEvent } from "react";
+import { Button, Col, Form } from "react-bootstrap";
 import ApiClient from "../utils/apiClient";
 const apiClient = new ApiClient();
 
-const AdminCreateSingle: React.FC<IAdminCreateSingleProps> = ({
+const AdminCreateSingle: FunctionComponent<IAdminCreateSingleProps> = ({
   roles,
   courses,
 }) => {
-  const [firstname, setFirstname] = React.useState("");
-  const [lastname, setLastname] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [role, setRole] = React.useState("");
-  const [course, setCourse] = React.useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [course, setCourse] = useState("");
 
-  const controller = new AbortController();
-
-  const insertUser = async (e: React.ChangeEvent<HTMLFormElement>) => {
+  const insertUser = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const body = {
@@ -49,103 +48,100 @@ const AdminCreateSingle: React.FC<IAdminCreateSingleProps> = ({
   };
 
   return (
-    <div className="col-md-6 p-4">
+    <Col xs={6} className="p-4">
       <h3 className="text-center">Create Single</h3>
-      <form className="form-group p-3" onSubmit={insertUser}>
-        <div className="mb-3">
-          <label htmlFor="firstName">First Name:</label>
-          <input
+      <Form onSubmit={insertUser} className="p-3">
+        <Form.Group className="mb-3">
+          <Form.Label htmlFor="firstName">First Name:</Form.Label>
+          <Form.Control
             name="firstName"
             id="firstName"
             type="text"
             className="form-control mb-2"
             placeholder="User Firstname"
             value={firstname}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setFirstname(e.target.value)
             }
             required
           />
-          <label htmlFor="lastName">Last Name:</label>
-          <input
+          <Form.Label htmlFor="lastName">Last Name:</Form.Label>
+          <Form.Control
             name="lastName"
             id="lastName"
             type="text"
-            className="form-control"
             placeholder="User Lastname"
             value={lastname}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setLastname(e.target.value)
             }
             required
           />
-        </div>
-        <div className="mb-3">
-          <label>Email:</label>
-          <input
-            type="email"
-            className="form-control"
-            placeholder="User Email"
-            value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEmail(e.target.value)
-            }
-            autoComplete="off"
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label>Role:</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="User Role"
-            value={role}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setRole(e.target.value)
-            }
-            list="user-roles"
-          />
-          <datalist id="user-roles">
-            {roles.map((r) => {
-              return (
-                <option key={r.id} value={r.id}>
-                  {r.title}
-                </option>
-              );
-            })}
-          </datalist>
-        </div>
-        <div className="mb-3">
-          <label>Course:</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="User Course"
-            value={course}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setCourse(e.target.value)
-            }
-            list="courses"
-          />
-          <datalist id="courses">
-            {courses.map((c) => {
-              return (
-                <option key={c.id} value={c.id}>
-                  {c.title}
-                </option>
-              );
-            })}
-          </datalist>
-        </div>
-        <button
-          className="btn btn-info w-50 mx-auto d-block my-3"
-          type="submit"
-        >
-          Create
-        </button>
-      </form>
-    </div>
+          
+          <Form.Group className="mb-3">
+            <Form.Label>Email:</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="User Email"
+              value={email}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.target.value)
+              }
+              autoComplete="off"
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Role:</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="User Role"
+              value={role}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setRole(e.target.value)
+              }
+              list="user-roles"
+            />
+            <datalist id="user-roles">
+              {roles.map((r) => {
+                return (
+                  <option key={r.id} value={r.id}>
+                    {r.title}
+                  </option>
+                );
+              })}
+            </datalist>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Course:</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="User Course"
+              value={course}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setCourse(e.target.value)
+              }
+              list="courses"
+            />
+            <datalist id="courses">
+              {courses.map((c) => {
+                return (
+                  <option key={c.id} value={c.id}>
+                    {c.title}
+                  </option>
+                );
+              })}
+            </datalist>
+          </Form.Group>
+          <Button
+            variant="info"
+            className="w-50 mx-auto d-block my-3"
+            type="submit">
+            Create
+          </Button>
+        </Form.Group>
+      </Form>
+    </Col>
   );
 };
 

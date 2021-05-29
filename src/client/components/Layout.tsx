@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from "react";
+import { Container } from "react-bootstrap";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 
 const Layout: FunctionComponent<ILayoutProps> = ({
   children,
   modules,
-  lectureGroups,
+  lectures,
   showSidebar,
   isLoggedIn,
   setIsLoggedIn,
@@ -19,13 +20,13 @@ const Layout: FunctionComponent<ILayoutProps> = ({
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
       />
-      <div className="container-fluid container-docs">
+      <Container fluid className="container-docs">
         {/* Sidenav */}
         {showSidebar ? (
-          <Sidebar course={user.course} modules={modules} lectureGroups={lectureGroups} />
+          <Sidebar course={user.course} modules={modules} lectures={lectures} />
         ) : null}
         {children}
-      </div>
+      </Container>
     </main>
   );
 };
@@ -33,7 +34,7 @@ const Layout: FunctionComponent<ILayoutProps> = ({
 interface ILayoutProps {
   children?: any;
   modules?: any;
-  lectureGroups?: any;
+  lectures?: any;
   showSidebar: boolean;
   isLoggedIn: boolean;
   setIsLoggedIn: any;

@@ -1,41 +1,40 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, Fragment } from "react";
 import { NavLink } from "react-router-dom";
 
-const Sidebar: FunctionComponent<ISidebarProps> = ({ modules, lectureGroups, course }) => {
+// TODO: implement this in react-bootstrap
+const Sidebar: FunctionComponent<ISidebarProps> = ({ modules, lectures, course }) => {
   return (
     //   Side Navigation Bar
     <nav
       className="sidenav navbar navbar-vertical navbar-expand-xs navbar-light bg-white"
-      id="sidenav-main"
-    >
+      id="sidenav-main">
       <div className="scrollbar-inner px-4">
         {/* <!-- Navigation --> */}
         <div className="docs-sidebar pt-6 pt-lg-7">
           <h4>{course}</h4>
           {modules && modules.map((module) => {
             return (
-              <React.Fragment key={module.id}>
+              <Fragment key={module.id}>
                 <h6 className="mt-4">{module.title}</h6>
                 <ul className="nav flex-column">
-                  {lectureGroups.map((lectureGroup) => {
-                    if (lectureGroup.moduleId === module.id) {
-                      let path: string = lectureGroup.title.toLowerCase().replace(
+                  {lectures.map((lecture) => {
+                    if (lecture.moduleId === module.id) {
+                      let path: string = lecture.title.toLowerCase().replace(
                         / /g,
                         "-"
                       );
                       return (
                         <NavLink
                           to={`/learn/${path}`}
-                          key={lectureGroup.id}
-                          className="nav-link"
-                        >
-                          {lectureGroup.title}
+                          key={lecture.id}
+                          className="nav-link">
+                          {lecture.title}
                         </NavLink>
                       );
                     }
                   })}
                 </ul>
-              </React.Fragment>
+              </Fragment>
             );
           })}
         </div>
@@ -46,7 +45,7 @@ const Sidebar: FunctionComponent<ISidebarProps> = ({ modules, lectureGroups, cou
 
 interface ISidebarProps {
   modules: any[];
-  lectureGroups: any[];
+  lectures: any[];
   course: string;
 }
 

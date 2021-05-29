@@ -2,15 +2,15 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import QuizQuestion from "./QuizQuestion";
 import ApiClient from "../../utils/apiClient";
 import AuthService from "../../utils/authService";
+import { Button, Card } from "react-bootstrap";
 
 
 type QuizProps = {
     id: number,
     title: string,
     lectureId: number,
-    lectureGroupId: number
     questions: any[]
-}
+};
 
 export const Quiz: FunctionComponent<QuizProps> = ({ id, title, questions }) => {
     const apiClient = new ApiClient()
@@ -18,13 +18,16 @@ export const Quiz: FunctionComponent<QuizProps> = ({ id, title, questions }) => 
 
     const user = authService.getUser();
     const [quizSubmitted, setQuizSubmitted] = useState(false);
-    const [quizResponses, setQuizResponses] = useState(questions.map(question => {
+
+    const quizResponsesTemplate = questions.map(question => {
         return {
             quizQuestionId: question.id,
             userId: user.id,
             value: null
         };
-    }));
+    });
+
+    const [quizResponses, setQuizResponses] = useState(quizResponsesTemplate);
 
     const handleUpdateQuizResponses = (index: number, value: any) => {
         const updatedResponses = quizResponses.slice();
@@ -56,30 +59,32 @@ export const Quiz: FunctionComponent<QuizProps> = ({ id, title, questions }) => 
     }
 
     return (
-        <div className="quiz card">
-            <h3 className="card-header">{title}</h3>
-            <div className="card-body">
-            { 
-                questions.map((question: any, index: number) => {
-                    return (
-                        <QuizQuestion
-                            key={question.id}
-                            quizId={id}
-                            questionId={question.id}
-                            type={question.type}
-                            questionText={question.text}
-                            options={question.options}
-                            onUpdate={handleUpdateQuizResponses.bind(this, index)}
-                        />
-                    );
-                })
-            }
-            </div>
-            <div className="card-footer text-center">
-                <button type="button" className="btn btn-primary" onClick={submitQuiz}>
-                    Submit Quiz
-                </button>
-            </div>
-        </div>
+        <Card>
+            <Card.Header>
+                <Card.Title>
+                    {title}
+                </Card.Title>
+                <Card.Body>
+                { 
+                    questions && questions.map((question: any, index: number) => {
+                        return (
+                            <QuizQuestion
+                                key={question.id}
+                                quizId={id}
+                                questionId={question.id}
+                                type={question.type}
+                                questionText={question.text}
+                                options={question.options}
+                                onUpdate={handleUpdateQuizResponses.bind(this, index)}
+                            />
+                        );
+                    })
+                }
+                </Card.Body>
+            </Card.Header>
+            <Card.Footer>
+                <Button variant="primary" onClick={submitQuiz} />
+            </Card.Footer>
+        </Card>
     );
 } 

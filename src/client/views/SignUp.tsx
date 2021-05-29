@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { Alert, Button, Card, Container, Form } from "react-bootstrap";
 import { useHistory, useParams } from "react-router";
 import ApiClient from "../utils/apiClient";
 
@@ -55,51 +56,51 @@ const PasswordReset: FunctionComponent<IPasswordResetProps> = ({ setIsLoggedIn }
   };
 
   return (
-    <main id="loginPage" className="container-fluid">
-      <form className="loginForm card" onSubmit={resetPassword}>
-        <div className="form-group">
-          <h1>Hello there!</h1>
-        </div>
-        <div id="errorAlert" className="alert alert-danger"></div>
-        <hr />
-        <div className="form-group">
-          <label htmlFor="resetEmail">Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            id="resetEmail"
-            aria-describedby="emailHelp"
-            onChange={(e: any) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="resetPassword">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="resetPassword1"
-            onChange={(e: any) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="resetPassword">Re-type Password</label>
-          <input type="password" className="form-control" id="resetPassword2" />
-          <p id="passValidation" className="text-danger validationAlert">
-            Passwords must match!
-          </p>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Update
-        </button>
-        <hr />
-        <div className="form-group">
-          <p>
+    <Container id="loginPage" fluid>
+        <Card as="form" className="loginForm" onSubmit={resetPassword}>
+          <Form.Group>
+            <h1>Hello there!</h1>
+          </Form.Group>
+          <Alert id="errorAlert" variant="danger"></Alert>
+          <hr />
+          <Form.Group>
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              id="resetEmail"
+              aria-describedby="emailHelp"
+              onChange={(e: any) => setEmail(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              className="form-control"
+              id="resetPassword1"
+              onChange={(e: any) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="form-group">
+            <Form.Label htmlFor="resetPassword">Re-type Password</Form.Label>
+            <Form.Control type="password" id="resetPassword2" />
+              <Form.Control.Feedback 
+                id="passValidation" 
+                type="invalid" 
+                className="validationAlert">
+                  Passwords must match!
+              </Form.Control.Feedback>
+          </Form.Group>
+          <Button type="submit" variant="primary">
+            Update
+          </Button>
+          <hr />
+          <div>
             Can't update your information? Contact{" "}
             <a href="mailto:support@truecoders.io">support@truecoders.io</a>.
-          </p>
-        </div>
-      </form>
-    </main>
+          </div>
+        </Card>
+      </Container>
   );
 };
 
