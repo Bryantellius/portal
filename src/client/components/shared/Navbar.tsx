@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import { darkModeLoader } from "../utils/theme";
+import { darkModeLoader } from "../../utils/theme";
 import { NavLink } from "react-router-dom";
-import { removeAccessTokens } from "../utils/apiService";
+import { removeAccessTokens } from "../../utils/apiService";
 
 const Navbar: FunctionComponent<INavbarProps> = ({
   setIsLoggedIn,

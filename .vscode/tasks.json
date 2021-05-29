@@ -1,0 +1,6 @@
+{
+  "version": "2.0.0",
+  "command": "webpack",
+  "type": "shell",
+  "args": ["--config", "webpack.config.js"]
+}

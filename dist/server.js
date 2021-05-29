@@ -479,7 +479,13 @@ const passwords_1 = __webpack_require__(/*! ../utils/security/passwords */ "./sr
 const findById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const user = yield models_1.default.User.findByPk(parseInt(id));
+        const user = yield models_1.default.User.findByPk(parseInt(id), {
+            include: [{
+                    all: true,
+                    nested: true
+                }]
+        });
+        console.log(user);
         res.json(user);
     }
     catch (error) {
@@ -978,9 +984,7 @@ exports.default = (sequelize, DataTypes) => {
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
-        static associate(models) {
-            // define association here
-        }
+        static associate(models) { }
     }
     ;
     Role.init({
@@ -1013,7 +1017,7 @@ exports.default = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            this.role = this.hasOne(models.Role, { foreignKey: 'id' });
+            this.role = this.belongsTo(models.Role, { foreignKey: "roleId" });
         }
     }
     ;

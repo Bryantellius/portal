@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from "react";
 import { Container } from "react-bootstrap";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/shared/Navbar";
+import Sidebar from "../components/learn/LecturesSidebar";
 
-const Layout: FunctionComponent<ILayoutProps> = ({
+const LectureLayout: FunctionComponent<ILectureLayoutProps> = ({
   children,
   modules,
   lectures,
@@ -21,17 +21,14 @@ const Layout: FunctionComponent<ILayoutProps> = ({
         setIsLoggedIn={setIsLoggedIn}
       />
       <Container fluid className="container-docs">
-        {/* Sidenav */}
-        {showSidebar ? (
           <Sidebar course={user.course} modules={modules} lectures={lectures} />
-        ) : null}
         {children}
       </Container>
     </main>
   );
 };
 
-interface ILayoutProps {
+interface ILectureLayoutProps {
   children?: any;
   modules?: any;
   lectures?: any;
@@ -41,4 +38,4 @@ interface ILayoutProps {
   user: any;
 }
 
-export default Layout;
+export default LectureLayout;

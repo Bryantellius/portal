@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, ChangeEvent } from "react";
 import { Button, Col, Form } from "react-bootstrap";
-import ApiClient from "../utils/apiClient";
+import ApiClient from "../../utils/apiClient";
 const apiClient = new ApiClient();
 
 const AdminCreateSingle: FunctionComponent<IAdminCreateSingleProps> = ({

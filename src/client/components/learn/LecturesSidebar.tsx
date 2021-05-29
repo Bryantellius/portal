@@ -2,7 +2,7 @@ import React, { FunctionComponent, Fragment } from "react";
 import { NavLink } from "react-router-dom";
 
 // TODO: implement this in react-bootstrap
-const Sidebar: FunctionComponent<ISidebarProps> = ({ modules, lectures, course }) => {
+const LecturesSidebar: FunctionComponent<ILecturesSidebarProps> = ({ modules, lectures, course }) => {
   return (
     //   Side Navigation Bar
     <nav
@@ -43,10 +43,10 @@ const Sidebar: FunctionComponent<ISidebarProps> = ({ modules, lectures, course }
   );
 };
 
-interface ISidebarProps {
+interface ILecturesSidebarProps {
   modules: any[];
   lectures: any[];
   course: string;
 }
 
-export default Sidebar;
+export default LecturesSidebar;

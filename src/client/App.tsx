@@ -1,12 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { hot } from "react-hot-loader";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
-import Layout from "./components/Layout";
+import { DefaultLayout, LectureLayout, AdminLayout } from "./layouts";
 import Login from "./views/Login";
 import LectureContent from "./views/LectureContent";
 import Home from "./views/Home";
@@ -61,58 +60,53 @@ const App: FunctionComponent = () => {
     <Router>
       <Switch>
         <Route exact path="/login">
-          <Layout
+          <DefaultLayout
             setIsLoggedIn={setIsLoggedIn}
             user={user}
-            isLoggedIn={isLoggedIn}
-            showSidebar={false}>
+            isLoggedIn={isLoggedIn}>
             <Login setIsLoggedIn={setIsLoggedIn} />
-          </Layout>
+          </DefaultLayout>
         </Route>
         <Route exact path="/update/:token&:UserID">
-          <Layout
+          <DefaultLayout
             setIsLoggedIn={setIsLoggedIn}
             user={user}
-            isLoggedIn={isLoggedIn}
-            showSidebar={false}>
+            isLoggedIn={isLoggedIn}>
             <SignUp setIsLoggedIn={setIsLoggedIn} />
-          </Layout>
+          </DefaultLayout>
         </Route>
         {isLoggedIn ? (
           <>
             <Route exact path="/">
-              <Layout
+              <DefaultLayout
                 setIsLoggedIn={setIsLoggedIn}
                 user={user}
-                isLoggedIn={isLoggedIn}
-                showSidebar={false}>
+                isLoggedIn={isLoggedIn}>
                 <Dashboard
                   course={user.course}
                   lastLectureId={user.lastLectureId}
                   firstName={user.firstName}
                 />
-              </Layout>
+              </DefaultLayout>
             </Route>
             <Route exact path="/1-on-1">
-              <Layout
+              <DefaultLayout
                 setIsLoggedIn={setIsLoggedIn}
                 user={user}
-                isLoggedIn={isLoggedIn}
-                showSidebar={false}>
+                isLoggedIn={isLoggedIn}>
                 <Tutoring course={user.course} />
-              </Layout>
+              </DefaultLayout>
             </Route>
             <Route exact path="/career-services">
-              <Layout
+              <DefaultLayout
                 setIsLoggedIn={setIsLoggedIn}
                 user={user}
-                isLoggedIn={isLoggedIn}
-                showSidebar={false}>
+                isLoggedIn={isLoggedIn}>
                 <CareerServices course={user.course} />
-              </Layout>
+              </DefaultLayout>
             </Route>
             <Route exact path="/learn">
-              <Layout
+              <LectureLayout
                 setIsLoggedIn={setIsLoggedIn}
                 user={user}
                 isLoggedIn={isLoggedIn}
@@ -120,39 +114,36 @@ const App: FunctionComponent = () => {
                 modules={Array.isArray(modules) ? modules : [modules]}
                 lectures={lectures}>
                 <Home />
-              </Layout>
+              </LectureLayout>
             </Route>
             <Route exact path="/profile">
-              <Layout
+              <DefaultLayout
                 setIsLoggedIn={setIsLoggedIn}
                 user={user}
-                isLoggedIn={isLoggedIn}
-                showSidebar={false}>
+                isLoggedIn={isLoggedIn}>
                 <Profile user={user} />
-              </Layout>
+              </DefaultLayout>
             </Route>
             <Route exact path="/admin">
-              {user.title == "Admin" || user.title == "Instructor" ? (
-                <Layout
+              {user.Role.title == "Admin" || user.Role.title == "Instructor" ? (
+                <AdminLayout
                   setIsLoggedIn={setIsLoggedIn}
                   user={user}
-                  showSidebar={false}
                   isLoggedIn={isLoggedIn}>
                   <Admin />
-                </Layout>
+                </AdminLayout>
               ) : (
                 <Redirect from="/admin" to="/" />
               )}
             </Route>
             <Route exact path="/admin/add-edit">
               {user.title == "Admin" || user.title == "Instructor" ? (
-                <Layout
+                <DefaultLayout
                   setIsLoggedIn={setIsLoggedIn}
                   user={user}
-                  showSidebar={false}
                   isLoggedIn={isLoggedIn}>
                   <AdminEdit />
-                </Layout>
+                </DefaultLayout>
               ) : (
                 <Redirect from="/admin-edit" to="/" />
               )}
@@ -164,7 +155,7 @@ const App: FunctionComponent = () => {
                   key={lecture.id + "route"}
                   exact
                   path={`/learn/${path}`}>
-                  <Layout
+                  <LectureLayout
                     setIsLoggedIn={setIsLoggedIn}
                     user={user}
                     isLoggedIn={isLoggedIn}
@@ -186,7 +177,7 @@ const App: FunctionComponent = () => {
                       lectureId={lecture.id}
                       quiz={lecture.Quiz} 
                     />
-                  </Layout>
+                  </LectureLayout>
                 </Route>
               );
             })}
@@ -199,4 +190,4 @@ const App: FunctionComponent = () => {
   );
 };
 
-export default hot(module)(App);
+export default App;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Col, Form } from "react-bootstrap";
-import ApiClient from "../utils/apiClient";
+import ApiClient from "../../utils/apiClient";
 
 const AdminCreateBulk: React.FC<IAdminCreateBulkProps> = ({
   courses,

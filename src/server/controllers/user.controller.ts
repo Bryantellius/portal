@@ -7,8 +7,14 @@ import { hashPassword } from "../utils/security/passwords";
 const findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
-        const user = await db.User.findByPk(parseInt(id));
+        const user = await db.User.findByPk(parseInt(id), {
+            include: [{
+                all: true,
+                nested: true
+            }]
+        });
         
+        console.log(user);
         res.json(user);
     } catch (error) {
         next(error);

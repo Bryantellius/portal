@@ -6,9 +6,7 @@ export default (sequelize: any, DataTypes: any) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models: any) {
-      // define association here
-    }
+    static associate(models: any) {}
   };
   Role.init({
     title: DataTypes.STRING,

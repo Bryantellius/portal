@@ -4,8 +4,8 @@
   "description": "Student portal for accessing lecture content",
   "main": "dist/server.js",
   "scripts": {
-    "watch:build": "webpack serve --config ./webpack.config.js",
-    "watch:server": "nodemon dist/server.js",
+    "watch:build": "webpack -w",
+    "watch:server": "nodemon --watch src/server dist/server.js",
     "dev": "npm-run-all --parallel watch:*",
     "start": "node dist/server.js"
   },
@@ -17,15 +17,19 @@
     "@types/prismjs": "^1.16.3",
     "@types/react-select": "^4.0.15",
     "@types/sequelize": "^4.28.9",
+    "html-webpack-plugin": "^5.3.1",
     "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
-    "react-hot-loader": "^4.13.0",
     "sequelize-cli": "^6.2.0",
     "ts-node": "^10.0.0",
     "typescript": "^4.2.4",
+    "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@types/bcrypt": "^3.0.0",
     "@types/express-fileupload": "^1.1.6",
     "@types/jsonwebtoken": "^8.5.0",
@@ -75,7 +79,6 @@
     "svg-url-loader": "^7.1.1",
     "ts-loader": "^8.0.17",
     "webpack": "^5.23.0",
-    "webpack-cli": "^4.5.0",
     "webpack-node-externals": "^2.5.2"
   }
 }

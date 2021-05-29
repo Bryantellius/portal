@@ -56,11 +56,25 @@ const clientConfig = {
           ]
       },
       {
-        test: /\.(sass|scss)$/,
+        test: /\.(css|sass|scss)$/,
+        include: [path.resolve(__dirname, "src")],
         use: [
           "style-loader",
-          "css-loader",
-          "sass-loader",
+          {
+            loader: 'css-loader',
+            options: {
+              discardDuplicates: true,
+              importLoaders: 1,
+              modules: true,
+              localIdentName: '[name]__[local]__[hash:base64:5]'
+            }
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true
+            }
+          }
         ],
       },
     ],
@@ -71,11 +85,6 @@ const clientConfig = {
   output: {
     filename: "app.js",
     path: path.resolve(__dirname, "public/js"),
-  },
-  devServer: {
-    port: 4000,
-    open: true,
-    hot: true
   }
 };
 

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import { Alert, Container, Row } from "react-bootstrap";
-import AdminCreateBulk from "../components/AdminCreateBulk";
-import AdminCreateSingle from "../components/AdminCreateSingle";
+import AdminCreateBulk from "../components/admin/AdminCreateBulk";
+import AdminCreateSingle from "../components/admin/AdminCreateSingle";
 import ApiClient from "../utils/apiClient";
 
 const AdminEdit: FunctionComponent<IAdminEditProps> = () => {
