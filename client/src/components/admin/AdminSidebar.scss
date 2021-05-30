@@ -12,7 +12,7 @@
   color: #adb5bd;
 }
 
-.sidebar-header h3{
+.sidebar-header h3 {
   color: #fff;
   padding: 1em;
 }
@@ -30,7 +30,7 @@
 .nav-item:hover {
   background: #313b4c;
   color: #fff;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .nav-item .svg-inline--fa {
@@ -41,13 +41,13 @@ li a.dropdown-toggle::after {
   display: inline-flex;
   position: relative;
   left: 60%;
-  top: 10%
+  top: 10%;
 }
 
 .sidebar-header > button {
   position: relative;
   float: right;
-  margin: .5em;
+  margin: 0.5em;
   font-size: 2rem;
   cursor: pointer;
   display: none;
