@@ -1,1 +1,1 @@
-{"version":3,"file":"types.js","sourceRoot":"","sources":["../../utils/types.ts"],"names":[],"mappings":";;AAIC,CAAC"}
+{"version":3,"file":"types.js","sourceRoot":"","sources":["../../utils/types.ts"],"names":[],"mappings":";;AAIC,CAAC","sourcesContent":["export interface IPayload {\n  [key: string]: any;\n  userid?: number;\n  unique?: string;\n};"]}

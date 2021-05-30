@@ -49,7 +49,7 @@ const findById = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
 const getLectureContent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const lecture = yield models_1.default.Lecture.findByPk(id);
-    const filePath = path_1.default.join(process.cwd(), "lectures", lecture.fileName);
+    const filePath = path_1.default.join(process.cwd(), "../lectures", lecture.fileName);
     lecture.id;
     res.sendFile(filePath);
 });
