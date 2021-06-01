@@ -18,8 +18,8 @@ const tokens_1 = require("../utils/security/tokens");
 const models_1 = __importDefault(require("../db/models"));
 passport_1.default.use(new passport_http_bearer_1.default.Strategy((token, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let payload = yield tokens_1.ValidToken(token);
-        let [user] = yield models_1.default.User.findByPk(payload.userid);
+        const authToken = yield tokens_1.ValidToken(token);
+        let [user] = yield models_1.default.User.findByPk(authToken.userId);
         if (user) {
             next(null, user);
         }

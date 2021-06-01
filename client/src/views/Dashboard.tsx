@@ -4,27 +4,26 @@ import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import ApiClient from "../utils/apiClient";
 import { Row, Col, Card } from "react-bootstrap";
+import { useAppSelector } from '../store/hooks';
+import { IAppUser } from '../common/types';
 
-const Dashboard: FunctionComponent<IDashboardProps> = ({
-  course,
-  lastLectureId,
-  firstName,
-}) => {
+const Dashboard: FunctionComponent = () => {
+  const location = useLocation();
+  const user = useAppSelector(state => state.auth.user) as IAppUser;
   const apiClient = new ApiClient();
+
   const [lastLecture, setLastLecture] = useState({
     id: null,
     title: "Lectures"
   });
 
-  const location = useLocation();
-
   useEffect(() => {
-    if (lastLectureId) {
-      fetchLastLectureInfo();
+    if (user.lastLectureId) {
+      fetchLastLectureInfo(user?.lastLectureId);
     }
-  }, [lastLectureId, location.pathname]);
+  }, [user, location.pathname]);
 
-  const fetchLastLectureInfo = async () => {
+  const fetchLastLectureInfo = async (lastLectureId: string | number) => {
     const lastLecture = await apiClient.get(`/lecture/${ lastLectureId }`);
     if (lastLecture) {
       setLastLecture(lastLecture);
@@ -40,10 +39,10 @@ const Dashboard: FunctionComponent<IDashboardProps> = ({
               <Card.Body>
                 <Row>
                   <Col md={4} className="text-center">
-                    <p className="h4 h-100">Welcome back, {firstName}!</p>
+                    <p className="h4 h-100">Welcome back, {user.firstName}!</p>
                   </Col>
                   <Col md={4} className="text-center">
-                    <h1 className="h-100">{course}</h1>
+                    <h1 className="h-100">{user.course}</h1>
                   </Col>
                   <Col md={4} className="text-center">
                     <p className="h-100">{moment().format("MMM DD yyyy")}</p>
@@ -123,11 +122,5 @@ const Dashboard: FunctionComponent<IDashboardProps> = ({
     </div>
   );
 };
-
-interface IDashboardProps {
-  course: string;
-  lastLectureId: number;
-  firstName: string;
-}
 
 export default Dashboard;

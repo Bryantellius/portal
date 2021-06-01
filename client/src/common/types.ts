@@ -6,15 +6,14 @@ export interface IRole {
 
 export interface IAppUser {
   id: number,
-  roleId: number,
-  lastLectureId: number,
+  lastLectureId?: number,
   firstName: string,
   lastName: string,
   email: string,
-  password: string,
-  avatarUrl: string,
-  Role?: IRole,
+  password?: string,
+  avatarUrl?: string,
+  role?: IRole,
   course?: string,
-  updatedAt: string,
-  createdAt: string
+  updatedAt?: string,
+  createdAt?: string
 }

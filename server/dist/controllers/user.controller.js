@@ -32,6 +32,10 @@ const findById = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         next(error);
     }
 });
+const getSignedInUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const authUser = req.user;
+    console.log(authUser);
+});
 const createUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { user, classList } = req.body;
@@ -67,18 +71,18 @@ const updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 const uploadAssets = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.files) {
-            res.json({ msg: "no go bro" });
+            res.json({ msg: 'no go bro' });
             return;
         }
         const newImage = req.files.image;
         const id = req.body.id;
         const imagePath = path_1.default.join(__dirname, `../public/assets/img/${id}${path_1.default.extname(newImage.name)}`);
-        const buffer = Buffer.from(newImage.data, "base64");
+        const buffer = Buffer.from(newImage.data, 'base64');
         fs_1.writeFile(imagePath, buffer, (err) => {
             if (err) {
                 next(err);
             }
-            res.send({ msg: "File Uploaded" });
+            res.send({ msg: 'File Uploaded' });
         });
     }
     catch (err) {
@@ -89,6 +93,7 @@ exports.default = {
     findById,
     createUser,
     updateUser,
-    uploadAssets
+    uploadAssets,
+    getSignedInUser
 };
 //# sourceMappingURL=user.controller.js.map

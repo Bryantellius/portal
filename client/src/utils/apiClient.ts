@@ -1,6 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse } from "axios";
-import clientConfig from "../config"
-import AuthService from "./authService";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
+import clientConfig from '../config/appConfig';
+import AuthService from './authService';
 const authService = new AuthService();
 
 type ApiClientConfig = {
@@ -16,13 +16,13 @@ class ApiClient {
       baseURL: clientConfig.apiRoot,
       timeout: clientConfig.apiTimeout || 1000,
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     });
 
-    const savedToken = localStorage.getItem("token")
-    const savedUser = localStorage.getItem("user")
-        ? JSON.parse(<string>localStorage.getItem("user"))
+    const savedToken = localStorage.getItem('token')
+    const savedUser = localStorage.getItem('user')
+        ? JSON.parse(<string>localStorage.getItem('user'))
         : undefined;
 
     if (
@@ -41,11 +41,11 @@ class ApiClient {
   }
 
   get accessToken () {
-    return localStorage.getItem("token");
+    return localStorage.getItem('token');
   }
 
   get user () {
-    const userJSON = localStorage.getItem("user");
+    const userJSON = localStorage.getItem('user');
     if (!userJSON) return null;
     return JSON.parse(userJSON);
   }
@@ -56,7 +56,7 @@ class ApiClient {
       password: password
     };
 
-    const authResponse = await this.post("/auth/login", credentials);
+    const authResponse = await this.post('/auth/login', credentials);
 
     if (authResponse && authResponse.token) {
       this.persistAuth(authResponse.token, authResponse.user);
@@ -97,9 +97,9 @@ class ApiClient {
   }
 
   persistAuth(accessToken: string, user: any) {
-    localStorage.setItem("token", accessToken);
-    localStorage.setItem("user", JSON.stringify(user));
-    this.client.defaults.headers.common["Authorization"] = `Bearer ${ this.accessToken }`;
+    localStorage.setItem('token', accessToken);
+    localStorage.setItem('user', JSON.stringify(user));
+    this.client.defaults.headers.common['Authorization'] = `Bearer ${ this.accessToken }`;
   }
 
   async handleAuthError (error: AxiosError) {
@@ -107,9 +107,9 @@ class ApiClient {
       case 401:
       case 403:
         authService.logout();
-        throw new Error("You are not logged in.")
+        throw new Error('You are not logged in.')
       default:
-        throw new Error("Unknown error in api call")
+        throw new Error('Unknown error in api call')
     }
   }
 

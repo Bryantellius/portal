@@ -10,6 +10,9 @@ const userRouter = express_1.default.Router({ mergeParams: true });
 userRouter.use(express_fileupload_1.default());
 userRouter.get("/:id", user_controller_1.default.findById);
 userRouter.put("/:id", user_controller_1.default.updateUser);
+userRouter.get('/profile', (req, res, next) => {
+    return user_controller_1.default.getSignedInUser(req, res, next);
+});
 userRouter.post("/assets", user_controller_1.default.uploadAssets);
 userRouter.post("/", user_controller_1.default.createUser);
 exports.default = userRouter;

@@ -7,8 +7,8 @@ import { IPayload } from "../utils/types";
 passport.use(
   new BearerStrategy.Strategy(async (token, next) => {
     try {
-      let payload: IPayload = await ValidToken(token);
-      let [user]: any = await db.User.findByPk(payload.userid);
+      const authToken = await ValidToken(token);
+      let [user]: any = await db.User.findByPk(authToken.userId);
       if (user) {
         next(null, user);
       } else {

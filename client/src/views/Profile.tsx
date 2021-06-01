@@ -11,9 +11,12 @@ import {
   Form,
   Button
 } from "react-bootstrap";
+import { useAppSelector } from '../store/hooks';
+import { IAppUser } from '../common/types';
 
-const Profile: FunctionComponent<IProfileProps> = ({ user }) => {
+const Profile: FunctionComponent = () => {
   const apiClient = new ApiClient();
+  const user = useAppSelector(state => state.auth.user) as IAppUser;
 
   const [email, setEmail] = useState<string>(user.email);
   const [firstName, setFirstName] = useState<string>(user.firstName);
@@ -40,7 +43,7 @@ const Profile: FunctionComponent<IProfileProps> = ({ user }) => {
     if (fileList.length > 0) {
       const formData = new FormData();
       formData.append("image", fileList[0]);
-      formData.append("id", user.id);
+      formData.append("id", user.id.toString());
       const updateAssetsResponse = await apiClient.post(
           `/user/${user.id}/assets`,
           formData,
@@ -73,7 +76,7 @@ const Profile: FunctionComponent<IProfileProps> = ({ user }) => {
               <h1 className="text-center">
                 {user.firstName} {user.lastName}
               </h1>
-              <p className="text-center">{user.title}</p>
+              <p className="text-center">{user.role?.title}</p>
               <small className="text-muted text-center d-block">
                 Member since {moment(user.createdAt).format("MMM do YYYY")}
               </small>
@@ -168,9 +171,5 @@ const Profile: FunctionComponent<IProfileProps> = ({ user }) => {
     </div>
   );
 };
-
-interface IProfileProps {
-  user: any;
-}
 
 export default Profile;

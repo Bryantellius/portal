@@ -26,6 +26,6 @@ export const ValidToken = async (token: any) => {
   if (!validatedToken) {
     throw new Error("Invalid Token");
   } else {
-    return payload;
+    return validatedToken;
   }
 };

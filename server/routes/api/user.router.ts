@@ -10,6 +10,10 @@ userRouter.get("/:id", userController.findById);
 
 userRouter.put("/:id", userController.updateUser);
 
+userRouter.get('/profile', (req: Request, res: Response, next: NextFunction) => {
+  return userController.getSignedInUser(req, res, next);
+});
+
 userRouter.post("/assets", userController.uploadAssets);
 
 userRouter.post("/", userController.createUser);
