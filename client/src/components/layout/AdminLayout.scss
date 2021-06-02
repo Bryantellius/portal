@@ -1,13 +1,14 @@
 $sidebar-width: 250px;
+$navbar-height: 75px;
 $content-width: calc(100vw - #{#sidebar-width});
 
 .content-with-sidebar {
   min-width: $content-width;
   max-width: $content-width;
-  background: #354052;
-  color: #adb5bd;
   transition: all 0.5s;
-  margin-left: -1 * $sidebar-width;
+  position: relative;
+  top: $navbar-height;
+  left: $sidebar-width;
 
   &.sidebar-open {
     margin-left: 0;
