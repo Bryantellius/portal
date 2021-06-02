@@ -51,7 +51,7 @@ const getLectureContent = async ( req, res, next ) => {
 
   const lecture = await db.Lecture.findByPk(id);
 
-  const filePath = path.join(process.cwd(), '../lectures', lecture.fileName);
+  const filePath = path.join(process.cwd(), 'lectures', lecture.fileName);
   lecture.id;
   res.sendFile(filePath);
 };

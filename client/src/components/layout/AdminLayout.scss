@@ -1,6 +1,6 @@
 $sidebar-width: 250px;
 $navbar-height: 75px;
-$content-width: calc(100vw - #{#sidebar-width});
+$content-width: calc(100vw - #{$sidebar-width});
 
 .content-with-sidebar {
   min-width: $content-width;
@@ -9,6 +9,8 @@ $content-width: calc(100vw - #{#sidebar-width});
   position: relative;
   top: $navbar-height;
   left: $sidebar-width;
+  padding: 25px;
+  height: calc(100% - #{$navbar-height});
 
   &.sidebar-open {
     margin-left: 0;

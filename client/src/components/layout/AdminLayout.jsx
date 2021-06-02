@@ -12,9 +12,11 @@ const AdminLayout = ({
       {/* Nav */}
       <Header />
       <AdminSidebar />
-      <Container fluid className="content-with-sidebar px-0">
-        {children}
-      </Container>
+      <div className="content-with-sidebar">
+        <Container fluid className="px-0">
+          {children}
+        </Container>
+      </div>
     </main>
   );
 };

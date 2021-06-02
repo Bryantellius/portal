@@ -1,27 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import ApiClient from '../../../utils/apiClient';
 import PageHeading from '../../../components/shared/PageHeading';
-import DataTable from '../../../components/shared/dataTable/DataTable';
+import DataTable from '../../../components/shared/DataTable';
 
 const ViewUsers = () => {
   const [users, setUsers] = useState([]);
 
   const columnDefinitions = [{
-    key: 'id',
-    label: 'ID'
+    name: 'ID',
+    selector: 'id',
+    sortable: true,
+    grow: 0
   }, {
-    key: 'firstName',
-    label: 'First Name'
+    name: 'First Name',
+    selector: 'firstName',
+    sortable: true
   }, {
-    key: 'lastName',
-    label: 'Last Name'
+    name: 'Last Name',
+    selector: 'lastName',
+    sortable: true
   }, {
-    key: 'email',
-    label: 'Email'
+    name: 'Email',
+    selector: 'email',
+    sortable: true
   }, {
-    key: 'role',
-    label: 'Role',
-    formatter: role => role.title
+    name: 'Role',
+    selector: 'role',
+    sortable: true,
+    format (row) {
+      return row.role.title
+    }
   }];
 
   useEffect(() => {
@@ -35,12 +43,16 @@ const ViewUsers = () => {
   }, []);
 
   return (
-    <div>
+    <div class="page-content">
       <PageHeading title="Users" />
 
       <DataTable
+        title="View/Edit Users"
         columns={columnDefinitions}
-        data={users} />
+        data={users}
+        selectableRows
+        editRoute={user => `/admin/users/${ user.id }`}
+      />
     </div>
   );
 };

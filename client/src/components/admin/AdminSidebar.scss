@@ -1,6 +1,6 @@
 $sidebar-width: 250px;
 $navbar-height: 75px;
-$sidebar-height: calc(100vh - #{navbar-height});
+$sidebar-height: calc(100vh - #{$navbar-height});
 
 .sidebar {
   min-width: $sidebar-width;

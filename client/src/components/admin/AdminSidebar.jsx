@@ -38,7 +38,7 @@ const AdminSidebar = () => {
         </Nav.Item>
 
         <Nav.Item>
-          <Nav.Link className="text-white" href="/admin/courses">
+          <Nav.Link className="text-white" href="/admin/users">
             <FontAwesomeIcon icon={faGraduationCap} className="mr-2" />
             Users
           </Nav.Link>
