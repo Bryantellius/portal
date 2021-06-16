@@ -38,7 +38,7 @@ const ValidToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
         throw new Error("Invalid Token");
     }
     else {
-        return payload;
+        return validatedToken;
     }
 });
 exports.ValidToken = ValidToken;

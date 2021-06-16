@@ -1,43 +1,35 @@
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
-var sequelize_1 = require("sequelize");
-exports["default"] = (function (sequelize, DataTypes) {
-    var QuizQuestionResponse = /** @class */ (function (_super) {
-        __extends(QuizQuestionResponse, _super);
-        function QuizQuestionResponse() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        QuizQuestionResponse.associate = function (models) { };
-        return QuizQuestionResponse;
-    }(sequelize_1.Model));
-    ;
-    QuizQuestionResponse.init({
-        quizQuestionId: DataTypes.INTEGER,
-        value: DataTypes.STRING,
-        userId: DataTypes.INTEGER
-    }, {
-        sequelize: sequelize,
-        modelName: 'QuizQuestionResponse'
-    });
-    return QuizQuestionResponse;
-});
+import { Model } from "sequelize";
+export default (sequelize, DataTypes) => {
+  class QuizQuestionResponse extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      this.belongsTo(models.QuizQuestion);
+      this.belongsTo(models.User);
+    }
+  };
+  QuizQuestionResponse.init({
+    quizQuestionId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'quizQuestions',
+        key: 'id'
+      }
+    },
+    value: DataTypes.STRING,
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
+    }
+  }, {
+    sequelize,
+    modelName: 'quizQuestionResponse',
+  });
+  return QuizQuestionResponse;
+};

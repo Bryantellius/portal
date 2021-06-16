@@ -1,12 +1,23 @@
-"use strict";
-exports.__esModule = true;
-var express_1 = require("express");
-var express_fileupload_1 = require("express-fileupload");
-var user_controller_1 = require("../../controllers/user.controller");
-var userRouter = express_1["default"].Router({ mergeParams: true });
-userRouter.use(express_fileupload_1["default"]());
-userRouter.get("/:id", user_controller_1["default"].findById);
-userRouter.put("/:id", user_controller_1["default"].updateUser);
-userRouter.post("/assets", user_controller_1["default"].uploadAssets);
-userRouter.post("/", user_controller_1["default"].createUser);
-exports["default"] = userRouter;
+import express, { Request, Response, NextFunction } from 'express';
+import fileUpload from 'express-fileupload';
+import userController from '../../controllers/user.controller';
+
+const userRouter = express.Router({ mergeParams: true });
+
+userRouter.use(fileUpload());
+
+userRouter.get('/', userController.findAll);
+
+userRouter.post('/', userController.createUser);
+
+userRouter.get('/:id', userController.findById);
+
+userRouter.put('/:id', userController.updateUser);
+
+userRouter.get('/auth0/:auth0Id', userController.findByAuth0Id);
+
+userRouter.get('/profile', userController.getSignedInUser);
+
+userRouter.post('/assets', userController.uploadAssets);
+
+export default userRouter;

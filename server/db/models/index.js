@@ -1,55 +1,73 @@
-"use strict";
-exports.__esModule = true;
-var fs_1 = require("fs");
-var path_1 = require("path");
-var sequelize_1 = require("sequelize");
-var database_1 = require("../../config/database");
-var accesstoken_1 = require("./accesstoken");
-var classlist_1 = require("./classlist");
-var course_1 = require("./course");
-var curriculum_1 = require("./curriculum");
-var lecture_1 = require("./lecture");
-var module_1 = require("./module");
-var quiz_1 = require("./quiz");
-var quizquestion_1 = require("./quizquestion");
-var quizquestionoption_1 = require("./quizquestionoption");
-var quizquestionresponse_1 = require("./quizquestionresponse");
-var role_1 = require("./role");
-var user_1 = require("./user");
-var basename = path_1["default"].basename(__filename);
-var env = process.env.NODE_ENV || 'development';
+import fs from "fs";
+import path from "path";
+import { Sequelize } from "sequelize";
+import config from "../../config/database.json";
+import AccessTokenFactory from "./accesstoken"
+import ClassListFactory from "./courseuser";
+import CourseFactory from "./course";
+import LectureFactory from "./lecture";
+import ModuleFactory from "./module";
+import QuizFactory from "./quiz";
+import QuizQuestionFactory from "./quizquestion";
+import QuizQuestionOptionFactory from "./quizquestionoption";
+import QuizQuestionResponseFactory from "./quizquestionresponse";
+import RoleFactory from "./role";
+import UserFactory from "./user";
+import ExerciseFactory from './exercise';
+import VideoFactory from './video';
+import ExerciseVideoFactory from './exercisevideo';
+import QuizVideoFactory from './quizvideo';
+import LectureVideoFactory from './lecturevideo';
+import QuizQuestionCorrectAnswerFactory from './quizquestioncorrectanswer';
+import QuizSubmissionFactory from './quizsubmission';
+import ExerciseSubmissionFactory from './exercisesubmission';
+
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || 'development';
+
 // @ts-ignore
-var envConfig = database_1["default"][env];
-if (envConfig.use_env_variable) {
-    var sequelize = new sequelize_1.Sequelize(process.env[envConfig.use_env_variable], envConfig);
-}
-else {
-    var sequelize = new sequelize_1.Sequelize(envConfig.database, envConfig.username, envConfig.password, envConfig);
-}
-var modelFiles = fs_1["default"]
-    .readdirSync(path_1["default"].resolve("src/server/db/models"))
-    .filter(function (file) {
+const envConfig= config[env];
+
+const sequelize = envConfig.use_env_variable
+    ? new Sequelize(process.env[envConfig.use_env_variable], envConfig)
+    : new Sequelize(envConfig.database, envConfig.username, envConfig.password, envConfig);
+
+const modelFiles = fs
+  .readdirSync(path.resolve("db/models"))
+  .filter(file => {
     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js' || file.slice(-3) === '.ts');
-});
-var db = {
-    sequelize: sequelize,
-    Sequelize: sequelize_1.Sequelize,
-    AccessToken: accesstoken_1["default"](sequelize, sequelize_1.Sequelize),
-    ClassList: classlist_1["default"](sequelize, sequelize_1.Sequelize),
-    Course: course_1["default"](sequelize, sequelize_1.Sequelize),
-    Curriculum: curriculum_1["default"](sequelize, sequelize_1.Sequelize),
-    Lecture: lecture_1["default"](sequelize, sequelize_1.Sequelize),
-    Module: module_1["default"](sequelize, sequelize_1.Sequelize),
-    Quiz: quiz_1["default"](sequelize, sequelize_1.Sequelize),
-    QuizQuestion: quizquestion_1["default"](sequelize, sequelize_1.Sequelize),
-    QuizQuestionOption: quizquestionoption_1["default"](sequelize, sequelize_1.Sequelize),
-    QuizQuestionResponse: quizquestionresponse_1["default"](sequelize, sequelize_1.Sequelize),
-    Role: role_1["default"](sequelize, sequelize_1.Sequelize),
-    User: user_1["default"](sequelize, sequelize_1.Sequelize)
+  });
+
+const db = {
+  sequelize,
+  Sequelize,
+  AccessToken: AccessTokenFactory(sequelize, Sequelize),
+  CourseUser: ClassListFactory(sequelize, Sequelize),
+  Course: CourseFactory(sequelize, Sequelize),
+  Lecture: LectureFactory(sequelize, Sequelize),
+  Module: ModuleFactory(sequelize, Sequelize),
+  Quiz: QuizFactory(sequelize, Sequelize),
+  QuizQuestion: QuizQuestionFactory(sequelize, Sequelize),
+  QuizQuestionOption: QuizQuestionOptionFactory(sequelize, Sequelize),
+  QuizQuestionResponse: QuizQuestionResponseFactory(sequelize, Sequelize),
+  Role: RoleFactory(sequelize, Sequelize),
+  User: UserFactory(sequelize, Sequelize),
+  Video: VideoFactory(sequelize, Sequelize),
+  Exercise: ExerciseFactory(sequelize, Sequelize),
+  LectureVideo: LectureVideoFactory(sequelize, Sequelize),
+  ExerciseVideo: ExerciseVideoFactory(sequelize, Sequelize),
+  QuizVideo: QuizVideoFactory(sequelize, Sequelize),
+  QuizQuestionCorrectAnswer: QuizQuestionCorrectAnswerFactory(sequelize, Sequelize),
+  QuizSubmission: QuizSubmissionFactory(sequelize, Sequelize),
+  ExerciseSubmission: ExerciseSubmissionFactory(sequelize, Sequelize)
 };
-Object.keys(db).forEach(function (modelName) {
-    if (db[modelName].associate) {
-        db[modelName].associate(db);
-    }
+
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  } 
 });
-exports["default"] = db;
+
+sequelize.sync();
+
+export default db;

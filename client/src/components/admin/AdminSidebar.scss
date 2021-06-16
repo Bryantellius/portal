@@ -1,10 +1,20 @@
+$sidebar-width: 250px;
+$sidebar-height: 100vh;
+
 .sidebar {
-  min-width: 250px;
-  max-width: 250px;
+  min-width: $sidebar-width;
+  max-width: $sidebar-width;
+  height: $sidebar-height;
   background: #354052;
   color: #adb5bd;
   transition: all 0.5s;
   margin-left: -250px;
+  position: fixed;
+  left: 0;
+
+  &.is-open {
+    margin-left: 0;
+  }
 }
 
 .sidebar-header {

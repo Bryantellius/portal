@@ -1,9 +1,11 @@
-"use strict";
-exports.__esModule = true;
-var express_1 = require("express");
-var lecture_controller_1 = require("../../controllers/lecture.controller");
-var lectureRouter = express_1.Router({ mergeParams: true });
-lectureRouter.get("/", lecture_controller_1["default"].findAll);
-lectureRouter.get("/:id", lecture_controller_1["default"].findById);
-lectureRouter.get("/:id/content", lecture_controller_1["default"].getLectureContent);
-exports["default"] = lectureRouter;
+import { Router } from 'express';
+import lectureController from '../../controllers/lecture.controller';
+
+const lectureRouter = Router({ mergeParams: true });
+
+lectureRouter.get('/', lectureController.findAll);
+lectureRouter.post('/', lectureController.createLecture);
+lectureRouter.get('/:id', lectureController.findById);
+lectureRouter.get('/:id/content', lectureController.getLectureContent);
+
+export default lectureRouter;

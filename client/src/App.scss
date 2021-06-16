@@ -3,3 +3,27 @@
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 @import "styles/custom-theme.scss";
 @import url(https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,700,800&display=swap);
+
+main, #root, body, html {
+  height: 100%;
+}
+
+button.btn {
+  svg {
+    margin-right: 8px;
+  }
+}
+
+.data-table-actions {
+  padding-bottom: 10px;
+  float: right;
+}
+
+.tab-content {
+  padding: 20px;
+  padding-bottom: 75px;
+}
+
+.docs-content {
+  padding-bottom: 50px;
+}

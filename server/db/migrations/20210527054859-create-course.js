@@ -11,13 +11,6 @@ module.exports = {
       instructorId: {
         type: Sequelize.INTEGER
       },
-      curriculumId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Curriculums',
-          key: 'id'
-        }
-      },
       title: {
         type: Sequelize.STRING
       },

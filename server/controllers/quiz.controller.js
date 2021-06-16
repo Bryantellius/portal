@@ -1,118 +1,99 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+import db from '../db/models';
+import _ from 'lodash';
+import { QuizQuestionType } from '../utils/enums';
+
+const findById = async ( req, res ) => {
+  const { id } = req.params;
+
+  const quiz = await db.Quiz.findByPk(parseInt(id));
+
+  return res.json(quiz);
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+
+const findAll = async ( req, res ) => {
+  const { lectureId } = req.params;
+
+  const quiz = await db.Quiz.findAll();
+
+  return res.json(quiz);
+};
+
+const findByLectureId = async ( req, res ) => {
+  const { lectureId } = req.params;
+
+  const quiz = await db.Quiz.findAll({
+    where: {
+      lectureId
     }
+  });
+
+  return res.json(quiz);
 };
-exports.__esModule = true;
-var models_1 = require("../db/models");
-var findById = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, quiz;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                id = req.params.id;
-                return [4 /*yield*/, models_1["default"].Quiz.findByPk(parseInt(id))];
-            case 1:
-                quiz = _a.sent();
-                return [2 /*return*/, res.json(quiz)];
-        }
+
+const submitResponses = async ( req, res ) => {
+  const {
+    userId,
+    responses,
+    quizId
+  } = req.body;
+
+  const correctAnswers = await db.QuizQuestionCorrectAnswer.findAll({
+    include: {
+      model: db.QuizQuestion,
+      where: {
+        quizId: quizId
+      }
+    }
+  });
+
+  for (let response of responses) {
+    await db.QuizQuestionResponse.create({
+      quizQuestionId: response.quizQuestionId,
+      value: response.value,
+      userId: userId
     });
-}); };
-var findAll = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var lectureId, quiz;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                lectureId = req.params.lectureId;
-                return [4 /*yield*/, models_1["default"].Quiz.findAll()];
-            case 1:
-                quiz = _a.sent();
-                return [2 /*return*/, res.json(quiz)];
-        }
-    });
-}); };
-var findByLectureId = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var lectureId, quiz;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                lectureId = req.params.lectureId;
-                return [4 /*yield*/, models_1["default"].Quiz.findAll({
-                        where: {
-                            lectureId: lectureId
-                        }
-                    })];
-            case 1:
-                quiz = _a.sent();
-                return [2 /*return*/, res.json(quiz)];
-        }
-    });
-}); };
-var submitResponses = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, userId, responses, _i, responses_1, response;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body, userId = _a.userId, responses = _a.responses;
-                _i = 0, responses_1 = responses;
-                _b.label = 1;
-            case 1:
-                if (!(_i < responses_1.length)) return [3 /*break*/, 4];
-                response = responses_1[_i];
-                return [4 /*yield*/, models_1["default"].QuizQuestionResponse.create({
-                        quizQuestionId: response.quizQuestionId,
-                        value: response.value,
-                        userId: userId
-                    })];
-            case 2:
-                _b.sent();
-                _b.label = 3;
-            case 3:
-                _i++;
-                return [3 /*break*/, 1];
-            case 4:
-                res.json({
-                    success: true
-                });
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports["default"] = {
-    findById: findById,
-    findAll: findAll,
-    findByLectureId: findByLectureId,
-    submitResponses: submitResponses
+
+    const correctAnswer = correctAnswers.find(answer => answer.quizQuestionId === response.quizQuestionId);
+    response.correctAnswers = correctAnswer.answer.split(';');
+    const quizQuestion = correctAnswer.quizQuestion;
+
+    switch (quizQuestion.type) {
+      case QuizQuestionType.TrueFalse:
+      case QuizQuestionType.Select:
+        response.isCorrect = correctAnswer.answer === response.value;
+        break;
+      case QuizQuestionType.Text:
+        response.isCorrect = correctAnswer.answer.split(';').includes(response.value);
+        break;
+      case QuizQuestionType.MultiSelect:
+        response.isCorrect = _.xor(response.isCorrect = correctAnswer.answer.split(';'), response.value.split(';')).length === 0;
+        break;
+    }
+  }
+
+  const totalQuestions = responses.length;
+  const totalCorrect = responses
+    .filter(response => response.isCorrect)
+    .length;
+
+  const score = totalCorrect / parseFloat(totalQuestions);
+
+  await db.QuizSubmission.create({
+    quizId,
+    userId,
+    score
+  });
+
+  res.json({
+    success: true,
+    responses: responses,
+    score
+  });
+};
+
+export default {
+  findById,
+  findAll,
+  findByLectureId,
+  submitResponses
 };
