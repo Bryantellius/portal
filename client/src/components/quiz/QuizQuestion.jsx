@@ -3,11 +3,14 @@ import { Card } from 'react-bootstrap';
 import QuizQuestionResponse from './QuizQuestionResponse';
 
 const QuizQuestion = ({
-    questionId, 
-    type,
-    questionText,
-    options,
-    onUpdate
+  questionId,
+  type,
+  questionText,
+  options,
+  onUpdate,
+  isCorrect,
+  submitted = false,
+  correctAnswers = []
 }) => {
     return (
         <Card>
@@ -21,6 +24,9 @@ const QuizQuestion = ({
                     type={type}
                     options={options}
                     onUpdate={onUpdate}
+                    isCorrect={isCorrect}
+                    submitted={submitted}
+                    correctAnswers={correctAnswers}
                 />
             </Card.Body>
         </Card>

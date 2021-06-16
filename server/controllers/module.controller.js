@@ -1,12 +1,15 @@
 import db from '../db/models';
 
 const findAll = async ( req, res ) => {
-  const curriculumId = parseInt(req.params.curriculumId);
-  const data = curriculumId !== undefined
+  const courseId = parseInt(req.params.courseId);
+  const data = courseId
     ? await db.Module.findAll({
-      where: {
-        curriculumId: curriculumId
-      }
+      include: [{
+        model: db.Course,
+        where: {
+          id: courseId
+        }
+      }]
     })
     : await db.Module.findAll();
 
@@ -21,12 +24,15 @@ const findById = async ( req, res ) => {
   res.json(module);
 };
 
-const findByCurriculumId = async ( req, res ) => {
-  const id = parseInt(req.params.id);
+const findByCourseId = async ( req, res ) => {
+  const courseId = parseInt(req.params.courseId);
   const module = await db.Module.findAll({
-    where: {
-      curriculumId: req.params.id
-    }
+    include: [{
+      model: db.Course,
+      where: {
+        courseId: courseId
+      }
+    }]
   });
 
   res.json(module);
@@ -34,6 +40,6 @@ const findByCurriculumId = async ( req, res ) => {
 
 export default {
   findById,
-  findByCurriculumId,
+  findByCourseId: findByCourseId,
   findAll
 };

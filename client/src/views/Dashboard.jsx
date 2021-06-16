@@ -24,7 +24,7 @@ const Dashboard = () => {
       }
     };
 
-    if (user.lastLectureId) {
+    if (user?.lastLectureId) {
       fetchLastLectureInfo(user?.lastLectureId);
     }
   }, [user, location.pathname]);
@@ -38,10 +38,10 @@ const Dashboard = () => {
               <Card.Body>
                 <Row>
                   <Col md={4} className="text-center">
-                    <p className="h4 h-100">Welcome back, {user.firstName}!</p>
+                    <p className="h4 h-100">Welcome back, {user?.firstName}!</p>
                   </Col>
                   <Col md={4} className="text-center">
-                    <h1 className="h-100">{user.course}</h1>
+                    <h1 className="h-100">{user?.course}</h1>
                   </Col>
                   <Col md={4} className="text-center">
                     <p className="h-100">{moment().format("MMM DD yyyy")}</p>
@@ -60,13 +60,13 @@ const Dashboard = () => {
                 alt="One on Ones"
               />
               <Card.Header>
-                <h4>{lastLecture.title}</h4>
+                <h4>{lastLecture?.title}</h4>
               </Card.Header>
               <Card.Body>
                 <NavLink
                   to={
                     lastLecture
-                      ? `/learn/${lastLecture.id}`
+                      ? `/learn/${lastLecture?.id}`
                       : `/learn`
                   }
                   className="btn btn-sm btn-outline-primary">

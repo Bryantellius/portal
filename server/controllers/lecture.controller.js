@@ -12,13 +12,21 @@ const findAll = async ( req, res ) => {
     { all: true, nested: true }
   ];
 
-  if (req.params.curriculumId) {
+  if (req.params.courseId) {
     includes.push({
       model: Module,
-      attributes: ['curriculumId'],
-      where: {
-        curriculumId: req.params.curriculumId
-      }
+      as: 'module',
+      include: [{
+        model: Course,
+        as: 'course',
+        where: {
+          id: req.params.courseId
+        }
+      }],
+      order: [
+        [db.QuizQuestion, 'sortOrder', 'DESC'],
+        [db.QuizQuestionOption, 'sortOrder', 'DESC']
+      ]
     });
   }
 

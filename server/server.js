@@ -4,11 +4,13 @@ import path from 'path';
 import router from './routes';
 import config from './config';
 import passport from 'passport';
+import cors from 'cors';
 import './middleware/bearerstrategy';
 import './middleware/localstrategy';
 
 const app = express();
 
+app.use(cors());
 app.use(express.static('public'));
 app.use(passport.initialize());
 app.use(express.json());
@@ -20,7 +22,7 @@ app.use(
   '*',
   (req, res, next) => {
     try {
-      res.sendFile(path.join(__dirname, '../public/index.html'));
+      res.sendFile(path.join(__dirname, 'public/index.html'));
     } catch (error) {
       next(error);
     }

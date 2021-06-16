@@ -1,13 +1,3 @@
-Lecture Video
-
-<video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/517342331/4c1f184265" type="video/mp4" />
-</video>
-
----
-
-# Lecture
-
 ## Why:
 
 HTML —which is short for **HyperText Markup Language**— is the official language of the World Wide Web and was first conceived in 1990. HTML was originally created to allow those who were not specialized in SGML (Standard Generalized Markup Language) to publish and exchange scientific and other technical documents. HTML especially facilitated this exchange by incorporating the ability to link documents electronically using hyperlinks. Hypertext documents are interconnected by hyperlinks, which are typically activated by a mouse click, keypress, or by touching the screen. The first publicly available description of HTML was a document called “HTML Tags”, first mentioned on the Internet by Tim Berners-Lee in late 1991. It describes 18 elements comprising the initial, relatively simple design of HTML.
@@ -119,46 +109,6 @@ This is meant to assist search engines and browsers. Example of english as the l
 ```
 
 For a comprehensive list of all HTML attributes for each element check out: [https://www.w3schools.com/tags/ref_attributes.asp](https://www.w3schools.com/tags/ref_attributes.asp)
-
----
-
-## Exercise - Portfolio HTML
-
-Objective
-
-- Practice using HTML tags to structure a portfolio page with content about yourself.
-
-- Steps
-
-1.  Create an html file in a new repo folder
-
-2.  Create a heading section with:
-
-    - A heading containing your name
-
-    - A picture of yourself
-
-    - A brief description of yourself
-
-3.  Create a list with ways to contact you
-
-4.  Create a section about your work experience
-
-5.  Create a section about your education (i.e, TrueCoders, anything else relevant)
-
-6.  Create a section detailing anything extra
-
-    - Add information you think is relevant here. For example (awards, certifications, recommendations)
-
-7.  Give the document a relevant title
-
-[Exercise WalkThrough Documentation](https://docs.google.com/document/u/1/d/1HY1YAyfyrpYn3BTiasmFKyOdWDV9_Ya4WVBmcC62OV0/edit)
-
-Exercise Walkthrough Video
-
-<video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/517342855/e44f1f28a6" type="video/mp4" />
-</video>
 
 ---
 

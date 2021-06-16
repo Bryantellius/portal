@@ -8,16 +8,25 @@ export default (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {}
+    static associate(models) {
+      this.belongsTo(models.QuizQuestion);
+    }
   };
 
   QuizQuestionOption.init({
-    quizQuestionId: DataTypes.INTEGER,
+    quizQuestionId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'quizQuestions',
+        key: 'id'
+      }
+    },
     value: DataTypes.STRING,
-    text: DataTypes.STRING
+    text: DataTypes.STRING,
+    sortOrder: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'QuizQuestionOption',
+    modelName: 'quizQuestionOption',
   });
   return QuizQuestionOption;
 };

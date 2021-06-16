@@ -8,16 +8,22 @@ export default (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.user = this.belongsTo(models.User);
+      this.belongsTo(models.User);
     }
   };
   AccessToken.init({
-    userId: DataTypes.INTEGER,
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
+    },
     token: DataTypes.STRING,
     expires: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'AccessToken',
+    modelName: 'accessToken',
   });
   return AccessToken;
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import Header from "./Header";
-import Sidebar from "../learn/LecturesSidebar";
+import Sidebar from "../lecture/LecturesSidebar";
 import { useSelector } from "react-redux";
 
 const LectureLayout = ({

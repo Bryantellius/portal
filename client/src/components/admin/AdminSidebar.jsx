@@ -50,6 +50,13 @@ const AdminSidebar = () => {
             Courses
           </Nav.Link>
         </Nav.Item>
+
+        <Nav.Item>
+          <Nav.Link className="text-white" href="/admin/modules">
+            <FontAwesomeIcon icon={faGraduationCap} className="mr-2" />
+            Modules
+          </Nav.Link>
+        </Nav.Item>
       </Nav>
     </div>
   );

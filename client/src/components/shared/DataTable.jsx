@@ -1,12 +1,11 @@
-import React from 'react';
-import { default as DataTableComponent } from 'react-data-table-component';
+import React, { useMemo } from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faEdit,
-  faTrash
+  faPencilAlt
 } from '@fortawesome/free-solid-svg-icons';
+import { default as DataTableComponent } from 'react-data-table-component';
 
 const DataTable = ({
   title,
@@ -17,41 +16,33 @@ const DataTable = ({
   onSelectedRowsChange = () => {}
 }) => {
   const history = useHistory();
+
   const goToEditView = entity => {
     history.push(editRoute(entity));
   };
 
-  const deleteEntity = () => {
-    //todo: this
-  }
-
-  const actionsColumn = {
-    sortable: false,
+  const editColumn = {
     button: true,
-    grow: 1,
     cell: row => (
-      <>
-        <Button className="btn-sm" variant="secondary" onClick={ e => goToEditView(row) }>
-          <FontAwesomeIcon icon={faEdit} />
-        </Button>
-        <Button className="btn-sm" variant="danger" onClick={ e => deleteEntity(row) }>
-          <FontAwesomeIcon icon={faTrash} />
-        </Button>
-      </>
+      <Button variant="secondary" onClick={() => goToEditView(row)}>
+        <FontAwesomeIcon icon={faPencilAlt} />
+      </Button>
     )
   };
-  const extendedColumns = [
+
+  const extendedColumns = useMemo(() => [
     ...columns,
-    actionsColumn
-  ];
+    editColumn
+  ], [columns, data, editColumn]);
 
   return (
     <DataTableComponent
-      title={ title }
+      title={title}
       columns={ extendedColumns }
       data={ data }
       selectableRows={ selectableRows }
       onSelectedRowsChange={ onSelectedRowsChange }
+      highlightOnHover
     />
   );
 };

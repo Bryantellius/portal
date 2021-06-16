@@ -27,7 +27,7 @@ const ViewUsers = () => {
     name: 'Role',
     selector: 'role',
     sortable: true,
-    format (row) {
+    format: row => {
       return row.role.title
     }
   }];
@@ -40,10 +40,10 @@ const ViewUsers = () => {
     };
 
     fetchUsers();
-  }, []);
+  }, [setUsers]);
 
   return (
-    <div class="page-content">
+    <div className="page-content">
       <PageHeading title="Users" />
 
       <DataTable

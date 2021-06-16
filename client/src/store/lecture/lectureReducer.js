@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
-  currentLecture: null,
-  lectures: []
+  currentLecture: undefined,
+  lectures: [],
+  completedLectures: []
 };
 
 const lectureSlice = createSlice({
@@ -14,13 +15,20 @@ const lectureSlice = createSlice({
     },
     setCurrentLecture(state, action) {
       state.currentLecture = action.payload;
+    },
+    setLectureCompleted(state, action) {
+      state.completedLectures = [
+        ...state.completedLectures || [],
+        action.payload
+      ];
     }
   }
 });
 
 export const {
   setLectures,
-  setCurrentLecture
+  setCurrentLecture,
+  setLectureCompleted
 } = lectureSlice.actions;
 
 const lectureReducer = lectureSlice.reducer;

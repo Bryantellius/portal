@@ -6,6 +6,13 @@ const findAll = async ( req, res, next ) => {
   res.json(courses);
 };
 
+const findById = async (req, res) => {
+  const course = await db.Course.findByPk(req.params.id);
+
+  res.json(course);
+};
+
 export default {
+  findById,
   findAll
 };

@@ -9,15 +9,23 @@ export default (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.questions = this.hasMany(models.QuizQuestion, { foreignKey: 'quizId', as: 'questions' });
+      this.hasMany(models.QuizQuestion);
+      this.belongsTo(models.Lecture);
+      this.belongsToMany(models.Video, { through: models.QuizVideo });
     }
   };
   Quiz.init({
-    lectureId: DataTypes.INTEGER,
+    lectureId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'lectures',
+        key: 'id'
+      }
+    },
     title: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Quiz',
+    modelName: 'quiz',
   });
   return Quiz;
 };

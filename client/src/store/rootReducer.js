@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import darkModeReducer from './darkMode/reducers/darkModeReducer';
-import authReducer from './auth/reducers/authReducer';
+import authReducer from './auth/authSlice';
 import lectureReducer from './lecture/lectureReducer';
 import moduleReducer from './module/moduleReducer';
 

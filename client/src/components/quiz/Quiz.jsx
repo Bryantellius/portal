@@ -1,81 +1,138 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import QuizQuestion from './QuizQuestion';
 import ApiClient from '../../utils/apiClient';
-import AuthService from '../../utils/authService';
-import { Button, Card } from 'react-bootstrap';
+import PageActions from '../shared/PageActions';
+import ActionButton from '../shared/ActionButton';
+import { QuizQuestionType } from '../../utils/enums';
+import { Badge } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
-export const Quiz = ({ id, title, questions }) => {
-    const apiClient = new ApiClient()
-        , authService = new AuthService();
+const Quiz = ({
+  id,
+  title,
+  questions,
+  onSubmitted
+}) => {
+  const apiClient = new ApiClient();
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [score, setScore] = useState();
+  const user = useSelector(state => state.auth.user);
 
-    const user = authService.getUser();
-    const [, setQuizSubmitted] = useState(false);
+  const isAnswerCorrect = questionId => {
+    return quizResponses?.find(response => response.quizQuestionId === questionId)
+      ?.isCorrect;
+  };
 
-    const quizResponsesTemplate = questions.map(question => {
-        return {
-            quizQuestionId: question.id,
-            userId: user.id,
-            value: null
-        };
+  const getCorrectAnswers = questionId => {
+    const answers = quizResponses?.find(response => response.quizQuestionId === questionId)
+      ?.correctAnswers;
+
+    if (!answers) {
+      return [];
+    }
+
+    const question = questions.find(question => question.id === questionId);
+
+    return answers.map(answer => {
+      if (question.type === QuizQuestionType.Select
+        || question.type === QuizQuestionType.MultiSelect) {
+        const correctOption = question.quizQuestionOptions.find(option => option.value === answer);
+        return correctOption.text;
+      }
+
+      return answer;
+    });
+  };
+
+  const quizResponsesTemplate = questions.map(question => {
+    return {
+      quizQuestionId: question.id,
+      userId: user.id,
+      value: null
+    };
+  });
+
+  const [quizResponses, setQuizResponses] = useState(quizResponsesTemplate);
+
+  const handleUpdateQuizResponses = ( index, value ) => {
+    const updatedResponses = quizResponses.slice();
+
+    let normalizedValue = value;
+    if (Array.isArray(value)) { //multiselect values
+      normalizedValue = value.map(selectedOption => {
+        return selectedOption.value;
+      })
+      .join(';');
+    } else if (typeof value === 'object') {
+      normalizedValue = value.value;
+    } else {
+      normalizedValue = value.toString();
+    }
+
+    updatedResponses[index].value = normalizedValue;
+    setQuizResponses(updatedResponses);
+  };
+
+  const submitQuiz = async () => {
+    const response = await apiClient.post(`/quiz/${ id }`, {
+      userId: user.id,
+      quizId: id,
+      responses: quizResponses
     });
 
-    const [quizResponses, setQuizResponses] = useState(quizResponsesTemplate);
+    setQuizSubmitted(true);
+    setQuizResponses(response.responses);
+    setScore(response.score * 100);
 
-    const handleUpdateQuizResponses = (index, value) => {
-        const updatedResponses = quizResponses.slice();
-        
-        let normalizedValue = value;
-        if (Array.isArray(value)) { //multiselect values
-            normalizedValue = value.map(selectedOption => {
-                return selectedOption.value;
-            })
-            .join(';');
-        } else if (typeof value === 'object') {
-            normalizedValue = value.value;
-        } else {
-            normalizedValue = value.toString();
+    onSubmitted();
+  };
+
+  const resetQuiz = () => {
+    setQuizSubmitted(false);
+    setQuizResponses(quizResponsesTemplate);
+    setScore(null);
+  };
+
+  return (
+    <>
+      <h2 className="d-inline-block w-80">{ title }</h2>
+      {
+        quizSubmitted &&
+        <Badge variant={ score > 0.75 ? 'success' : 'danger' }>
+          { score }%
+        </Badge>
+      }
+      {
+        questions && questions.map(( question, index ) => {
+          return (
+            <QuizQuestion
+              key={ question.id }
+              quizId={ id }
+              questionId={ question.id }
+              type={ question.type }
+              questionText={ question.text }
+              submitted={ quizSubmitted }
+              isCorrect={ isAnswerCorrect(question.id) }
+              options={ question.quizQuestionOptions }
+              onUpdate={ handleUpdateQuizResponses.bind(this, index) }
+              correctAnswers={ getCorrectAnswers(question.id) }
+            />
+          );
+        })
+      }
+
+      <PageActions>
+        {
+          quizSubmitted &&
+          <ActionButton variant="secondary" onClick={ resetQuiz }>
+            Retake Quiz
+          </ActionButton>
         }
-
-        updatedResponses[index].value = normalizedValue;
-        setQuizResponses(updatedResponses);
-    }
-
-    const submitQuiz = async () => {
-        await apiClient.post(`/quiz/${ id }`, {
-            userId: user.id,
-            responses: quizResponses
-        });
-    
-        setQuizSubmitted(true);
-    }
-
-    return (
-        <Card id="quiz">
-            <Card.Header>
-                <Card.Title>
-                    <h2>{title}</h2>
-                </Card.Title>
-                <Card.Body>
-                { 
-                    questions && questions.map((question, index) => {
-                        return (
-                            <QuizQuestion
-                                key={question.id}
-                                quizId={id}
-                                questionId={question.id}
-                                type={question.type}
-                                questionText={question.text}
-                                options={question.options}
-                                onUpdate={handleUpdateQuizResponses.bind(this, index)}
-                            />
-                        );
-                    })
-                }
-                </Card.Body>
-            </Card.Header>
-            <Card.Footer className="text-center">
-                <Button variant='primary' onClick={submitQuiz}>Submit Responses</Button>
-            </Card.Footer>
-        </Card>
-    );
+        <ActionButton variant="primary"
+                      onClick={ submitQuiz }>{ quizSubmitted ? 'Next Lecture' : 'Submit Responses' }</ActionButton>
+      </PageActions>
+    </>
+  );
 };
+
+export default Quiz;

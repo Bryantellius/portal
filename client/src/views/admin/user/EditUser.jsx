@@ -3,22 +3,33 @@ import { useParams } from 'react-router-dom';
 import ApiClient from '../../../utils/apiClient';
 import { Card, Col, Form, Row, Table } from 'react-bootstrap';
 import PageHeading from '../../../components/shared/PageHeading';
+import PageContent from '../../../components/shared/PageContent';
+import PageActions from '../../../components/shared/PageActions';
+import ActionButton from '../../../components/shared/ActionButton';
+import { useHistory } from 'react-router-dom';
 
 const EditUser = () => {
   const { id } = useParams();
   const [user, setUser] = useState();
+  const history = useHistory();
+
+  const deleteUser = async () => {
+    const apiClient = new ApiClient();
+    await apiClient.delete(`/user/${ id }`);
+    history.push('/user');
+  }
 
   useEffect(() => {
     const fetchUser = async () => {
-      const apiService = new ApiClient();
-      const user = await apiService.get(`/user/${ id }`);
+      const apiClient = new ApiClient();
+      const user = await apiClient.get(`/user/${ id }`);
       setUser(user);
     };
 
     fetchUser();
   }, []);
   return (
-    <div className="page-content">
+    <PageContent>
       <PageHeading>
         View/Edit User: { `${ user?.lastName },${ user?.firstName }` }
       </PageHeading>
@@ -118,7 +129,13 @@ const EditUser = () => {
           </Col>
         </Row>
       </Form>
-    </div>
+
+      <PageActions>
+        <ActionButton variant="danger" onClick={deleteUser}>
+          Delete
+        </ActionButton>
+      </PageActions>
+    </PageContent>
   );
 };
 

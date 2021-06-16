@@ -1,13 +1,3 @@
-Lecture Video
-
-<video width="100%" height="auto" controls>
-  <source src="https://vimeo.com/499770628/308e129ad5" type="video/mp4" />
-</video>
-
----
-
-# Lecture
-
 ## Why:
 
 We teach conflict resolution in git because sometimes merging won’t be so simple. This is especially true when we start collaborating with others, whether in the community or in the workplace. Knowing how to resolve merge conflicts and utilizing the full power of git will give you a great advantage in the workplace and will allow your workflow to achieve new heights.
@@ -28,7 +18,7 @@ In the example below, however, "master" has been updated several times since "bu
 
 ![alt_text](../assets/lectures/images/git/git-merge-conflict-resolution2.png)
 
-For this sort of merge, a "merge commit" will be created and the "master" position will be updated to the newly created merge commit.
+For this sort of merge, a "merge commit" will be created, and the "master" position will be updated to the newly created merge commit.
 
 ![alt_text](../assets/lectures/images/git/git-merge-conflict-resolution3.png)
 
@@ -125,28 +115,6 @@ We’ll show this merge conflict from this git repository: [Github - mvdoyle/Mer
    `git show --color-words`
 
 ![alt_text](../assets/lectures/images/git/git-merge-conflict-resolution5.png)
-
----
-
-## Exercise:
-
-[Windows Exercise Walkthrough Documentation](https://docs.google.com/document/d/1iCUfFSmt_LLxBy-tPSkyppMM6riS_jII6RnXRDvEo_Y/edit?usp=sharing)
-
-[Mac Exercise Walkthrough Documentation](https://docs.google.com/document/d/11nLtAnIXGT-x7J6LykXZ_GSD9cmdatGi7oSE9TcZS_I/edit?usp=sharing)
-
-Video to help you with the exercise:
-
-Funny Version: [https://youtu.be/r-Q7uTqN0s4](https://youtu.be/r-Q7uTqN0s4)
-
-Normal Version:[https://vimeo.com/501606991/b571c8525b](https://vimeo.com/501606991/b571c8525b)
-
-1. Fork and Clone this repository: [Github - mvdoyle/MergeConflictExercise](https://github.com/mvdoyle/MergeConflictExercise)
-
-   1. Git checkout newBranch : to see the differences between _newBranch_ and master branch.
-   2. Switch back to the master branch
-   3. Merge the newBranch branch into master branch and fix the merge conflict
-
----
 
 ## Quiz:
 

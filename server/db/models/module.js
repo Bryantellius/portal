@@ -6,14 +6,16 @@ export default (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {}
+    static associate(models) {
+      this.belongsToMany(models.Course, { through: 'courseModules' });
+      this.hasMany(models.Lecture);
+    }
   };
   Module.init({
-    curriculumId: DataTypes.INTEGER,
     title: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Module',
+    modelName: 'module',
   });
   return Module;
 };

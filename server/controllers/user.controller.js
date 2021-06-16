@@ -27,6 +27,17 @@ const findById = async (req, res) => {
   res.json(user);
 };
 
+const findByAuth0Id = async (req, res) => {
+  const { auth0Id } = req.params;
+  const user = await db.User.find({
+    where: {
+      auth0Id
+    }
+  });
+
+  res.json(user);
+};
+
 const getSignedInUser = async (req, res, next) => {
   const authUser = req.user;
 };
@@ -97,5 +108,6 @@ export default {
   createUser,
   updateUser,
   uploadAssets,
-  getSignedInUser
+  getSignedInUser,
+  findByAuth0Id
 };

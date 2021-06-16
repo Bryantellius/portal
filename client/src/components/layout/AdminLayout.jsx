@@ -10,7 +10,6 @@ const AdminLayout = ({
   return (
     <main className="docs">
       {/* Nav */}
-      <Header />
       <AdminSidebar />
       <div className="content-with-sidebar">
         <Container fluid className="px-0">

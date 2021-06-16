@@ -19,6 +19,7 @@ const store = configureStore({
     darkMode: false,
     lecture: {
       lectures: [],
+      completedLectures: [],
       currentLecture: null
     },
     module: {

@@ -9,6 +9,22 @@ main, #root, body, html {
   height: 100%;
 }
 
-.page-content {
-  padding: 25px;
+button.btn {
+  svg {
+    margin-right: 8px;
+  }
+}
+
+.data-table-actions {
+  padding-bottom: 10px;
+  float: right;
+}
+
+.tab-content {
+  padding: 20px;
+  padding-bottom: 75px;
+}
+
+.docs-content {
+  padding-bottom: 50px;
 }

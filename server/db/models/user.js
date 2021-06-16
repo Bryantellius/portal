@@ -8,7 +8,8 @@ export default (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.role = this.belongsTo(models.Role, { foreignKey: 'roleId', as: 'role' })
+      this.belongsTo(models.Role);
+      this.belongsToMany(models.Course, { through: models.CourseUser });
     }
   };
   User.init({
@@ -16,12 +17,19 @@ export default (sequelize, DataTypes) => {
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    roleId: DataTypes.INTEGER,
+    auth0Id: DataTypes.STRING,
+    roleId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'roles',
+        key: 'id'
+      }
+    },
     avatarUrl: DataTypes.STRING,
     lastLectureId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'user',
   });
   return User;
 };

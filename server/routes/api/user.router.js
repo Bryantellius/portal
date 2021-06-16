@@ -14,6 +14,8 @@ userRouter.get('/:id', userController.findById);
 
 userRouter.put('/:id', userController.updateUser);
 
+userRouter.get('/auth0/:auth0Id', userController.findByAuth0Id);
+
 userRouter.get('/profile', userController.getSignedInUser);
 
 userRouter.post('/assets', userController.uploadAssets);

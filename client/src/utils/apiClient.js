@@ -1,10 +1,8 @@
 import axios from 'axios';
 import clientConfig from '../config/appConfig';
-import AuthService from './authService';
-const authService = new AuthService();
 
 class ApiClient {
-  constructor (config) {
+  constructor () {
     this.client = axios.create({
       baseURL: clientConfig.apiRoot,
       timeout: clientConfig.apiTimeout || 1000,
@@ -99,10 +97,12 @@ class ApiClient {
     switch (error.response?.status) {
       case 401:
       case 403:
-        authService.logout();
-        throw new Error('You are not logged in.')
+        console.error(error);
+        //todo: handle this the right way
+        break;
       default:
-        throw new Error('Unknown error in api call')
+        // throw new Error('Unknown error in api call')
+        break;
     }
   }
 

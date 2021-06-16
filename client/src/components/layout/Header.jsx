@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { darkModeLoader } from '../../utils/theme';
 import { NavLink } from 'react-router-dom';
-import { setToken, setUser } from '../../store/auth/reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
+import SignOutButton from '../auth/SignOutButton';
 
 const Header = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
 
   useEffect(() => {
@@ -15,13 +14,6 @@ const Header = () => {
       setIsLoaded(true);
     }
   }, [isLoaded, setIsLoaded]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    dispatch(setUser(null));
-    dispatch(setToken(null));
-  };
 
   return (
     // <!-- Nav -->
@@ -121,14 +113,7 @@ const Header = () => {
                   Support
                 </NavLink>
                 <div className="dropdown-divider" />
-                <NavLink
-                  to="/login"
-                  className="dropdown-item"
-                  onClick={() => {
-                    handleLogout();
-                  }}>
-                  Logout
-                </NavLink>
+                <SignOutButton />
               </div>
             </li>
           ) : null}
