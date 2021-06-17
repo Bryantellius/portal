@@ -28,10 +28,11 @@ const findById = async (req, res) => {
 };
 
 const findByAuth0Id = async (req, res) => {
-  const { auth0Id } = req.params;
-  const user = await db.User.find({
+  const auth0Id = req.params.auth0Id || req.body.auth0Id;
+
+  const user = await db.User.findOne({
     where: {
-      auth0Id
+      auth0Id: auth0Id
     }
   });
 
@@ -43,14 +44,15 @@ const getSignedInUser = async (req, res, next) => {
 };
 
 const createUser = async (req, res) => {
-  const { user, classList } = req.body;
+  const { user } = req.body;
 
-  user.password = hashPassword(user.password);
+  // user.password = hashPassword(user.password);
   const createResponse = await db.User.create(user);
-  classList.userId = createResponse.insertId;
-  const courseSubscriptionResponse = await db.ClassList.create(classList);
+  // const courseSubscriptionResponse = await db.ClassList.create(classList);
 
-  res.json(courseSubscriptionResponse);
+  // res.json(courseSubscriptionResponse);
+
+  res.json(createResponse);
 };
 
 const updateUser = async (req, res, next) => {
@@ -102,6 +104,31 @@ const uploadAssets = async (req, res, next) => {
   }
 };
 
+const createOrUpdateAuth0UserLink = async (req, res) => {
+  let existingUser = await db.User.findOne({
+    where: {
+      auth0Id: req.body.auth0Id || req.params.auth0Id
+    }
+  });
+
+  const response = existingUser
+    ?
+    await db.User.update(req.body, {
+      where: {
+        auth0Id: req.body.auth0Id
+      }
+    })
+  : await db.User.create(req.body);
+
+  const updatedUser = await db.User.findOne({
+    where: {
+      auth0Id: req.body.auth0Id
+    }
+  });
+
+  res.json(updatedUser);
+};
+
 export default {
   findAll,
   findById,
@@ -109,5 +136,6 @@ export default {
   updateUser,
   uploadAssets,
   getSignedInUser,
-  findByAuth0Id
+  findByAuth0Id,
+  createOrUpdateAuth0UserLink
 };

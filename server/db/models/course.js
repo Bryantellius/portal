@@ -7,14 +7,15 @@ export default (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsToMany(models.User, { through: models.CourseUser});
-      this.belongsToMany(models.Module, { through: 'courseModules' });
+      this.belongsToMany(models.User, { through: models.CourseUser, as: 'users' });
+      this.belongsToMany(models.Module, { through: models.CourseModule, as: 'modules' });
     }
   };
 
   Course.init({
     instructorId: DataTypes.INTEGER,
     title: DataTypes.STRING,
+    description: DataTypes.TEXT,
     type: DataTypes.STRING,
     startDate: DataTypes.DATE,
     endDate: DataTypes.DATE,

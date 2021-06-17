@@ -11,6 +11,7 @@ import LectureProgressBar from './LectureProgressBar';
 import Exercise from './Exercise';
 import LectureContent from './LectureContent';
 import LectureNavButtons from './LectureNavButtons';
+import { setCurrentLectureForCourse } from '../../store/course/courseSlice';
 
 const Lecture = () => {
   const { id } = useParams();
@@ -21,6 +22,7 @@ const Lecture = () => {
   const lecture = useSelector(state => state.lecture.currentLecture);
   const allLectures = useSelector(state => state.lecture.lectures);
   const nextLecture = useSelector(getNextLecture);
+  const activeCourse = useSelector(state => state.course.activeCourse);
   const [exerciseSubmitted, setExerciseSubmitted] = useState(false);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const nextId = nextLecture?.id;
@@ -50,7 +52,8 @@ const Lecture = () => {
         await apiClient.put(`/user/${ user.id }`, {
           lastLectureId: lecture.id
         });
-        dispatch(setLastLectureId(nextId));
+        dispatch(setLastLectureId(lecture.id));
+        dispatch(setCurrentLectureForCourse({ courseId: activeCourse.id, lastLectureId: lecture.id }));
       }
     };
     updateLastLesson();
@@ -59,7 +62,7 @@ const Lecture = () => {
   useEffect(() => {
     const thisLecture = allLectures.find(lecture => lecture.id === parseInt(id));
     dispatch(setCurrentLecture(thisLecture));
-  }, [dispatch, allLectures, window.location.pathname]);
+  }, [id, dispatch, allLectures, window.location.pathname]);
 
   useEffect(() => {
     const fetchLectureContent = async () => {

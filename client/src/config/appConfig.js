@@ -1,4 +1,4 @@
-const serverUrl = 'http://localhost:3000';
+const serverUrl = 'https://portal.truecoders.io:3000';
 
 const appConfig = {
   serverUrl: serverUrl,
@@ -8,7 +8,8 @@ const appConfig = {
   auth0ClientId: 'WDPfxZymuVSBRpOaBYSZQvTBbSHGHFaV',
   auth0ApiUrl: 'https://truecoders.us.auth0.com/api/v2/',
   auth0Container: 'auth0-login-container',
-  redirectUrl: serverUrl
+  redirectUrl: serverUrl,
+  apiUrl: 'https://portal.truecoders.io:3001'
 };
 
 export default appConfig;

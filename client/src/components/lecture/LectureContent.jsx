@@ -1,5 +1,5 @@
 import React from 'react';
-import Video from '../shared/Video';
+import Video from '../video/Video';
 import Markdown from 'markdown-to-jsx';
 
 const LectureContent = ({

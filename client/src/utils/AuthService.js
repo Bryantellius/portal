@@ -4,8 +4,10 @@ import appConfig from '../config/appConfig';
 
 const lockOptions = {
   auth: {
-    responseType: 'token',
+    responseType: 'id_token token',
     autoParseHash: true,
+    redirectUrl: appConfig.redirectUrl,
+    sso: true,
     redirect: false
   },
   theme: {
@@ -42,6 +44,9 @@ export const getUser = () => {
 };
 
 export const setUser = profile => {
+  if (!profile) {
+    throw new Error(`tried to set localStorage user to an invalid value: ${ profile }`);
+  }
   localStorage.setItem('user', JSON.stringify(profile));
 };
 
@@ -74,16 +79,17 @@ export const getTokenExpirationDate = () => {
 };
 
 export const isTokenExpired = () => {
+  //todo: implement this correctly
   const token = getToken();
-  if (!token) {
-    return true;
-  }
+  return !token;
 
-  const expirationDate = getTokenExpirationDate();
-  const offsetSeconds = 0;
-  if(expirationDate === null) {
-    return false;
-  }
 
-  return !(expirationDate.valueOf() > new Date().valueOf() + offsetSeconds * 1000);
+  //
+  // const expirationDate = getTokenExpirationDate();
+  // const offsetSeconds = 0;
+  // if(expirationDate === null) {
+  //   return false;
+  // }
+  //
+  // return !(expirationDate.valueOf() > new Date().valueOf() + offsetSeconds * 1000);
 };

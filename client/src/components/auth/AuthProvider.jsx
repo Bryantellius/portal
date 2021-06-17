@@ -7,8 +7,10 @@ const AuthProvider = ({ children }) => {
       domain={appConfig.auth0Domain}
       clientId={appConfig.auth0ClientId}
       redirectUri={window.location.origin}
-      audience={appConfig.auth0ApiUrl}
-      scope="read:current_user update:current_user_metadata">
+      audience={appConfig.apiUrl}
+      scope="read:current_user update:current_user_metadata"
+      useRefreshTokens={true}
+      cacheLocation="localstorage">
       { children }
     </Auth0Provider>
   );

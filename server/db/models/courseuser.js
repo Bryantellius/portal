@@ -7,8 +7,8 @@ export default (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate (models) {
-      this.belongsTo(models.Course);
-      this.belongsTo(models.User);
+      // this.belongsToMany(models.Course, { through: CourseUser});
+      // this.belongsToMany(models.User, { through: CourseUser });
     }
   };
   CourseUser.init({

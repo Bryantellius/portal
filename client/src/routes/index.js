@@ -1,12 +1,12 @@
 import adminRoutes from './adminRoutes';
-import authRoutes from './authRoutes';
 import CareerServices from '../views/CareerServices';
 import Learn from '../views/Learn';
-import LectureLayout from '../components/layout/LectureLayout';
+import CourseLayout from '../components/layout/CourseLayout';
 import Profile from '../views/Profile';
 import Tutoring from '../views/Tutoring';
 import Dashboard from '../views/Dashboard';
-import UserAdditionalInfo from '../views/UserAdditionalData'
+import UserAdditionalInfo from '../views/UserAdditionalData';
+import ViewVideos from '../views/ViewVideos';
 
 const appRoutes = [{
   path: '/career-services',
@@ -21,9 +21,8 @@ const appRoutes = [{
 }, {
   path: '/learn',
   key: 'learn',
-  exact: false,
   component: Learn,
-  layout: LectureLayout
+  layout: CourseLayout
 }, {
   path: '/tutoring',
   key: 'tutoring',
@@ -45,14 +44,20 @@ const appRoutes = [{
   exact: true,
   component: Profile
 }, {
+  path: '/videos',
+  key: 'videos',
+  exact: true,
+  component: ViewVideos
+}];
+
+appRoutes.push({
   path: '*',
   exact: false,
   redirect: '/dashboard'
-}];
+});
 
 const routes = [
   ...adminRoutes,
-  ...authRoutes,
   ...appRoutes
 ];
 

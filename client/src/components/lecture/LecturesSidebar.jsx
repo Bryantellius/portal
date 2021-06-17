@@ -6,10 +6,7 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import CourseProgressBar from './CourseProgressBar';
 
 // TODO: implement this in react-bootstrap
-const LecturesSidebar = () => {
-  const lectures = useSelector(state => state.lecture.lectures);
-  const modules = useSelector(state => state.module.modules);
-  const user = useSelector(state => state.auth.user);
+const LecturesSidebar = ({ course }) => {
   const completedLectures = useSelector(state => state.lecture.completedLectures);
 
   const isLectureCompleted = lectureId => {
@@ -24,32 +21,29 @@ const LecturesSidebar = () => {
         {/* <!-- Navigation --> */}
         <div className="docs-sidebar pt-6 pt-lg-7">
           <CourseProgressBar />
-          <h4>{user?.course}</h4>
-          {modules && modules.map((module) => {
-            if (!lectures.find(lecture => lecture.moduleId === module.id)) {
-              return <></>;
+          <h4>{course?.title}</h4>
+          {course?.modules && course?.modules?.map((module) => {
+            if (!module?.lectures?.length > 0) {
+              return <Fragment key={module.id} />;
             }
 
             return (
               <Fragment key={module.id}>
                 <h6 className="mt-4">{module.title}</h6>
                 <ul className="nav flex-column">
-                  {lectures
-                    .filter(lecture => lecture.moduleId === module.id)
+                  {module?.lectures
                     .map(lecture => {
                       return (
-                        <>
-                          {
-                            isLectureCompleted(lecture.id) &&
-                            <FontAwesomeIcon icon={faCheckCircle} className="text-success d-inline-block ml-2" />
-                          }
                           <NavLink
                             to={`/learn/${lecture.id}`}
                             key={lecture.id}
                             className="nav-link d-inline-block w-80">
+                            {
+                              isLectureCompleted(lecture.id) &&
+                              <FontAwesomeIcon icon={faCheckCircle} className="text-success d-inline-block" style={{ marginLeft: '-20px'}} />
+                            }
                             {lecture.title}
                           </NavLink>
-                        </>
                       );
                     })
                   }

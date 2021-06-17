@@ -8,15 +8,13 @@ import ReduxProvider from './store/ReduxProvider';
 import AuthProvider from './components/auth/AuthProvider';
 
 ReactDOM.render(
-  <React.StrictMode>
     <AuthProvider>
       <ReduxProvider>
       <Router>
         <App />
       </Router>
       </ReduxProvider>
-    </AuthProvider>
-  </React.StrictMode>,
+    </AuthProvider>,
   document.getElementById('root')
 );
 

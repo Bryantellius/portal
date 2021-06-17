@@ -11,16 +11,12 @@ class ApiClient {
       }
     });
 
-    const savedToken = localStorage.getItem('token')
-    const savedUser = localStorage.getItem('user')
-        ? JSON.parse(localStorage.getItem('user'))
-        : undefined;
+    const savedToken = localStorage.getItem('token');
 
     if (
       savedToken !== undefined
-      && savedUser !== undefined
     ) {
-      this.persistAuth(savedToken, savedUser);
+      this.persistAuth(savedToken);
     }
 
     this.initInterceptors();
@@ -50,7 +46,7 @@ class ApiClient {
     const authResponse = await this.post('/auth/login', credentials);
 
     if (authResponse && authResponse.token) {
-      this.persistAuth(authResponse.token, authResponse.user);
+      this.persistAuth(authResponse.token);
     }
 
     return authResponse.data;
@@ -87,10 +83,9 @@ class ApiClient {
     return response.data;
   }
 
-  persistAuth(accessToken, user) {
-    localStorage.setItem('token', accessToken);
-    localStorage.setItem('user', JSON.stringify(user));
-    this.client.defaults.headers.common['Authorization'] = `Bearer ${ this.accessToken }`;
+  persistAuth(accessToken) {
+    this.client.defaults.headers.common['Authorization'] = `Bearer ${ accessToken }`;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${ accessToken }`;
   }
 
   async handleAuthError (error) {

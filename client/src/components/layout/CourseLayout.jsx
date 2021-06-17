@@ -1,25 +1,25 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import Header from "./Header";
-import Sidebar from "../lecture/LecturesSidebar";
+import CourseSidebar from "../course/CourseSidebar";
 import { useSelector } from "react-redux";
 
-const LectureLayout = ({
-  children,
-  modules,
-  lectures
+const CourseLayout = ({
+  children
 }) => {
-  const user = useSelector(state => state.auth.user);
+  const activeCourse = useSelector(state => state.course.activeCourse);
   return (
     <main className="docs">
       {/* Nav */}
       <Header />
       <Container fluid className="container-docs">
-          <Sidebar course={user?.course} modules={modules} lectures={lectures} />
+        { activeCourse &&
+          <CourseSidebar course={activeCourse} />
+        }
         {children}
       </Container>
     </main>
   );
 };
 
-export default LectureLayout;
+export default CourseLayout;

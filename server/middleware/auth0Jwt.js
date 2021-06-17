@@ -9,7 +9,7 @@ const checkJwt = jwt({
     jwksUri: process.env.AUTH0_JWKS_URL
   }),
 
-  audience: process.env.AUTH0_API_URL,
+  audience: process.env.API_URL,
   issuer: [process.env.AUTH0_URL],
   algorithms: ['RS256']
 });

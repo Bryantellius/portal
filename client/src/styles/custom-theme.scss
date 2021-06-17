@@ -1,3 +1,5 @@
+@import "variables";
+
 :root {
   --blue: #008aff;
   --indigo: #6e00ff;
@@ -124,7 +126,7 @@ h3,
 h4,
 h5,
 h6 {
-  margin-top: 1.25rem !important;
+  margin-top: 1.25rem;
 }
 
 .docs-content table {
@@ -359,7 +361,6 @@ samp {
 }
 
 .profile-settings {
-  margin-top: 80px;
   min-width: 50%;
 }
 
@@ -20281,6 +20282,7 @@ textarea[resize="horizontal"] {
 .docs .header .navbar {
   position: fixed;
   z-index: 1000;
+  height: $header-navbar-height;
 }
 
 @media (min-width: 576px) {

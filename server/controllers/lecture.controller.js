@@ -15,10 +15,8 @@ const findAll = async ( req, res ) => {
   if (req.params.courseId) {
     includes.push({
       model: Module,
-      as: 'module',
       include: [{
-        model: Course,
-        as: 'course',
+        model: db.Course,
         where: {
           id: req.params.courseId
         }

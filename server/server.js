@@ -35,8 +35,12 @@ app.use((
   res,
   next
 ) => {
-  console.log(err);
-  res.status(500).json({ name: err.name, msg: err.message });
+  if (err) {
+    console.error(err);
+    res.status(500).json({ name: err.name, msg: err.message });
+
+    return Promise.reject(err);
+  }
 });
 
 app.listen(config.port, () =>

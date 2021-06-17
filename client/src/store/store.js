@@ -14,7 +14,10 @@ const store = configureStore({
         : null,
       token: localStorage.getItem('token')
         ? localStorage.getItem('token')
-        : null
+        : null,
+      isAuthenticated: !!localStorage.getItem('token'),
+      isLoading: true,
+      error: null
     },
     darkMode: false,
     lecture: {
@@ -24,6 +27,11 @@ const store = configureStore({
     },
     module: {
       modules: []
+    },
+    course: {
+      enrolledCourses: [],
+      activeCourse: null,
+      completedCourses: []
     }
   },
   devTools: process.env.NODE_ENV !== 'production'

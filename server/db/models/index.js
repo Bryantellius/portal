@@ -21,6 +21,7 @@ import LectureVideoFactory from './lecturevideo';
 import QuizQuestionCorrectAnswerFactory from './quizquestioncorrectanswer';
 import QuizSubmissionFactory from './quizsubmission';
 import ExerciseSubmissionFactory from './exercisesubmission';
+import CourseModuleFactory from './coursemodule';
 
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
@@ -59,7 +60,8 @@ const db = {
   QuizVideo: QuizVideoFactory(sequelize, Sequelize),
   QuizQuestionCorrectAnswer: QuizQuestionCorrectAnswerFactory(sequelize, Sequelize),
   QuizSubmission: QuizSubmissionFactory(sequelize, Sequelize),
-  ExerciseSubmission: ExerciseSubmissionFactory(sequelize, Sequelize)
+  ExerciseSubmission: ExerciseSubmissionFactory(sequelize, Sequelize),
+  CourseModule: CourseModuleFactory(sequelize, Sequelize)
 };
 
 Object.keys(db).forEach(modelName => {
