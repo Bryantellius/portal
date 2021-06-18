@@ -1,10 +1,10 @@
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/truecodersio/review/510436355/800fa41344" type="video/mp4" />
 </video>
 
-# Lecture
+# ViewLecture
 
 ## Why
 
@@ -183,6 +183,6 @@ Exercise Walkthrough Video
   <source src="https://vimeo.com/510880938/f76156aae2" type="video/mp4" />
 </video>
 
-## Quiz
+## ViewQuiz
 
-**No Quiz!**
+**No ViewQuiz!**

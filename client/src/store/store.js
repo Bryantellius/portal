@@ -17,7 +17,8 @@ const store = configureStore({
         : null,
       isAuthenticated: !!localStorage.getItem('token'),
       isLoading: true,
-      error: null
+      error: null,
+      primaryAccountAccessToken: localStorage.getItem('primary_account_access_token')
     },
     darkMode: false,
     lecture: {
@@ -31,7 +32,16 @@ const store = configureStore({
     course: {
       enrolledCourses: [],
       activeCourse: null,
-      completedCourses: []
+      completedCourses: [],
+      courses: []
+    },
+    exercise: {
+      submissions: [],
+      userSubmissions: []
+    },
+    video: {
+      videos: [],
+      isLoading: false
     }
   },
   devTools: process.env.NODE_ENV !== 'production'

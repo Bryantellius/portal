@@ -6,8 +6,7 @@ import { hashPassword } from '../utils/security/passwords';
 const findAll = async (req, res) => {
   const users = await db.User.findAll({
     include: [{
-      model: db.Role,
-      as: 'role'
+      model: db.Role
     }]
   });
 
@@ -129,6 +128,16 @@ const createOrUpdateAuth0UserLink = async (req, res) => {
   res.json(updatedUser);
 };
 
+const deleteUser = async (req, res) => {
+  const deleteResponse = await db.User.destroy({
+    where: {
+      id: req.params.id
+    }
+  });
+
+  res.json(deleteResponse);
+}
+
 export default {
   findAll,
   findById,
@@ -137,5 +146,6 @@ export default {
   uploadAssets,
   getSignedInUser,
   findByAuth0Id,
-  createOrUpdateAuth0UserLink
+  createOrUpdateAuth0UserLink,
+  deleteUser
 };

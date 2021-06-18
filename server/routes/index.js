@@ -29,6 +29,7 @@ router.use('/api/lecture/:lectureId/quiz', quizRouter);
 router.use('/api/course', courseRouter);
 router.use('/api/module', moduleRouter);
 router.use('/api/exercise', exerciseRouter);
+router.use('/api/user/:userId/exercise', exerciseRouter);
 router.use('/api/video', videoRouter);
 
 export default router;

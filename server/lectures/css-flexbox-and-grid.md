@@ -1,4 +1,4 @@
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/512728838/1f2b5d7393" type="video/mp4" />
@@ -6,7 +6,7 @@ Lecture Video
 
 ---
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -202,6 +202,6 @@ READING RESOURCE: [Materialize](https://materializecss.com/getting-started.html)
 
 ---
 
-## Quiz
+## ViewQuiz
 
-No Quiz!
+No ViewQuiz!

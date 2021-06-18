@@ -8,13 +8,15 @@ userRouter.use(fileUpload());
 
 userRouter.get('/', userController.findAll);
 
-userRouter.post('/', userController.createUser);
+userRouter.get('/:id', userController.findById);
 
 userRouter.get('/auth0/:auth0Id', userController.findByAuth0Id);
 
-userRouter.get('/:id', userController.findById);
+userRouter.post('/', userController.createUser);
 
 userRouter.put('/:id', userController.updateUser);
+
+userRouter.delete('/:id', userController.deleteUser);
 
 userRouter.get('/profile', userController.getSignedInUser);
 

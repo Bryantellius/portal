@@ -1,10 +1,10 @@
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/507274492/dba36788bf" type="video/mp4" />
 </video>
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -151,6 +151,6 @@ Exercise Walkthrough:
 
 [Exercise Documentation Here](https://docs.google.com/document/d/1CiLfJj2PuCMx6iJnrlY7pUjekd4ffsrB-SGr3er4olQ/edit?usp=sharing)
 
-## Quiz:
+## ViewQuiz:
 
-No Quiz!
+No ViewQuiz!

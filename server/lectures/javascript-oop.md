@@ -1,16 +1,16 @@
-Lecture Video Part 1
+ViewLecture Video Part 1
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/507274745/d24c33169b#t=1458s" type="video/mp4" />
 </video>
 
-Lecture Video Part 2
+ViewLecture Video Part 2
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/507738547/d48e95d16b" type="video/mp4" />
 </video>
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -198,6 +198,6 @@ Exercise Walkthrough:
 
 [Exercise Documentation Here](https://docs.google.com/document/u/1/d/1JVOKYhIp_LvdxP3hDZIrIBd2TIOFGj_0rOi0P7ll2-g/edit)
 
-## Quiz:
+## ViewQuiz:
 
-No Quiz!
+No ViewQuiz!

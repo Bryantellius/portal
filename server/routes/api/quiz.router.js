@@ -10,6 +10,10 @@ quizRouter.get("/", async (req, res, next) => req.params.lectureId
 
 quizRouter.get("/:id", quizController.findById);
 
-quizRouter.post("/:id", quizController.submitResponses);
+quizRouter.post("/:id/submit", quizController.submitResponses);
+
+quizRouter.post("/", quizController.saveQuiz);
+
+quizRouter.put("/:id", quizController.saveQuiz);
 
 export default quizRouter;

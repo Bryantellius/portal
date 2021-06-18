@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import Loading from '../components/shared/Loading';
+import Loading from '../features/shared/components/Loading';
 import store, { persistor } from './store';
 
 const ReduxProvider = ({ children }) => {

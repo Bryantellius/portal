@@ -1,17 +1,24 @@
 import { Auth0Lock } from 'auth0-lock';
 import jwtDecode from 'jwt-decode';
 import appConfig from '../config/appConfig';
+import axios from 'axios'
 
 const lockOptions = {
   auth: {
-    responseType: 'id_token token',
+    responseType: 'token id_token',
     autoParseHash: true,
-    redirectUrl: appConfig.redirectUrl,
-    sso: true,
-    redirect: false
+    audience: appConfig.auth0ApiUrl,
+    redirectUrl: appConfig.serverUrl,
+    params: {
+      scope: 'openid email profile read:current_user update:current_user_identities'
+    }
   },
   theme: {
-    primaryColor: '#2E90C0'
+    primaryColor: '#2E90C0',
+    logo: 'https://i.imgur.com/Pb2iSR0.png'
+  },
+  languageDictionary: {
+    title: 'TrueCoders Student Portal'
   },
   additionalSignUpFields: [{
     name: 'firstName',
@@ -82,14 +89,25 @@ export const isTokenExpired = () => {
   //todo: implement this correctly
   const token = getToken();
   return !token;
+};
 
+export const isSecondaryAccount = () => {
+  return !!localStorage.getItem('primary_account_access_token');
+};
 
-  //
-  // const expirationDate = getTokenExpirationDate();
-  // const offsetSeconds = 0;
-  // if(expirationDate === null) {
-  //   return false;
-  // }
-  //
-  // return !(expirationDate.valueOf() > new Date().valueOf() + offsetSeconds * 1000);
+export const linkToPrimaryAccount = async (primaryAccessToken, secondaryIdToken) => {
+  lock.getUserInfo(primaryAccessToken, async (err, profile) => {
+    const linkResult = await axios.post(`https://${appConfig.auth0Domain}/api/v2/users/${profile.sub}/identities`, {
+      link_with: secondaryIdToken
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${ primaryAccessToken }`
+      }
+    });
+
+    console.log('LINK RESULT', linkResult);
+
+    localStorage.removeItem('primary_account_access_token');
+  });
 };

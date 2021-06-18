@@ -1,10 +1,10 @@
-Lecture Video Part 1
+ViewLecture Video Part 1
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/504984084/bee103445e" type="video/mp4" />
 </video>
 
-Lecture Video Part 2
+ViewLecture Video Part 2
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/504984217/a665a7c3cc" type="video/mp4" />
@@ -12,7 +12,7 @@ Lecture Video Part 2
 
 ---
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -445,11 +445,11 @@ Use the code above to test and print the results.
 
 ---
 
-## Quiz:
+## ViewQuiz:
 
-[JavaScript Operator Quiz](https://docs.google.com/forms/d/e/1FAIpQLScGATRmc8u1G14bSEOv5ahFEKCRl_49GJJqH-eIWdlANIsKng/viewform?authuser=3)
+[JavaScript Operator ViewQuiz](https://docs.google.com/forms/d/e/1FAIpQLScGATRmc8u1G14bSEOv5ahFEKCRl_49GJJqH-eIWdlANIsKng/viewform?authuser=3)
 
-### Quiz Review Video
+### ViewQuiz Review Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/505434933/7adb700738" type="video/mp4" />

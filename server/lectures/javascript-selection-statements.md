@@ -1,4 +1,4 @@
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/504984430/6429105714" type="video/mp4" />
@@ -6,7 +6,7 @@ Lecture Video
 
 ---
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -234,6 +234,6 @@ Exercise Repo: [JavaScript Selection Statements](https://github.com/truecodersio
 
 ---
 
-## Quiz:
+## ViewQuiz:
 
-JavaScript Operator Quiz and Video are coupled with the JavaScript Loops Quiz
+JavaScript Operator ViewQuiz and Video are coupled with the JavaScript Loops ViewQuiz

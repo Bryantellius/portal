@@ -3,13 +3,13 @@ title: "Lifecycle Methods"
 slug: "react-lifecycle-methods"
 ---
 
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/511324148/21dd654893" type="video/mp4" />
 </video>
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -196,6 +196,6 @@ Video Walkthrough:
   <source src="https://vimeo.com/511324283/0194b24be1" type="video/mp4" />
 </video>
 
-## Quiz
+## ViewQuiz
 
-[React Lifecycle Methods Quiz](https://docs.google.com/forms/d/e/1FAIpQLSdyOmBxiXl27JWMIcFd1NLSqhYwe2Ok6mKhQcYtuTm9z06uEg/viewform)
+[React Lifecycle Methods ViewQuiz](https://docs.google.com/forms/d/e/1FAIpQLSdyOmBxiXl27JWMIcFd1NLSqhYwe2Ok6mKhQcYtuTm9z06uEg/viewform)

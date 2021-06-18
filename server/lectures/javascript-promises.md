@@ -1,10 +1,10 @@
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/504984084/bee103445e" type="video/mp4" />
 </video>
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -194,6 +194,6 @@ Exercise Walkthrough
 
 [Exercise Walkthrough Documentation](https://docs.google.com/document/d/1YQpP1WqzL3xxxYJQVvYkZpwJz2vbMfh7yKqBrT1NE3c/edit?usp=sharing)
 
-## Quiz:
+## ViewQuiz:
 
-[JavaScript Promises Quiz](https://docs.google.com/forms/d/e/1FAIpQLScCBvQYE50NLIEn6lq7qM3cgwINMMNGfxoraJlpth6J-BR0QA/viewform?authuser=3)
+[JavaScript Promises ViewQuiz](https://docs.google.com/forms/d/e/1FAIpQLScCBvQYE50NLIEn6lq7qM3cgwINMMNGfxoraJlpth6J-BR0QA/viewform?authuser=3)

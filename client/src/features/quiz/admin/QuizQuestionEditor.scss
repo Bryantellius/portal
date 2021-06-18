@@ -1,0 +1,11 @@
+.quiz-question-editor {
+  margin-top: 15px;
+
+  .btn svg {
+    margin-right: 0;
+  }
+
+  & > .card-body {
+    padding: 5px 10px;
+  }
+}

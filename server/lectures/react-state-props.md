@@ -3,19 +3,19 @@ title: "State and Props"
 slug: "react-state-props"
 ---
 
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/truecodersio/review/510881329/013d63a934" type="video/mp4" />
 </video>
 
-Lecture Video 2
+ViewLecture Video 2
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/truecodersio/review/510881453/982a3e65a5" type="video/mp4" />
 </video>
 
-# Lecture
+# ViewLecture
 
 ## Why
 
@@ -312,6 +312,6 @@ Exercise Walkthrough Video
   <source src="https://vimeo.com/511323881/7a7e1c80bc" type="video/mp4" />
 </video>
 
-## Quiz:
+## ViewQuiz:
 
-[State and Props Quiz](https://docs.google.com/forms/d/e/1FAIpQLSfNdWxvfW7KRKq41xH9IGz6V4VJ65OqlBaSqOyMRTRIvJynfA/viewform)
+[State and Props ViewQuiz](https://docs.google.com/forms/d/e/1FAIpQLSfNdWxvfW7KRKq41xH9IGz6V4VJ65OqlBaSqOyMRTRIvJynfA/viewform)

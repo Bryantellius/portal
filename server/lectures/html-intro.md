@@ -112,9 +112,9 @@ For a comprehensive list of all HTML attributes for each element check out: [htt
 
 ---
 
-## Quiz:
+## ViewQuiz:
 
-[Take the HTML Intro Quiz](https://forms.gle/3UAruc528AwstffP6)
+[Take the HTML Intro ViewQuiz](https://forms.gle/3UAruc528AwstffP6)
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/524510479" type="video/mp4" />

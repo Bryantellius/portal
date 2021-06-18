@@ -1,4 +1,4 @@
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/503235005/7503e450bf" type="video/mp4" />
@@ -6,7 +6,7 @@ Lecture Video
 
 ---
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -323,6 +323,6 @@ We get a neatly aligned form!
 
 ---
 
-## Quiz:
+## ViewQuiz:
 
-No Quiz!
+No ViewQuiz!

@@ -1,16 +1,16 @@
-Lecture Video 1
+ViewLecture Video 1
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/504984084/bee103445e" type="video/mp4" />
 </video>
 
-Lecture Video 2
+ViewLecture Video 2
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/509030596/8cb3bd8ba2" type="video/mp4" />
 </video>
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -236,9 +236,9 @@ Exercise Walkthrough
 
 [Exercise WalkThrough Here](https://docs.google.com/document/u/1/d/1N7nS0hDFAQyJMFpTXjUo_lWAwSxuzatH8x__jsxaT9c/edit)
 
-## Quiz:
+## ViewQuiz:
 
-[JavaScript APIs Quiz](https://forms.gle/LARgE5w2ykTp9BeM6)
+[JavaScript APIs ViewQuiz](https://forms.gle/LARgE5w2ykTp9BeM6)
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/510425267/792d06ae25" type="video/mp4" />

@@ -1,16 +1,16 @@
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/truecodersio/review/510436774/3b57480035" type="video/mp4" />
 </video>
 
-Lecture Video 2
+ViewLecture Video 2
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/truecodersio/review/510881202/f8287a451e" type="video/mp4" />
 </video>
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -180,6 +180,6 @@ Use the steps below to help with the exercise
 
 [Exercise Walkthrough Documentation](https://docs.google.com/document/d/1toNzn9MTuxG66ZZL5ZEFitYZ8gSy3Lh9_4W2f3PJfN8/edit?usp=sharing)
 
-## Quiz
+## ViewQuiz
 
-[React Intro Quiz](https://docs.google.com/forms/d/e/1FAIpQLScPSFScofwU-OoiU6UroaRVJAWTK4fMvXaXYvjKUkytr6oCkw/viewform)
+[React Intro ViewQuiz](https://docs.google.com/forms/d/e/1FAIpQLScPSFScofwU-OoiU6UroaRVJAWTK4fMvXaXYvjKUkytr6oCkw/viewform)

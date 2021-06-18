@@ -1,5 +1,5 @@
 ---
-title: "Lecture Format for Markdown"
+title: "ViewLecture Format for Markdown"
 slug: "adding-lectures"
 ---
 
@@ -47,7 +47,7 @@ docs: [
 
 ```
 ---
-title: "Lecture Title"
+title: "ViewLecture Title"
 slug: "/url-slug"
 ---
 ```
@@ -56,8 +56,8 @@ slug: "/url-slug"
 
 ### Headings
 
-- The h1 (#) on the page will be `# Lecture`
-- The h2 (##)'s on the page will be `## Why`, `## What`, `## How`, `## Exercise`, and `## Quiz`
+- The h1 (#) on the page will be `# ViewLecture`
+- The h2 (##)'s on the page will be `## Why`, `## What`, `## How`, `## Exercise`, and `## ViewQuiz`
 - All other subheadings will be h3 to h6 (### => ######), as makes semantic sense according to the content
 
 ### Code Snippets
@@ -82,10 +82,10 @@ slug: "/url-slug"
 - All lecture videos are stored on [vimeo](https://vimeo.com/)
 - When inserting lecture, exercise, or quiz review videos in markdown, please use the following formats:
 
-Lecture Video
+ViewLecture Video
 
 ```
-Lecture Video <number>
+ViewLecture Video <number>
 
 <video width="100%" height="auto" controls>
   <source src="<vimeo-sharable-link" type="video/mp4" />
@@ -102,17 +102,17 @@ Exercise Walkthrough Video <number>
 </video>
 ```
 
-Quiz Review Video
+ViewQuiz Review Video
 
 ```
-Quiz Review Video
+ViewQuiz Review Video
 
 <video width="100%" height="auto" controls>
   <source src="<vimeo-sharable-link" type="video/mp4" />
 </video>
 ```
 
-- Please note: There may or may not be more than one video to include. In the case where there are two videos to include, append the video number (e.g. Lecture Video 1, Lecture Video 2)
+- Please note: There may or may not be more than one video to include. In the case where there are two videos to include, append the video number (e.g. ViewLecture Video 1, ViewLecture Video 2)
 
 ### Images
 
@@ -130,9 +130,9 @@ Quiz Review Video
 ### Horizontal Lines
 
 - Add horizontal lines (`---`) between the following sections:
-  - Lecture videos and `# Lecture` heading
+  - ViewLecture videos and `# ViewLecture` heading
   - `## How` section and `## Exercise` section
-  - `## Exercise` section and `## Quiz` section
+  - `## Exercise` section and `## ViewQuiz` section
 
 ### Why, What, How Sections
 
@@ -202,7 +202,7 @@ The API we will be using: [Studio Ghibli API](https://ghibliapi.herokuapp.com/#s
 </BrowserRouter>
 
 2. Create a Navbar component. Import and then render the component in the App component (not inside the Switch)
-3. Next, you should create three Links that point to a specific Route url. One for Home, another for Films, and a third for People
+3. Next, you should create three Links that point to a specific Route url. One for HomePage, another for Films, and a third for People
 4. Start configuring your first route.
 
 - Say, for `/films`. After navigating to [localhost:3000/films](localhost:3000/films), you should see Studio Ghibli's list of films.
@@ -235,14 +235,14 @@ Exercise Walkthrough Video
 
 - Please note: This exercise example section can be loosely followed for format and content. If there is no need for a `Getting Started` or `Bonus` section, omit them.
 
-### Quiz Section
+### ViewQuiz Section
 
-- Include the link to the Quiz in Google Forms as follows:
-
-```
-
-[<lecture-title> Quiz](google-form-link)
+- Include the link to the ViewQuiz in Google Forms as follows:
 
 ```
 
-- If there is currently no quiz available, be sure to add `No Quiz!`
+[<lecture-title> ViewQuiz](google-form-link)
+
+```
+
+- If there is currently no quiz available, be sure to add `No ViewQuiz!`

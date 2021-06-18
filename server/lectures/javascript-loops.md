@@ -1,4 +1,4 @@
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/505435531/6d792ef097" type="video/mp4" />
@@ -6,7 +6,7 @@ Lecture Video
 
 ---
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -284,9 +284,9 @@ Ex: 15 would print 'FIZZBUZZ', 33 would print 'FIZZ', and 35 would print 'BUZZ'
 
 ---
 
-## Quiz:
+## ViewQuiz:
 
-[JS Selection Selection Statements Quiz](https://docs.google.com/forms/d/e/1FAIpQLSeYB7hVbr9eH9S73-M_gBIZbsYOVvZ_kzkjkrMJOeCJUSEv0g/viewform?authuser=3)
+[JS Selection Selection Statements ViewQuiz](https://docs.google.com/forms/d/e/1FAIpQLSeYB7hVbr9eH9S73-M_gBIZbsYOVvZ_kzkjkrMJOeCJUSEv0g/viewform?authuser=3)
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/506290132/6a5bd742e8" type="video/mp4" />

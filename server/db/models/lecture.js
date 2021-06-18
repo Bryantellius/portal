@@ -24,7 +24,7 @@ export default (sequelize, DataTypes) => {
       }
     },
     title: DataTypes.STRING,
-    fileName: DataTypes.STRING
+    content: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'lecture',

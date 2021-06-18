@@ -20382,6 +20382,7 @@ textarea[resize="horizontal"] {
   position: fixed;
   z-index: 900;
   top: 0;
+  left: 0;
   overflow: auto;
   height: 100vh;
   margin-bottom: 0;
@@ -20398,7 +20399,7 @@ textarea[resize="horizontal"] {
 
 @media (min-width: 992px) {
   .docs .sidenav {
-    max-width: 250px !important;
+    max-width: 350px !important;
     height: 100vh;
     transform: translateX(0);
     border-right: 1px solid #e2e8f0;

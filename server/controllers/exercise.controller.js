@@ -16,7 +16,42 @@ const updateExerciseSubmission = async (req, res) => {
   return res.json(updated);
 };
 
+const getExerciseSubmissions = async (req, res) => {
+  let findOptions = {
+    include: [{
+      model: db.User,
+      where: req.params.userId
+        ? {
+          id: req.params.userId
+        } : undefined
+    }, {
+      model: db.Exercise,
+      include: {
+        model: db.Lecture
+      }
+    }]
+  };
+
+  const submissions = await db.ExerciseSubmission.findAll(findOptions);
+
+  res.json(submissions);
+};
+
+const approveSubmission = async (req, res) => {
+  const updateResult = await db.ExerciseSubmission.update({
+    hasBeenReviewed: true
+  }, {
+    where: {
+      id: req.params.submissionId
+    }
+  });
+
+  res.json(updateResult);
+};
+
 export default {
   submitExercise,
-  updateExerciseSubmission
+  updateExerciseSubmission,
+  getExerciseSubmissions,
+  approveSubmission
 };

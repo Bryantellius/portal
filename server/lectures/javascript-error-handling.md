@@ -1,10 +1,10 @@
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/508155630/eb581665ce" type="video/mp4" />
 </video>
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -208,6 +208,6 @@ In summary, we’ve seen a working example of error handling. We’ve successful
 
 If you’d like to fork the example application and test different ways to handle errors, [click here to go to the repository.](https://github.com/Bryantellius/JavaScript-ErrorHandling.git)
 
-## Quiz:
+## ViewQuiz:
 
-No Quiz!
+No ViewQuiz!

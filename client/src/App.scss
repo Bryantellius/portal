@@ -13,11 +13,16 @@ main, #root, body, html {
   margin-top: $header-navbar-height;
 }
 
-.app-content-wrapper {
-  margin-top: $header-navbar-height;
-  padding: 30px 50px;
+.page-content {
+  padding: 50px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.dashboard-widget {
+  .card-img-top {
+    height: 250px;
+  }
 }
 
 .badge-top-right {

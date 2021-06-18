@@ -1,10 +1,10 @@
-Lecture Video
+ViewLecture Video
 
 No lecture video available. Coming soon!
 
 ---
 
-# Lecture
+# ViewLecture
 
 ## Why:
 

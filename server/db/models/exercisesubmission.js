@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   exerciseSubmission.init({
+    hasBeenReviewed: DataTypes.BOOLEAN,
     exerciseId: {
       type: DataTypes.INTEGER,
       references: {

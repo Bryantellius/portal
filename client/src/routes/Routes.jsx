@@ -1,8 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import routes from './index';
-import DefaultLayout from '../components/layout/DefaultLayout';
-import { useSelector } from 'react-redux';
+import DefaultLayout from '../features/layout/DefaultLayout';
 
 const RouteWithLayout = route => {
   const Layout = route.layout || DefaultLayout;

@@ -3,7 +3,7 @@ title: "Router Hooks"
 slug: "/react-router-hooks"
 ---
 
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/truecodersio/review/511784716/81ba606ccf" type="video/mp4" />
@@ -11,7 +11,7 @@ Lecture Video
 
 ---
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -60,7 +60,7 @@ First, let’s add a parameter to my route:
 
 ```
 <Route path="/characters/:name">
-  <Home />
+  <HomePage />
 </Route>
 ```
 
@@ -294,6 +294,6 @@ Exercise Walkthrough Video
   <source src="https://vimeo.com/513161607/9b14f4ac7c" type="video/mp4" />
 </video>
 
-## Quiz:
+## ViewQuiz:
 
-No Quiz!
+No ViewQuiz!

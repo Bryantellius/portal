@@ -1,10 +1,10 @@
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/506288392/c19283183a" type="video/mp4" />
 </video>
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -259,6 +259,6 @@ Exercise Repo: [JavaScript Objects and Arrays](https://github.com/Bryantellius/J
 
 [Exercise Walkthrough Documentation](https://docs.google.com/document/d/1VrthmnNsMheDExqlY700AP2oM4RW5fCNmYtEDw-AulQ/edit?usp=sharing)
 
-## Quiz
+## ViewQuiz
 
-[JavaScript Objects and Arrays Quiz](https://forms.gle/raAZbghTBmHCFUx86)
+[JavaScript Objects and Arrays ViewQuiz](https://forms.gle/raAZbghTBmHCFUx86)

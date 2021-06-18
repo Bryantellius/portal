@@ -3,13 +3,13 @@ title: "Router"
 slug: "/react-router"
 ---
 
-Lecture Video 1
+ViewLecture Video 1
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/512688952/cf667b10f7" type="video/mp4" />
 </video>
 
-Lecture Video 2
+ViewLecture Video 2
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/513159042/c08596be42" type="video/mp4" />
@@ -17,7 +17,7 @@ Lecture Video 2
 
 ---
 
-# Lecture
+# ViewLecture
 
 ## Why
 
@@ -103,7 +103,7 @@ and
             <Admin />
         </Route>
         <Route path="/">
-            <Home />
+            <HomePage />
         </Route>
     </Switch>
 </BrowserRouter>
@@ -113,11 +113,11 @@ Now, start the application to see it in the browser, use the url bar to test tha
 
 #### Exact attribute
 
-But if you notice, your Home component continues to stay rendered below the other components, so let's fix that with the exact attribute added to the Home route:
+But if you notice, your HomePage component continues to stay rendered below the other components, so let's fix that with the exact attribute added to the HomePage route:
 
 ```
 <Route exact path="/">
-    <Home />
+    <HomePage />
 </Route>
 ```
 
@@ -131,7 +131,7 @@ import { Link } from "react-router-dom";
 
 ```
 <li>
-    <Link to="/">Home</Link>
+    <Link to="/">HomePage</Link>
 </li>
 <li>
     <Link to="/users">Users</Link>
@@ -153,7 +153,7 @@ Now let’s pass some props to our routes.
     <Admin title="Admin Rule"/>
 </Route>
 <Route>
-    <Home title="Welcome Rule"/>
+    <HomePage title="Welcome Rule"/>
 </Route>
 ```
 
@@ -195,7 +195,7 @@ The API we will be using: [Studio Ghibli API](https://ghibliapi.herokuapp.com/#s
 ```
 
 2. Create a Navbar component. Import and then render the component in the App component (not inside the Switch)
-3. Next, you should create three Links that point to a specific Route url. One for Home, another for Films, and a third for People
+3. Next, you should create three Links that point to a specific Route url. One for HomePage, another for Films, and a third for People
 4. Start configuring your first route.
 
 - Say, for `/films`. After navigating to [localhost:3000/films](localhost:3000/films), you should see Studio Ghibli's list of films.
@@ -225,6 +225,6 @@ Exercise Walkthrough Video
 
 ---
 
-## Quiz:
+## ViewQuiz:
 
-No Quiz!
+No ViewQuiz!

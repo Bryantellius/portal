@@ -1,4 +1,4 @@
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/510955954/8fe66e4b92" type="video/mp4" />
@@ -6,7 +6,7 @@ Lecture Video
 
 ---
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -188,6 +188,6 @@ h1, h2, p {
 
 ---
 
-## Quiz:
+## ViewQuiz:
 
-[CSS Intro Quiz](https://forms.gle/SUGwAQfQuhxjNRo87)
+[CSS Intro ViewQuiz](https://forms.gle/SUGwAQfQuhxjNRo87)

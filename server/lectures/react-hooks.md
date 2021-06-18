@@ -3,7 +3,7 @@ title: "Hooks"
 slug: "/react-hooks"
 ---
 
-Lecture Video
+ViewLecture Video
 
 <video width="100%" height="auto" controls>
   <source src="https://vimeo.com/truecodersio/review/511784716/81ba606ccf" type="video/mp4" />
@@ -11,7 +11,7 @@ Lecture Video
 
 ---
 
-# Lecture
+# ViewLecture
 
 ## Why:
 
@@ -285,6 +285,6 @@ Exercise Walkthrough Video 2
   <source src="https://vimeo.com/512939933/7def44519b" type="video/mp4" />
 </video>
 
-## Quiz
+## ViewQuiz
 
-[React Hooks Quiz](https://docs.google.com/forms/d/e/1FAIpQLSeaASGgs4sWgwCdi5MIbZfxEgVx6ampL9sJSgRKd6u9T0Z48A/viewform)
+[React Hooks ViewQuiz](https://docs.google.com/forms/d/e/1FAIpQLSeaASGgs4sWgwCdi5MIbZfxEgVx6ampL9sJSgRKd6u9T0Z48A/viewform)
