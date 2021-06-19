@@ -11,7 +11,7 @@ import './middleware/localstrategy';
 const app = express();
 
 app.use(cors());
-app.use(express.static('public'));
+app.use(express.static(process.env.PUBLIC_DIR));
 app.use(passport.initialize());
 app.use(express.json());
 app.use(morgan('dev'));
@@ -22,10 +22,10 @@ app.use(
   '*',
   (req, res, next) => {
     try {
-      res.sendFile(path.join(__dirname, 'public/index.html'));
     } catch (error) {
       next(error);
     }
+    res.sendFile(path.join(process.env.PUBLIC_DIR, 'index.html'));
   }
 );
 
