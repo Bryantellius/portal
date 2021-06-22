@@ -2,10 +2,12 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import routes from './index';
 import DefaultLayout from '../features/layout/DefaultLayout';
+import { useSelector } from 'react-redux';
 
-const RouteWithLayout = route => {
+const GetRouteWithLayout = route => {
   const Layout = route.layout || DefaultLayout;
   const Component = route.component;
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   return (
       <Route
@@ -16,9 +18,11 @@ const RouteWithLayout = route => {
           ? (
             <Redirect to={ route.redirect } />
           ) : (
-            <Layout>
-              <Component { ...props } />
-            </Layout>
+            route.requireAuth && !isAuthenticated
+              ? <Redirect to={ '/login' } />
+              : <Layout>
+                  <Component { ...props } />
+                </Layout>
           )
         }
       />
@@ -28,7 +32,7 @@ const RouteWithLayout = route => {
 const Routes = ({ children }) => {
   return (
     <Switch>
-      {routes.map(RouteWithLayout)}
+      {routes.map(route => GetRouteWithLayout(route))}
     </Switch>
   );
 };

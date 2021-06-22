@@ -8,6 +8,7 @@ import courseRouter from './api/course.router';
 import moduleRouter from './api/module.router';
 import exerciseRouter from './api/exercise.router';
 import videoRouter from './api/video.router';
+import path from 'path';
 
 lectureRouter.use(checkJwt);
 quizRouter.use(checkJwt);
@@ -17,6 +18,8 @@ exerciseRouter.use(checkJwt);
 videoRouter.use(checkJwt);
 
 const router = Router();
+
+router.get('/', (req, res) => res.sendFile(path.join(process.env.PUBLIC_DIR, 'index.html')));
 
 router.use('/api/auth', authRouter);
 router.use('/api/user', userRouter);
@@ -31,5 +34,6 @@ router.use('/api/module', moduleRouter);
 router.use('/api/exercise', exerciseRouter);
 router.use('/api/user/:userId/exercise', exerciseRouter);
 router.use('/api/video', videoRouter);
+router.use('/api/user/:userId/quiz', quizRouter);
 
 export default router;

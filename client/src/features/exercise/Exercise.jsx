@@ -4,40 +4,38 @@ import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import PageActions from '../shared/components/PageActions';
 import ActionButton from '../shared/components/ActionButton';
-import ApiClient from '../../utils/apiClient';
 import ExerciseComments from './ExerciseComments';
 import { submitExercise, updateExerciseSubmission } from './exercise.slice';
+import VideoPlaylist from '../video/VideoPlaylist';
 
 const Exercise = ({
-  id,
-  content,
-  onNext,
+  exercise,
   onSubmitted,
-  lecture
+  onNext
 }) => {
   const [githubRepoUrl, setGithubRepoUrl] = useState('');
   const dispatch = useDispatch();
+  const lecture = useSelector(state => state.lecture.curentLecture);
   const user = useSelector(state => state.auth.user);
-  const submission = useSelector(state => state.exercise.userSubmissions.find(submission => submission.exerciseId === id));
+  const submission = useSelector(state => state.exercise.userSubmissions.find(submission => submission.exerciseId === lecture.id));
 
   const uploadGithubRepo = async () => {
     const exerciseSubmission = {
       repoUrl: githubRepoUrl,
       userId: user.id,
-      exerciseId: id
+      exerciseId: exercise.id
     };
 
     const updateRepo = async () => {
-      dispatch(updateExerciseSubmission({ userId: user.id, exerciseId: id, repoUrl: githubRepoUrl }));
+      dispatch(updateExerciseSubmission(exerciseSubmission));
       onSubmitted();
     };
 
     const submitRepo = async () => {
-      dispatch(submitExercise({ userId: user.id, exerciseId: id, repoUrl: githubRepoUrl }));
+      dispatch(submitExercise(exerciseSubmission));
       onSubmitted();
     };
 
-    const apiClient = new ApiClient();
     await (submission?.id
       ? updateRepo()
       : submitRepo());
@@ -51,8 +49,11 @@ const Exercise = ({
 
   return (
     <>
+      {
+        exercise.videos?.length > 0 && <VideoPlaylist videos={exercise.videos} />
+      }
       <Markdown>
-        {content}
+        {exercise.content}
       </Markdown>
 
       <Form>

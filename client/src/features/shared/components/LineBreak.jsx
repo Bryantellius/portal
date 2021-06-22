@@ -1,10 +1,14 @@
 import React, { Fragment } from 'react';
 
-const LineBreak = () => {
+const LineBreak = ({
+  style,
+  ...props
+}) => {
   return (
-    <Fragment>
-      <br style={{ clear: 'both' }} className="clearfix" />
-    </Fragment>
+    <br style={{
+      clear: 'both',
+      ...style
+    }} { ...props } />
   );
 };
 

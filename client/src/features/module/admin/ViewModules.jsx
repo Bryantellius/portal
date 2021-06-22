@@ -1,34 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import PageHeading from '../../shared/components/PageHeading';
 import DataTable from '../../shared/components/DataTable';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchModules } from '../module.slice';
+import moduleService from '../module.service';
+import PageContent from '../../shared/components/PageContent';
+import { columnDefinitions } from '../module.config';
 
 const ViewModules = () => {
-  const dispatch = useDispatch();
-  const modules = useSelector(state => state.module.modules);
-
-  const columnDefinitions = [{
-    name: 'ID',
-    selector: 'id',
-    sortable: true,
-    grow: 0
-  }, {
-    name: 'Title',
-    selector: 'title',
-    sortable: true
-  }, {
-    name: 'Created At',
-    selector: 'createdAt',
-    sortable: true
-  }];
+  const [modules, setModules] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchModules());
-  }, [dispatch]);
+    const fetchModules = async () => {
+      const modules = await moduleService.fetchAll();
+      setModules(modules);
+    };
+
+    fetchModules();
+  }, []);
 
   return (
-    <div className="page-content">
+    <PageContent className="page-content">
       <PageHeading title="Modules" />
 
       <DataTable
@@ -36,9 +26,8 @@ const ViewModules = () => {
         columns={columnDefinitions}
         data={modules}
         selectableRows
-        editRoute={module => `/admin/modules/${ module.id }`}
       />
-    </div>
+    </PageContent>
   );
 };
 

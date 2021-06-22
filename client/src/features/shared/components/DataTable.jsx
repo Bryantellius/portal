@@ -1,53 +1,43 @@
 import React, { useMemo, useState } from 'react';
-import { Button, ButtonGroup } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPencilAlt
-} from '@fortawesome/free-solid-svg-icons';
 import { default as DataTableComponent } from 'react-data-table-component';
 import Loading from './Loading';
+import RowContextActions from '../dataTable/RowContextActions';
+import TableActions from '../dataTable/TableActions';
+import RowActionButton from '../dataTable/RowActionButton';
+import { ButtonGroup } from 'react-bootstrap';
+import RowActionsCell from '../dataTable/RowActionsCell';
 
 const DataTable = ({
   title,
   columns,
   data,
-  editRoute,
   selectableRows = true,
-    loading,
+  loading,
+  onEdit,
+  onDelete,
+  onCreate,
   actions,
-  contextActions,
-  canDelete = true
+  rowActions = [],
+  contextActions = []
 }) => {
-  const history = useHistory();
   const [selectedRows, setSelectedRows] = useState([]);
-
-  const goToEditView = entity => {
-    history.push(editRoute(entity));
-  };
-
-  const editColumn = {
-    button: true,
-    cell: row => (
-      <Button variant="secondary" onClick={() => goToEditView(row)}>
-        <FontAwesomeIcon icon={faPencilAlt} />
-      </Button>
-    )
-  };
 
   const handleSelectedRowsChange = ({ selectedRows }) => {
     setSelectedRows(selectedRows);
   };
 
-  const extendedColumns = useMemo(() => !!editRoute
-    ? [
-      ...columns,
-      editColumn
-    ]
-    : columns, [columns, data, editColumn]);
+  const extendedColumns = [
+    ...columns,
+    {
+      name: '',
+      cell: (row, rowIndex) => <RowActionsCell actions={rowActions} row={row} rowIndex={rowIndex} />
+    }
+  ];
+
 
   return (
     <DataTableComponent
+      responsive
       progressPending={loading}
       progressComponent={Loading}
       title={title}
@@ -56,8 +46,8 @@ const DataTable = ({
       selectableRows={ selectableRows }
       onSelectedRowsChange={ handleSelectedRowsChange }
       highlightOnHover
-      actions={actions}
-      contextActions={contextActions}
+      actions={<TableActions actions={actions} selectedRows={selectedRows} />}
+      contextActions={<RowContextActions actions={contextActions} selectedRows={selectedRows} />}
     />
   );
 };

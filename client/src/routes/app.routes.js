@@ -4,12 +4,25 @@ import CourseLayout from '../features/course/layout/CourseLayout';
 import Dashboard from '../features/dashboard/Dashboard.page';
 import UserAdditionalInfo from '../features/user/UserAdditionalData.page';
 import ViewVideos from '../features/video/ViewVideos.page';
-import LectureContainer from '../features/lecture/Lecture.container';
+import ViewCourse from '../features/course/ViewCourse';
 import AccountSettingsLayout from '../features/layout/AccountSettingsLayout';
 import Profile from '../features/user/Profile';
 import ConnectedAccounts from '../features/user/account/ConnectedAccounts';
+import PrivacyPolicy from '../features/privacy/PrivacyPolicy.page';
+import TermsAndConditions from '../features/terms-and-conditions/TermsAndConditions.page';
 
-const appRoutes = [
+const appRoutes = [ {
+    path: '/privacy',
+    key: 'app.privacy-policy',
+    component: PrivacyPolicy,
+    exact: true
+  },
+  {
+    path: '/terms-and-conditions',
+    key: 'app.terms-and-conditions',
+    component: TermsAndConditions,
+    exact: true
+  },
   {
     path: '/dashboard',
     key: 'app.dashboard',
@@ -35,9 +48,9 @@ const appRoutes = [
     component: ConnectedAccounts
   },
   {
-    path: '/learn',
+    path: '/course/:courseId',
     key: 'app.course.view',
-    component: LectureContainer,
+    component: ViewCourse,
     layout: CourseLayout
   },
   {

@@ -7,12 +7,10 @@ import CareerServicesWidget from './CareerServicesWidget';
 import EnrolledCoursesWidget from './EnrolledCoursesWidget';
 import GreetingWidget from './GreetingWidget';
 import TutoringWidget from './TutoringWidget';
-import { fetchExerciseSuibmissionsForUser } from '../exercise/exercise.slice';
-import { fetchEnrolledCourses } from '../course/course.slice';
+import { Button } from 'antd';
 
 const DashboardPage = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
 
   useEffect(() => {
@@ -25,24 +23,12 @@ const DashboardPage = () => {
     }
   }, [user, history]);
 
-  useEffect(() => {
-    if (!(user && user.id)) {
-      return;
-    }
-
-    dispatch(fetchEnrolledCourses(user.id));
-  }, [dispatch, user]);
-
-  useEffect(() => {
-    if (!(user && user.id)) {
-      return;
-    }
-
-    dispatch(fetchExerciseSuibmissionsForUser(user.id));
-  }, [dispatch, user])
-
   return (
     <Wrapper>
+
+      <Button type="primary">
+        Test Button
+      </Button>
       <Row className="align-items-top mb-5">
         <Col xs={6}>
           <EnrolledCoursesWidget />

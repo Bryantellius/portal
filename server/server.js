@@ -12,22 +12,12 @@ const app = express();
 
 app.use(cors());
 app.use(express.static(process.env.PUBLIC_DIR));
+app.use('/assets', express.static(path.join(process.cwd(), 'public/assets')));
 app.use(passport.initialize());
 app.use(express.json());
 app.use(morgan('dev'));
 
 app.use(router);
-
-app.use(
-  '*',
-  (req, res, next) => {
-    try {
-    } catch (error) {
-      next(error);
-    }
-    res.sendFile(path.join(process.env.PUBLIC_DIR, 'index.html'));
-  }
-);
 
 app.use((
   err,

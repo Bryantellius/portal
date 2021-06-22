@@ -1,0 +1,22 @@
+version: '3'
+services:
+  server:
+    env_file:
+      - server/.env.dev
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    image: "pjschmidt3/truecoders-portal-backend"
+    ports:
+      - "80:3001"
+  client:
+    env_file:
+      - client/.env.dev
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+    image: "pjschmidt3/truecoders-portal-frontend"
+    ports:
+      - "80:3000"
+    links:
+      - "client"

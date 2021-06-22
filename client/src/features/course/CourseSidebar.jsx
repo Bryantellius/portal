@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import styled from 'styled-components';
 import { Nav } from 'react-bootstrap';
 import CourseProgressBar from './CourseProgressBar';
 import CourseSidebarModule from './sidebar/CourseSidebarModule';

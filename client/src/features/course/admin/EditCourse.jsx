@@ -1,128 +1,149 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Form } from 'react-bootstrap';
-import PageHeading from '../../shared/components/PageHeading';
-import { Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMinusCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Form, Input, DatePicker } from 'formik-antd';
+import { Card } from 'antd';
 import moment from 'moment';
-import DataTableActions from '../../shared/components/DataTableActions';
-import DataTable from '../../shared/components/DataTable';
-import { fetchCourse } from '../course.slice';
-import { useDispatch, useSelector } from 'react-redux';
+import PageHeading from '../../shared/components/PageHeading';
+import { useDispatch } from 'react-redux';
+import courseService from '../course.service';
+import { FieldArray, Formik } from 'formik';
+import PageContent from '../../shared/components/PageContent';
+import 'react-datepicker/dist/react-datepicker.css';
+import EditCourseModule from './EditCourseModule';
+import CourseModules from './CourseModules';
 
 const EditCourse = () => {
   const { id } = useParams();
   const [modules, setModules] = useState([]);
   const dispatch = useDispatch();
-  const course = useSelector(state => state.course.course);
-  const [editorCourse, setEditorCourse] = useState(course);
-
-  const addModule = () => {
-    setModules([...modules, {}]);
-  };
+  const [course, setCourse] = useState({
+    title: '',
+    modules: []
+  });
 
   const removeModule = () => {
-    setModules([modules.slice(1)]);
+    setModules(modules.filter());
   };
 
-  const moduleColumns = useMemo(() => {
-    return [{
-      name: 'Title',
-      selector: 'title',
-      sortable: true
-    }, {
-      name: 'Date Added',
-      selector: 'createdAt',
-      sortable: true
-    }, {
-      sortable: false,
-      button: true,
-      cell: row => (
-        <Button variant="danger" size="sm" onClick={e => removeModule(row.id)}>
-          <FontAwesomeIcon icon={faMinusCircle} />
-        </Button>
-      )
-    }];
-  }, [removeModule]);
+
+  const saveCourse = async course => {
+    await courseService.upsert(course);
+  };
 
   useEffect(() => {
-    dispatch(fetchCourse(id))
+    const fetchCourse = async () => {
+      const course = await courseService.fetchById(id);
+
+      setCourse(course);
+    };
+
+    fetchCourse();
   }, [id, dispatch]);
 
   return (
-    <div className="page-content">
+    <PageContent className="page-content">
       <PageHeading>
-        View/Edit Course: { `${ course?.lastName },${ course?.firstName }` }
+        View/Edit Course: { course.title }
       </PageHeading>
-      <Form>
-        <Form.Group controlId="title">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            type="text"
-            value={course?.title}
-            onChange={e => setEditorCourse({
-              ...course,
-              title: e.target.value
-            })}
-          />
-        </Form.Group>
-        <Form.Group controlId="type">
-          <Form.Label>Type</Form.Label>
-          <Form.Control
-            type="text"
-            value={course?.type}
-            onChange={e => setEditorCourse({
-              ...course,
-              type: e.target.value
-            })}
-          />
-        </Form.Group>
-        <Form.Group controlId="startDate">
-          <Form.Label>Start Date</Form.Label>
-          <Form.Control
-            type="date"
-            value={moment(course?.startDate).format('YYYY-MM-DD')}
-            onChange={e => setEditorCourse({
-              ...course,
-              startDate: e.target.value
-            })}
-          />
-        </Form.Group>
 
-        <Form.Group controlId="endDate">
-          <Form.Label>End Date</Form.Label>
-          <Form.Control
-            type="date"
-            value={moment(course?.endDate).format('YYYY-MM-DD')}
-            onChange={e => setEditorCourse({
-              ...course,
-              endDate: e.target.value
-            })}
-          />
-        </Form.Group>
-        <Card>
-          <Card.Body>
-            <DataTableActions>
-              <Button
-                className="float-right"
-                variant="primary"
-                size="sm"
-                onClick={addModule}>
-                <FontAwesomeIcon icon={faPlus} />
-                Add
-              </Button>
-            </DataTableActions>
-            <DataTable
-              title="Included Modules"
-              columns={moduleColumns}
-              data={modules}
-              selectableRows>
-            </DataTable>
-          </Card.Body>
-        </Card>
-      </Form>
-    </div>
+      { course?.id &&
+      <Formik
+        enableReinitialize={ true }
+        validateOnBlur={ false }
+        validateOnChange={ false }
+        initialValues={ course }
+        onSubmit={ values => saveCourse(values) }>
+        { ({
+          values,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue
+        }) => (
+          <Form onSubmit={ handleSubmit }>
+            <Form.Item name="title" label="Title">
+              <Input
+                type="text"
+                value={ values?.title }
+                onChange={ handleChange }
+                onBlur={ handleBlur }
+              />
+            </Form.Item>
+            <Form.Item name="type" label="Type">
+              <Input
+                name="type"
+                type="text"
+                value={ values.type }
+                onChange={ handleChange }
+                onBlur={ handleBlur }
+              />
+            </Form.Item>
+            <Form.Item name="startDate" label="Start Date">
+              <DatePicker
+                name="startDate"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={moment(values.startDate)}
+              />
+            </Form.Item>
+            <Form.Item name="endDate" label="Start Date">
+              <DatePicker
+                name="endDate"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={moment(values.startDate)}
+              />
+            </Form.Item>
+
+            <h3>Modules</h3>
+            <FieldArray
+              name="modules">
+              { ({ insert, remove, push }) => (
+                <>
+                  <CourseModules
+                    modules={ values.modules }
+                    onPush={ push }
+                    onRemove={ remove }
+                    onEdit={ index => {
+                      setFieldValue(`modules.${ index }.isEditing`, true);
+                    } }
+                    onCreate={ () => {
+                      push({
+                        title: '',
+                        lectures: [],
+                        isEditing: true
+                      });
+                    } }
+                  />
+
+                  {
+                    values.modules &&
+                    values.modules.length > 0 &&
+                    values.modules.map((module, index) => (
+                      <EditCourseModule
+                        fieldNamespace={ `modules.${ index }` }
+                        key={ index }
+                        module={ module }
+                        show={ module.isEditing }
+                        moduleIndex={ index }
+                        onHide={ () => {
+                          setFieldValue(`modules.${ index }.isEditing`, false);
+                        } }
+                        onSave={ () => {
+                          setFieldValue(`modules.${ index }.isSaved`, true);
+                          setFieldValue(`modules.${ index }.isEditing`, false);
+                        } }
+                      />
+                    ))
+                  }
+                </>
+              ) }
+            </FieldArray>
+          </Form>
+        ) }
+      </Formik>
+      }
+    </PageContent>
   );
 };
 

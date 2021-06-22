@@ -18,7 +18,6 @@ import VideoFactory from './video';
 import ExerciseVideoFactory from './exercisevideo';
 import QuizVideoFactory from './quizvideo';
 import LectureVideoFactory from './lecturevideo';
-import QuizQuestionCorrectAnswerFactory from './quizquestioncorrectanswer';
 import QuizSubmissionFactory from './quizsubmission';
 import ExerciseSubmissionFactory from './exercisesubmission';
 import CourseModuleFactory from './coursemodule';
@@ -58,7 +57,6 @@ const db = {
   LectureVideo: LectureVideoFactory(sequelize, Sequelize),
   ExerciseVideo: ExerciseVideoFactory(sequelize, Sequelize),
   QuizVideo: QuizVideoFactory(sequelize, Sequelize),
-  QuizQuestionCorrectAnswer: QuizQuestionCorrectAnswerFactory(sequelize, Sequelize),
   QuizSubmission: QuizSubmissionFactory(sequelize, Sequelize),
   ExerciseSubmission: ExerciseSubmissionFactory(sequelize, Sequelize),
   CourseModule: CourseModuleFactory(sequelize, Sequelize)

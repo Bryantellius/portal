@@ -1,15 +1,29 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as authService from '../../utils/AuthService';
 import { Auth0Lock } from 'auth0-lock';
 import appConfig from '../../config/appConfig';
-import ApiClient from '../../utils/apiClient';
+import userService from '../user/user.service';
+
+import {
+  getToken,
+  getUser,
+  setUser,
+  setToken,
+  isAuthenticated,
+  isSecondaryAccount,
+  removeUser,
+  removeToken
+} from './auth.helpers';
+import authService from './auth.service';
 
 export const initialState = {
   isLoading: true,
   error: null,
-  isAuthenticated: authService.isAuthenticated(),
-  token: authService.getToken(),
-  user: authService.getUser()
+  isAuthenticated:
+  isAuthenticated(),
+  token:
+  getToken(),
+  user:
+  getUser()
 };
 
 export const linkUserToApi = createAsyncThunk(
@@ -44,10 +58,11 @@ export const doLogin = createAsyncThunk(
           return reject(err);
         }
 
-        if (authResult.accessToken && authService.isSecondaryAccount()) {
+        if (authResult.accessToken &&
+          isSecondaryAccount()) {
           const primaryAccountToken = localStorage.getItem('primary_account_access_token');
           localStorage.removeItem('primary_account_access_token');
-          await authService.linkToPrimaryAccount(primaryAccountToken, authResult.idToken);
+          await authService.linkUserAccounts(primaryAccountToken, authResult.idToken);
 
           dispatch(updateToken(primaryAccountToken));
         } else {
@@ -106,21 +121,20 @@ const getAuth0Lock = () => {
 };
 
 const updateApiUser = (userData = {}) => {
-  const apiClient = new ApiClient();
   const lock = getAuth0Lock();
 
   return new Promise((resolve, reject) => {
-    lock.getUserInfo(authService.getToken(), async (err, profile) => {
+    lock.getUserInfo(getToken(), async (err, profile) => {
       if (err) {
         return reject(err);
       }
 
-      let apiUser = await apiClient.get(`/user/auth0/${ profile.sub }`);
+      let apiUser = await userService.httpGet(`/auth0/${ profile.sub }`);
 
       // if we don't have a user from the API, we need to create one and link it to auth0
       // via the `sub` property of the auth0 user profile
       if (!(apiUser && apiUser.firstName && apiUser.lastName)) {
-        apiUser = await apiClient.post('/user/link', {
+        apiUser = await userService.httpPost('/link', {
           email: profile.email,
           auth0Id: profile.sub,
           avatarUrl: profile.picture,
@@ -149,13 +163,13 @@ export const authSlice = createSlice({
       state.user = action.payload;
       state.isLoading = false;
       state.isAuthenticated = true;
-      authService.setUser(action.payload);
+      setUser(action.payload);
     },
     updateToken: (state, action) => {
       state.token = action.payload;
       state.isAuthenticated = true;
       state.isLoading = true;
-      authService.setToken(state.token);
+      setToken(state.token);
     },
     setLastLectureId: (state, action) => {
       state.user = {
@@ -177,16 +191,20 @@ export const authSlice = createSlice({
       state.user = user;
       state.token = token;
       state.isLoading = false;
-      authService.setUser(user);
-      authService.setToken(token);
+
+      setUser(user);
+
+      setToken(token);
     })
     .addCase(doLogin.rejected, state => {
       state.isLoading = false;
       state.isAuthenticated = false;
       state.user = null;
       state.token = null;
-      authService.removeUser();
-      authService.removeToken();
+
+      removeUser();
+
+      removeToken();
     })
     .addCase(linkUserToApi.pending, state => {
       state.isLoading = true;
@@ -198,7 +216,8 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.isAuthenticated = true;
       state.error = null;
-      authService.setUser(user);
+
+      setUser(user);
     })
     .addCase(linkUserToApi.rejected, state => {
       state.isAuthenticated = true;
@@ -209,8 +228,9 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.token = null;
       state.user = null;
-      authService.removeUser();
-      authService.removeToken();
+
+      removeUser();
+      removeToken();
       state.error = null;
     });
   }

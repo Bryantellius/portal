@@ -11,6 +11,11 @@ const theme = {
         height: '75px'
       }
     },
+    course: {
+      sidebar: {
+        width: '350px'
+      }
+    },
     account: {
       sidebar: {
         width: '300px',

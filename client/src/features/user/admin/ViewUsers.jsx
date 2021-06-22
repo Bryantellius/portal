@@ -1,43 +1,68 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageHeading from '../../shared/components/PageHeading';
 import DataTable from '../../shared/components/DataTable';
-import { fetchUsers, deleteUser } from '../user.slice';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button } from 'react-bootstrap';
 import { columnDefinitions } from '../user.config';
-import DataTableContextAction from '../../shared/components/DataTableContextAction';
+import { useHistory } from 'react-router-dom';
+import userService from '../user.service';
+import PageContent from '../../shared/components/PageContent';
+import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import RowActionButton from '../../shared/dataTable/RowActionButton';
+
+const contextActions = [{
+  name: 'Delete',
+  icon: faTrashAlt,
+  onClick: selectedRows => {
+    userService.deleteMultiple(selectedRows);
+  }
+}];
 
 const ViewUsers = () => {
-  const dispatch = useDispatch();
-  const users = useSelector(state => state.user.users);
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch]);
+  const history = useHistory();
+  const [users, setUsers] = useState([]);
 
-  const contextActions = useMemo(() => {
-    const deleteUsers = async selectedRows => {
-      await Promise.all(selectedRows.map(row => {
-        dispatch(deleteUser(row.id));
-      }));
+  const goToEditRoute = userId => {
+    history.push(`/admin/users/${ userId }`);
+  };
+
+  const rowActions = [{
+    name: '',
+    cell: (row, index) => (
+      <RowActionButton
+        key={index}
+        text="Edit"
+        icon={faPencilAlt}
+        onClick={() => goToEditRoute(row.id)}>
+        Edit
+      </RowActionButton>
+    )
+  }];
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const users = await userService.fetchAll();
+      setUsers(users);
     };
-    return <DataTableContextAction onClick={deleteUsers} name="Delete Selected" />;
+
+    fetchUsers();
   }, []);
 
   return (
-    <div className="page-content">
-      <PageHeading title="Users" />
+    <PageContent className="page-content">
+      <PageHeading>
+        Users
+      </PageHeading>
       {
         <DataTable
           title="View/Edit Users"
-          columns={columnDefinitions}
+          columns={columnDefinitions.users}
           data={users}
           loading={!(users && users?.length)}
           selectableRows
-          editRoute={user => `/admin/users/${ user.id }`}
+          rowActions={rowActions}
           contextActions={contextActions}
         />
       }
-    </div>
+    </PageContent>
   );
 };
 

@@ -3,10 +3,7 @@ import { Card } from 'react-bootstrap';
 import QuizQuestionInput from './QuizQuestionInput';
 
 const QuizQuestion = ({
-  questionId,
-  type,
-  questionText,
-  options,
+  question,
   onUpdate,
   isCorrect,
   usePreviousSubmission,
@@ -18,13 +15,13 @@ const QuizQuestion = ({
         <Card>
             <Card.Body>
                 <Card.Title>
-                    {questionText}
+                    {question?.text}
                 </Card.Title>
 
                 <QuizQuestionInput
-                    questionId={questionId}
-                    type={type}
-                    options={options}
+                    questionId={question?.id}
+                    type={question?.type}
+                    options={question?.options}
                     onUpdate={onUpdate}
                     isCorrect={isCorrect}
                     submitted={submitted}

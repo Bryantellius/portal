@@ -1,41 +1,55 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PageHeading from '../../shared/components/PageHeading';
 import DataTable from '../../shared/components/DataTable';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCourses, deleteCourse } from '../course.slice';
 import { columnDefinitions } from '../course.config';
-import DataTableContextAction from '../../shared/components/DataTableContextAction';
+import { useHistory } from 'react-router-dom';
+import PageContent from '../../shared/components/PageContent';
+import courseService from '../course.service';
 
 const ViewCourses = () => {
-  const dispatch = useDispatch();
-  const courses = useSelector(state => state.course.courses);
+  const history = useHistory();
+  const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchCourses());
-  }, [dispatch]);
+    const fetchCourses = async () => {
+      const courses = await courseService.fetchAll();
+      setCourses(courses);
+    }
 
-  const contextActions = useMemo(() => {
-    const deleteCourses = async selectedRows => {
-      await Promise.all(selectedRows.map(row => {
-        dispatch(deleteCourse(row.id));
-      }));
-    };
-    return <DataTableContextAction onClick={deleteCourses} name="Delete Selected" />;
+    fetchCourses();
   }, []);
 
-  return (
-    <div className="page-content">
-      <PageHeading title="Courses" />
+  const goToEditRoute = courseId => {
+    history.push(`/admin/courses/${ courseId }`);
+  }
 
+  const contextActions = [{
+    name: 'Delete',
+    onClick: selectedRows => {
+      selectedRows.forEach(row => {
+        courseService.delete(row.id);
+      })
+    }
+  }];
+  const rowActions = [{
+    name: 'Edit',
+    onClick: (row, index) => goToEditRoute(row.id)
+  }];
+
+  return (
+    <PageContent>
+      <PageHeading>
+        View/Edit Courses
+      </PageHeading>
       <DataTable
         title="View/Edit Courses"
         columns={columnDefinitions}
         data={courses}
         selectableRows
-        editRoute={user => `/admin/courses/${ user.id }`}
+        rowActions={rowActions}
         contextActions={contextActions}
       />
-    </div>
+    </PageContent>
   );
 };
 

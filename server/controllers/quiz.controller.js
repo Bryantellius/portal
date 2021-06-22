@@ -20,9 +20,32 @@ const findById = async ( req, res ) => {
 };
 
 const findAll = async ( req, res ) => {
-  const { lectureId } = req.params;
+  const { lectureId, userId } = req.params;
+
+  const filters = [];
+  if (!!lectureId) {
+    filters.push();
+  }
+
+  if (!!userId) {
+    filters.push({
+      userId
+    });
+  }
+
+  const whereCriteria = filters.length > 0
+    ? {
+      where: filters.reduce((map, filter) => {
+        return {
+          ...map,
+          ...filter
+        };
+      }, {})
+    }: undefined;
+
 
   const quiz = await db.Quiz.findAll({
+    where: whereCriteria,
     include: [{
       all: true,
       nested: true
@@ -51,15 +74,6 @@ const submitResponses = async ( req, res ) => {
     quizId
   } = req.body;
 
-  const correctAnswers = await db.QuizQuestionCorrectAnswer.findAll({
-    include: {
-      model: db.QuizQuestion,
-      where: {
-        quizId: quizId
-      }
-    }
-  });
-
   for (let response of responses) {
     await db.QuizQuestionResponse.create({
       quizQuestionId: response.quizQuestionId,
@@ -67,7 +81,6 @@ const submitResponses = async ( req, res ) => {
       userId: userId
     });
 
-    const correctAnswer = correctAnswers.find(answer => answer.quizQuestionId === response.quizQuestionId);
     response.correctAnswers = correctAnswer.answer.split(';');
     const quizQuestion = correctAnswer.quizQuestion;
 
@@ -108,14 +121,6 @@ const submitResponses = async ( req, res ) => {
 const saveQuiz = async (req, res) => {
   const isUpdate = !!req.params.id;
 
-  let quizAttributes = {
-    lectureId: req.body.lectureId
-  };
-
-  if (isUpdate) {
-    quizAttributes.id = req.params.id;
-  }
-
   const saveQuiz = async () => {
     if (req.params.id) {
       const quiz = await db.Quiz.findOne({
@@ -124,77 +129,61 @@ const saveQuiz = async (req, res) => {
         }
       });
 
-      quiz.lectureId = quizAttributes.lectureId;
+      quiz.lectureId = req.params.lectureId;
 
       await quiz.save();
 
       return quiz;
     } else {
-      return db.Quiz.create(quizAttributes);
+      return db.Quiz.create({
+        lectureId: req.params.lectureId,
+        title: req.params.title
+      });
     }
   };
 
   const quiz = await saveQuiz();
 
   const quizQuestionPromises = req.body.questions.map(async question => {
-    let quizQuestionAttributes = {
-      text: question.text,
-      type: question.type,
-      quizId: req.params.id
-    };
-
-    if (!!question.id) {
-      quizQuestionAttributes.id = question.id;
-    }
-
     const saveQuizQuestion = async () => {
-      if (!!quizQuestionAttributes.id) {
+      if (!!question.id) {
         const quizQuestion = await db.QuizQuestion.findOne({
           where: {
-            id: quizQuestionAttributes.id
+            id: question.id
           }
         });
 
         quizQuestion.text = question.text;
         quizQuestion.type = question.type;
         quizQuestion.sortOrder = question.sortOrder;
+        quizQuestion.correctAnswer = question.correctAnswer;
 
         await quizQuestion.save();
 
         return quizQuestion;
       } else {
-        return db.QuizQuestion.create(quizQuestionAttributes);
+        return db.QuizQuestion.create(question);
       }
     };
 
     const quizQuestion = await saveQuizQuestion();
 
     const quizQuestionOptionPromises = question.options.map(async option => {
-      const quizQuestionOptionAttributes = {
-        quizQuestionId: option.quizQuestionId,
-        text: option.text,
-        value: option.value
-      };
-
-      if (!!option.id) {
-        quizQuestionOptionAttributes.id = option.id;
-      }
-
       const saveQuizQuestionOption = async () => {
-        if (!!quizQuestionOptionAttributes.id) {
+        if (!!option.id) {
           const dbOption = await db.QuizQuestionOption.findOne({
             where: {
-              id: quizQuestionOptionAttributes.id
+              id: option.id
             }
           });
 
           dbOption.text = option.text;
-          dbOption.value = option.value;
+          dbOption.value = option.text;
           await dbOption.save();
 
           return dbOption;
         } else {
-          return db.QuizQuestionOption.create(quizQuestionOptionAttributes);
+          return db.QuizQuestionOption.create(option);
         }
       };
 
@@ -214,22 +203,17 @@ const saveQuiz = async (req, res) => {
 
   await quiz.setQuizQuestions(quizQuestions);
 
-
-  // const saveAction = isUpdate
-  //   ? db.Quiz.update(dbFormattedQuiz, {
-  //     where: {
-  //       id: req.params.id
-  //     },
-  //     include: [{
-  //       model: db.QuizQuestion,
-  //       include: [{
-  //         model: db.QuizQuestionOption
-  //       }]
-  //     }]
-  //   })
-  //   : db.Quiz.create(dbFormattedQuiz);
-
   res.json(quiz);
+};
+
+const deleteQuiz = async (req, res) => {
+  const result = await db.Quiz.destroy({
+    where: {
+      id: req.params.id
+    }
+  });
+
+  res.json(result);
 };
 
 export default {
@@ -237,5 +221,6 @@ export default {
   findAll,
   findByLectureId,
   submitResponses,
-  saveQuiz
+  saveQuiz,
+  deleteQuiz
 };

@@ -24,14 +24,16 @@ export const fetchCourse = createAsyncThunk(
   }
 );
 
-export const fetchCourses = createAsyncThunk('course/fetchCourses',
+export const fetchCourses = createAsyncThunk(
+  'course/fetchCourses',
   async ( _, thunkAPI ) => {
     const apiClient = new ApiClient();
     return await apiClient.get('/course');
   }
 );
 
-export const deleteCourse = createAsyncThunk('course/deleteCourse',
+export const deleteCourse = createAsyncThunk(
+  'course/deleteCourse',
   async ( courseId, thunkAPI ) => {
     const apiClient = new ApiClient();
     await apiClient.delete(`/course/${ courseId }`);
@@ -44,11 +46,7 @@ export const courseSlice = createSlice({
   initialState,
   reducers: {
     setActiveCourse: ( state, action ) => {
-      const updatedCourse = action.payload;
-      state.activeCourse = {
-        ...updatedCourse,
-        lastLectureId: updatedCourse.lastLectureId || state.activeCourse.lastLectureId
-      };
+      state.activeCourse = action.payload;
     },
     setCourseCompleted: ( state, action ) => {
       state.completedCourses = [
@@ -88,7 +86,7 @@ export const courseSlice = createSlice({
     })
     .addCase(fetchEnrolledCourses.fulfilled, ( state, action ) => {
       state.isLoading = false;
-      state.enrolledCourses = action.payload.map(course => keepLastLectureId(course, state.enrolledCourses));
+      state.enrolledCourses = action.payload;
     })
     .addCase(fetchEnrolledCourses.rejected, state => {
       state.isLoading = false;

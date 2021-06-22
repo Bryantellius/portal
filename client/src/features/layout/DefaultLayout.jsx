@@ -1,7 +1,11 @@
 import React from "react";
-import { Container } from "react-bootstrap";
 import AppNavbar from "./AppNavbar";
 import { useSelector } from 'react-redux';
+
+import { Layout } from 'antd';
+import App from '../../App';
+
+const { Header, Footer, Sider, Content } = Layout;
 
 const DefaultLayout = ({
   children
@@ -9,14 +13,17 @@ const DefaultLayout = ({
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   return (
     <main className="main">
-      <AppNavbar />
-      {
-        isAuthenticated &&
-
-        <Container fluid className="page-content">
+      <Layout style={{ minHeight: '100vh' }}>
+        <Header>
+          <AppNavbar />
+        </Header>
+        <Content style={{padding: '50px'}}>
           {children}
-        </Container>
-      }
+        </Content>
+        <Footer>
+
+        </Footer>
+      </Layout>
     </main>
   );
 };

@@ -1,16 +1,35 @@
 @charset "UTF-8";
-@import "styles/variables";
+@import 'styles/theme';
 
 @import "node_modules/bootstrap/scss/bootstrap.scss";
-@import "styles/custom-theme.scss";
+@import '~antd/dist/antd.css';
+
 @import url(https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,700,800&display=swap);
 
 main, #root, body, html {
   height: 100%;
 }
 
-.docs-sidebar {
-  margin-top: $header-navbar-height;
+.editor-modal {
+  max-width: 80% !important;
+
+  & > .modal-content {
+    max-height: 90vh !important;
+    //overflow-y: auto;
+
+    & > .modal-header {
+      max-height: 10vh;
+    }
+
+    & > .modal-body {
+      max-height: 80% !important;
+      overflow-y: auto;
+    }
+
+    & > .modal-footer {
+      max-height: 10vh;
+    }
+  }
 }
 
 .page-content {

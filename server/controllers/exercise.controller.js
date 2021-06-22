@@ -42,16 +42,36 @@ const approveSubmission = async (req, res) => {
     hasBeenReviewed: true
   }, {
     where: {
-      id: req.params.submissionId
+      id: req.params.id
     }
   });
 
   res.json(updateResult);
 };
 
+const findSubmissionById = async (req, res) => {
+  const submission = await db.ExerciseSubmission.findOne({
+    where: {
+      id: req.params.id
+    },
+    include: [
+      db.User,
+      {
+        model: db.Exercise,
+        include: [
+          db.Lecture
+        ]
+      }
+    ]
+  });
+
+  res.json(submission);
+};
+
 export default {
   submitExercise,
   updateExerciseSubmission,
   getExerciseSubmissions,
-  approveSubmission
+  approveSubmission,
+  findSubmissionById
 };

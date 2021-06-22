@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import ViewQuiz from '../quiz/ViewQuiz';
-import { Col, Row, Tab } from 'react-bootstrap'
+import styled from 'styled-components';
+import { Tab } from 'react-bootstrap'
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLastLectureId } from '../auth/auth.slice';
 import { setLectureCompleted, setCurrentLecture } from './lecture.slice';
 import { updateCurrentLectureForCourse } from '../course/course.slice';
-import LectureProgressBar from './LectureProgressBar';
+import LectureStepsNav from './LectureStepsNav';
 import Exercise from '../exercise/Exercise';
 import LectureContent from './LectureContent';
 import LectureNavButtons from './LectureNavButtons';
 
 const ViewLecture = () => {
-  const { id } = useParams();
-  const lectureId = parseInt(id);
-
+  const params = useParams();
+  const lectureId = parseInt(params.lectureId);
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('lesson');
   const activeCourse = useSelector(state => state.course.activeCourse);
@@ -31,9 +31,15 @@ const ViewLecture = () => {
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const nextId = nextLecture?.id;
 
+
+
   const goToTab = tabName => {
     setActiveTab(tabName);
   };
+
+  useEffect(() => {
+    setActiveTab('lesson');
+  }, [window.location.pathname]);
 
   const onExerciseSubmitted = () => {
     setExerciseSubmitted(true);
@@ -60,49 +66,48 @@ const ViewLecture = () => {
   }, [dispatch, lectureId, activeCourse?.id]);
 
   return (
-    // Prompt Bar
-    //   Main Content
-      <Row className="main-content position-relative pb-5">
-        <Col xl={9} className="docs-content pb-5">
-          <h1 className="text-center">{lecture?.title}</h1>
-          <Tab.Container activeKey={activeTab} defaultActiveKey="lesson">
-            <LectureProgressBar activeTab={activeTab} setActiveTab={goToTab} />
-            <Tab.Content style={{ position: 'relative', paddingTop: '20px' }}>
-              <Tab.Pane eventKey="lesson">
-                {
-                  lecture?.content &&
-                  <LectureContent content={lecture?.content} videos={lecture?.videos} />
-                }
-                <LectureNavButtons isNextEnabled={true} isBackEnabled={false} onNext={() => goToTab('exercise')} />
-              </Tab.Pane>
-              <Tab.Pane eventKey="exercise">
-                {
-                  lecture?.exercise &&
-                  <Exercise lecture={lecture} onSubmitted={onExerciseSubmitted} id={lecture?.exercise?.id} content={lecture?.exercise?.content} onNext={() => goToTab('quiz')} />
-                }
-                <LectureNavButtons isBackEnabled={true} isNextEnabled={false} onPrevious={() => goToTab('lesson')} />
-              </Tab.Pane>
-              <Tab.Pane eventKey="quiz">
-                <div className="docs-quiz">
-                  {
-                    lecture?.quiz && lecture?.quiz?.id &&
-                      <ViewQuiz
-                        onSubmitted={onQuizSubmitted}
-                        title={lecture?.quiz.title}
-                        id={lecture?.quiz.id}
-                        lectureId={lecture?.id}
-                        questions={lecture?.quiz?.quizQuestions}
-                      />
-                  }
-                  <LectureNavButtons isBackEnabled={true} isNextEnabled={false} onPrevious={() => goToTab('exercise')} />
-                </div>
-              </Tab.Pane>
-            </Tab.Content>
-          </Tab.Container>
-        </Col>
-        <Col xl={3} className="docs-sidebar d-none d-xl-block" />
-      </Row>
+    <LectureWrapper>
+      <h1 className="text-center">{lecture?.title}</h1>
+      <Tab.Container activeKey={activeTab} defaultActiveKey="lesson">
+        <LectureStepsNav activeTab={activeTab} setActiveTab={goToTab} />
+        <Tab.Content style={{ position: 'relative', paddingTop: '20px' }}>
+          <Tab.Pane eventKey="lesson">
+            {
+              lecture?.content &&
+              <LectureContent content={lecture?.content} videos={lecture?.videos} />
+            }
+            <LectureNavButtons isNextEnabled={true} isBackEnabled={false} onNext={() => goToTab('exercise')} />
+          </Tab.Pane>
+          <Tab.Pane eventKey="exercise">
+            {
+              lecture?.exercise &&
+              <Exercise exercise={lecture.exercise} onSubmitted={onExerciseSubmitted} onNext={() => goToTab('quiz')} />
+            }
+            <LectureNavButtons isBackEnabled={true} isNextEnabled={false} onPrevious={() => goToTab('lesson')} />
+          </Tab.Pane>
+          <Tab.Pane eventKey="quiz">
+            <div className="docs-quiz">
+              {
+                lecture?.quiz && lecture?.quiz?.id &&
+                  <ViewQuiz
+                    onSubmitted={onQuizSubmitted}
+                    title={lecture?.quiz.title}
+                    id={lecture?.quiz.id}
+                    lectureId={lecture?.id}
+                    questions={lecture?.quiz?.quizQuestions}
+                  />
+              }
+              <LectureNavButtons nextLabel="Submit" isBackEnabled={true} isNextEnabled={false} onPrevious={() => goToTab('exercise')} />
+            </div>
+          </Tab.Pane>
+        </Tab.Content>
+      </Tab.Container>
+    </LectureWrapper>
   );
 };
+
+const LectureWrapper = styled.div`
+  width: 100%;
+`;
 
 export default ViewLecture;

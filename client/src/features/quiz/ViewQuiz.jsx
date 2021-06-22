@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import QuizQuestion from './QuizQuestion';
-import PageActions from '../shared/components/PageActions';
 import ActionButton from '../shared/components/ActionButton';
 import { QuizQuestionType } from '../../utils/enums';
 import { Badge } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import PageActions from '../shared/components/PageActions';
 
 const ViewQuiz = ({
   id,
@@ -15,9 +15,10 @@ const ViewQuiz = ({
   const dispatch = useDispatch();
   const [usePreviousSubmission, setUsePreviousSubmission] = useState(true);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const quizSubmissions = useSelector(state => state.quiz.submittedQuizzes);
+  const quizSubmissions = useSelector(state => state.quiz.quizSubmissions);
   const user = useSelector(state => state.auth.user);
   const currentQuizSubmission = quizSubmissions.filter(submission => submission.quizId === id);
+
   const quizResponsesTemplate = questions.map(question => {
     return {
       quizQuestionId: question.id,
@@ -25,6 +26,7 @@ const ViewQuiz = ({
       value: null
     };
   });
+
   const [quizResponses, setQuizResponses] = useState(quizResponsesTemplate);
 
   const isAnswerCorrect = questionId => {
@@ -56,7 +58,7 @@ const ViewQuiz = ({
   const handleUpdateQuizResponses = ( index, value ) => {
     const updatedResponses = quizResponses.slice();
 
-    let normalizedValue = value;
+    let normalizedValue;
     if (Array.isArray(value)) { //multiselect values
       normalizedValue = value.map(selectedOption => {
         return selectedOption.value;
@@ -103,9 +105,7 @@ const ViewQuiz = ({
             <QuizQuestion
               key={ question.id }
               quizId={ id }
-              questionId={ question.id }
-              type={ question.type }
-              questionText={ question.text }
+              question={question}
               submitted={ quizSubmitted }
               usePreviousSubmission={usePreviousSubmission}
               previousResponse={currentQuizSubmission?.responses?.find(response => response.quizQuestionId === question?.id )}
@@ -117,16 +117,14 @@ const ViewQuiz = ({
           );
         })
       }
-
-      <PageActions>
-        {
-          quizSubmitted &&
-          <ActionButton variant="secondary" onClick={ resetQuiz }>
-            Retake Quiz
-          </ActionButton>
-        }
+      <PageActions side="right" className="clearfix">
+        <ActionButton variant="secondary" onClick={ resetQuiz }>
+          Retake Quiz
+        </ActionButton>
         <ActionButton variant="primary"
-                      onClick={ submitQuiz }>{ quizSubmitted ? 'Next Lecture' : 'Submit Responses' }</ActionButton>
+                      onClick={ submitQuiz }>
+          { quizSubmitted ? 'Next Lecture' : 'Submit' }
+        </ActionButton>
       </PageActions>
     </>
   );

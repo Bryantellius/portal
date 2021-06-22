@@ -1,7 +1,7 @@
 import axios from 'axios';
 import clientConfig from '../config/appConfig';
 
-class ApiClient {
+export default class ApiClient {
   constructor () {
     this.client = axios.create({
       baseURL: clientConfig.apiRoot,
@@ -13,9 +13,7 @@ class ApiClient {
 
     const savedToken = localStorage.getItem('token');
 
-    if (
-      savedToken !== undefined
-    ) {
+    if (savedToken !== undefined) {
       this.persistAuth(savedToken);
     }
 
@@ -49,41 +47,41 @@ class ApiClient {
       this.persistAuth(authResponse.token);
     }
 
-    return authResponse.data;
+    return authResponse?.data;
   }
 
   async get (url, config) {
 
     const response = await this.client.get(url, config);
 
-    return response.data;
+    return response?.data;
   }
 
   async put (url, data, config) {
     const response = await this.client.put(url, data, config);
 
-    return response.data;
+    return response?.data;
   }
 
   async post (url, data, config) {
     const response = await this.client.post(url, data, config);
 
-    return response.data;
+    return response?.data;
   }
 
   async delete (url, config) {
     const response = await this.client.delete(url, config);
 
-    return response.data;
+    return response?.data;
   }
 
   async options (url, config) {
     const response = await this.client.options(url, config);
 
-    return response.data;
+    return response?.data;
   }
 
-  persistAuth(accessToken) {
+  persistAuth (accessToken) {
     this.client.defaults.headers.common['Authorization'] = `Bearer ${ accessToken }`;
     axios.defaults.headers.common['Authorization'] = `Bearer ${ accessToken }`;
   }
@@ -107,6 +105,4 @@ class ApiClient {
       error => this.handleAuthError(error)
     );
   }
-}
-
-export default ApiClient;
+};

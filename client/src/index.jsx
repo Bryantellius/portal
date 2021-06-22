@@ -5,18 +5,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ReduxProvider from './store/ReduxProvider';
-import AuthProvider from './features/auth/AuthProvider';
+import AuthHelpers from './features/auth/AuthProvider';
 import Theme from './features/theme/Theme';
 
 ReactDOM.render(
   <Theme>
-    <AuthProvider>
+    <AuthHelpers>
       <ReduxProvider>
-        <Router>
-          <App />
-        </Router>
+        <App />
       </ReduxProvider>
-    </AuthProvider>
+    </AuthHelpers>
   </Theme>,
   document.getElementById('root')
 );

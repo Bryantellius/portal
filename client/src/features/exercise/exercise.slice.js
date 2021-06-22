@@ -9,6 +9,15 @@ export const fetchExerciseSubmissions = createAsyncThunk(
   }
 );
 
+export const fetchExerciseSubmission = createAsyncThunk(
+  'exercise/fetchSubmission',
+  async (submissionId, thunkAPI) => {
+    const apiClient = new ApiClient();
+    return await apiClient.get(`/exercise/submission/${ submissionId }`);
+  }
+);
+
+
 export const fetchExerciseSuibmissionsForUser = createAsyncThunk(
   'exercise/fetchSubmissionsForUser',
   async (userId, thunkAPI) => {
@@ -43,6 +52,7 @@ export const approveSubmission = createAsyncThunk(
 
 export const initialState = {
   submissions: [],
+  submission: null,
   userSubmissions: []
 };
 
@@ -50,31 +60,37 @@ const exerciseSlice = createSlice({
   name: 'exercise',
   initialState,
   reducers: {},
-  extraReducers: builder => {
-    builder
-      .addCase(fetchExerciseSubmissions.pending, state => {
-        state.isLoading = true
-      })
-      .addCase(fetchExerciseSubmissions.fulfilled, ( state, action ) => {
-        state.submissions = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(submitExercise.fulfilled, (state, action) => {
-        state.userSubmissions = [
-          ...state.userSubmissions,
-          action.payload
-        ]
-      })
-      .addCase(fetchExerciseSuibmissionsForUser.fulfilled, (state, action) => {
-        state.userSubmissions = action.payload;
-      })
-      .addCase(updateExerciseSubmission.fulfilled, (state, action) => {
-        const submission = action.payload;
-        state.userSubmissions = [
-          ...state.userSubmissions.filter(existingSubmission => existingSubmission.id !== submission.id),
-          submission
-        ];
-      });
+  extraReducers: {
+    [fetchExerciseSubmission.pending]: state => {
+      state.isLoading = true
+    },
+    [fetchExerciseSubmission.fulfilled]: ( state, action ) => {
+      state.submission = action.payload;
+      state.isLoading = false;
+    },
+    [fetchExerciseSubmissions.pending]: state => {
+      state.isLoading = true
+    },
+    [fetchExerciseSubmissions.fulfilled]: ( state, action ) => {
+      state.submissions = action.payload;
+      state.isLoading = false;
+    },
+    [submitExercise.fulfilled]: (state, action) => {
+      state.userSubmissions = [
+        ...state.userSubmissions,
+        action.payload
+      ]
+    },
+    [fetchExerciseSuibmissionsForUser.fulfilled]: (state, action) => {
+      state.userSubmissions = action.payload;
+    },
+    [updateExerciseSubmission.fulfilled]: (state, action) => {
+      const submission = action.payload;
+      state.userSubmissions = [
+        ...state.userSubmissions.filter(existingSubmission => existingSubmission.id !== submission.id),
+        submission
+      ];
+    }
   }
 });
 

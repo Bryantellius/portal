@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import './CourseProgressBar.scss';
 
 const CourseProgressBar = () => {
-  const allLectures = useSelector(state => state.lecture.lectures);
+  const allLectures = useSelector(state => state.course.activeCourse?.modules?.flatMap(module => module.lectures) || []);
   const completedLectures = useSelector(state => state.lecture.completedLectures);
   const completionPercentage = useMemo(() => {
     return completedLectures.length / parseFloat(allLectures.length) * 100;
@@ -12,7 +12,7 @@ const CourseProgressBar = () => {
 
   return (
     <Fragment>
-      <h5 class="text-success">
+      <h5 className="text-success">
         { completionPercentage }% Complete
       </h5>
       <ProgressBar

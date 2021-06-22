@@ -10,6 +10,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.Role);
       this.belongsToMany(models.Course, { through: models.CourseUser, as: 'courses' });
+      this.hasMany(models.QuizSubmission);
     }
   };
   User.init({

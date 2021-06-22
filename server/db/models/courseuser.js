@@ -30,6 +30,9 @@ export default (sequelize, DataTypes) => {
         model: 'users',
         key: 'id'
       }
+    },
+    dateCompleted: {
+      type: DataTypes.DATE
     }
   }, {
     sequelize,

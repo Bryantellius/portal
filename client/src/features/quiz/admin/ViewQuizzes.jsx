@@ -1,30 +1,44 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { columnDefinitions } from '../quiz.config';
 import PageHeading from '../../shared/components/PageHeading';
 import DataTable from '../../shared/components/DataTable';
-import { deleteQuiz, fetchQuizzes } from '../../quiz/quiz.slice';
-import DataTableContextAction from '../../shared/components/DataTableContextAction';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import quizService  from '../quiz.service';
+import PageContent from '../../shared/components/PageContent';
 
 const ViewQuizzes = () => {
   const dispatch = useDispatch();
-  const quizzes = useSelector(state => state.quiz.quizzes);
+  const [quizzes, setQuizzes] = useState([]);
+  const history = useHistory();
+
+  const contextActions = [{
+    name: 'Delete',
+    onClick: selectedRows => {
+      selectedRows.forEach(row => quizService.delete(row.id));
+    }
+  }];
+
+  const rowActions = [{
+    name: 'Edit',
+    onClick: row => goToEditRoute(row.id)
+  }];
+
+  const goToEditRoute = quizId => {
+    history.push(`/admin/quizzes/${ quizId }`);
+  };
 
   useEffect(() => {
-    dispatch(fetchQuizzes());
+    const fetchQuizzes = async () => {
+      const quizzes = await quizService.fetchAll();
+      setQuizzes(quizzes);
+    };
+
+    fetchQuizzes();
   }, [dispatch]);
 
-  const contextActions = useMemo(() => {
-    const deleteQuizzes = async selectedRows => {
-      await Promise.all(selectedRows.map(row => {
-        dispatch(deleteQuiz(row.id));
-      }));
-    };
-    return <DataTableContextAction onClick={deleteQuizzes} name="Delete Selected" />;
-  }, []);
-
   return (
-    <div className="page-content">
+    <PageContent>
       <PageHeading title="Quizzes" />
 
       <DataTable
@@ -32,10 +46,10 @@ const ViewQuizzes = () => {
         columns={columnDefinitions}
         data={quizzes}
         selectableRows
-        editRoute={user => `/admin/quizzes/${ user.id }`}
+        rowActions={rowActions}
         contextActions={contextActions}
       />
-    </div>
+    </PageContent>
   );
 };
 

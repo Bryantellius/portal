@@ -5,6 +5,7 @@ const exerciseRouter = express.Router({ mergeParams: true });
 exerciseRouter.get('/submission', exerciseController.getExerciseSubmissions);
 exerciseRouter.post('/', exerciseController.submitExercise);
 exerciseRouter.put('/:id', exerciseController.updateExerciseSubmission);
-exerciseRouter.post('/submission/:submissionId/approve', exerciseController.approveSubmission);
+exerciseRouter.get('/submission/:id', exerciseController.findSubmissionById);
+exerciseRouter.post('/submission/:id/approve', exerciseController.approveSubmission);
 
 export default exerciseRouter;

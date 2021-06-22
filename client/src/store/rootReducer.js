@@ -4,10 +4,11 @@ import authReducer from '../features/auth/auth.slice';
 import lectureReducer from '../features/lecture/lecture.slice';
 import moduleReducer from '../features/module/module.slice';
 import courseReducer from '../features/course/course.slice';
-import userReducer from '../features/user/user.slice';
 import exerciseReducer from '../features/exercise/exercise.slice';
-import quizReducer from '../features/quiz/quiz.slice';
+import quizReducer from '../features/quiz/store/quiz.slice';
 import videoReducer from '../features/video/video.slice';
+import appReducer from '../features/core/app.slice';
+import * as fromApp from '../features/core/app.slice';
 
 const rootReducer = combineReducers({
   darkMode: darkModeReducer,
@@ -15,10 +16,12 @@ const rootReducer = combineReducers({
   lecture: lectureReducer,
   module: moduleReducer,
   course: courseReducer,
-  user: userReducer,
   exercise: exerciseReducer,
   quiz: quizReducer,
-  video: videoReducer
+  video: videoReducer,
+  app: appReducer
 });
 
 export default rootReducer;
+
+export const getIsLoading = state => fromApp.getIsLoading(state.app);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, ErrorMessage } from 'formik';
+import { ErrorMessage } from 'formik';
 import { Button, Card, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -16,44 +16,39 @@ const QuizQuestionOptionEditor = ({
   handleBlur,
   setFieldValue
 }) => {
+  const question = values.questions[questionIndex];
+  const option = question?.options[optionIndex];
+
   const handleIsCorrectChanged = e => {
-    if (values.questions[questionIndex]?.type === QuizQuestionType.Select) {
-      values.questions[questionIndex].options.forEach((option, index) => {
+    if (question.type === QuizQuestionType.Select) {
+      question.options.forEach((option, index) => {
         setFieldValue(`questions.${ questionIndex }.options.${ index }.isCorrect`, index === optionIndex);
       });
+      setFieldValue(`questions.${ questionIndex }.correctAnswer`, option.text);
     } else {
       handleChange(e);
+
+      let correctValues = question.correctAnswer.split(';');
+      if (e.target.checked) {
+        correctValues.push(option.text);
+      } else {
+        correctValues = correctValues.filter(value => value !== option.text);
+      }
+
+      setFieldValue(`questions.${ questionIndex }.correctAnswer`, correctValues.join(';'));
     }
   };
 
-  const option = values.questions[questionIndex]?.options[optionIndex];
+  const isCorrect = option => {
+    return values.questions[questionIndex].correctAnswer.split(';').includes(option.text);
+  };
+
   return (
     <Card className="quiz-question-option-editor">
       <Card.Body>
         <Card.Title>
           Choice { optionIndex + 1 }
         </Card.Title>
-        <Form.Group>
-          <Form.Label>
-            Identifier/Value
-            <br />
-            <small className="text-muted">
-              Just use the label if you aren't sure
-            </small>
-          </Form.Label>
-          <Form.Control
-            value={option?.value}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            name={`questions.${ questionIndex }.options.${ optionIndex }.value`}
-            type="text"
-          />
-          <ErrorMessage
-            name={`questions.${ questionIndex }.options.${ optionIndex }.value`}
-            component="div"
-            className="field-error"
-          />
-        </Form.Group>
         <Form.Group>
           <Form.Label>
             Label
@@ -76,7 +71,7 @@ const QuizQuestionOptionEditor = ({
           <Form.Label>
             <Form.Check
               name={`questions.${ questionIndex }.options.${ optionIndex }.isCorrect`}
-              checked={!!option?.isCorrect}
+              checked={isCorrect(option)}
               inline={true}
               onChange={e => handleIsCorrectChanged(e)}
               onBlur={handleBlur}

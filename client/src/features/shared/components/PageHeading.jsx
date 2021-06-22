@@ -1,9 +1,9 @@
 import React from 'react';
 
-const PageHeading = ({ title }) => {
+const PageHeading = ({ children, ...props }) => {
   return (
-    <h1>
-      {title}
+    <h1 { ...props }>
+      {children}
     </h1>
   );
 };

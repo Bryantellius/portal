@@ -2,13 +2,11 @@ import React from 'react';
 import Vimeo from '@u-wave/react-vimeo';
 
 const Video = ({
-  title,
-  url
+  url,
+  showTitle
 }) => {
   return (
-    <>
-      <Vimeo video={url} autoplay={false} />
-    </>
+    <Vimeo responsive={true} width="100%" video={url} showTitle={showTitle} autoplay={false} />
   );
 };
 

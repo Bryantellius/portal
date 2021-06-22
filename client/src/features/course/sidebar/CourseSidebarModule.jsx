@@ -26,7 +26,7 @@ const CourseSidebarModule = ({
         className="flex-column">
         {
           module?.lectures?.length > 0 && module.lectures.map(lecture => (
-            <CourseSidebarLecture lecture={lecture} />
+            <CourseSidebarLecture key={lecture.id} lecture={lecture} />
           ))
         }
       </Nav>

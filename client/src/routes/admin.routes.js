@@ -7,7 +7,7 @@ import EditCourse from '../features/course/admin/EditCourse';
 import ViewModules from '../features/module/admin/ViewModules';
 import EditModule from '../features/module/admin/EditModule';
 import ViewExerciseSubmissionsPage from '../features/exercise/admin/ViewExerciseSubmissions.page';
-import ViewExerciseSubmissionCommentsPage from '../features/exercise/review/ViewExerciseSubmissionComments.page';
+import ReviewExerciseSubmissionPage from '../features/exercise/review/ReviewExerciseSubmission.page';
 import ViewQuizzes from '../features/quiz/admin/ViewQuizzes';
 import EditQuiz from '../features/quiz/admin/EditQuiz';
 
@@ -68,11 +68,11 @@ const adminRoutes = [
   {
     path: `/exercise/review/:submissionId`,
     key: 'admin.exercise.review.detail',
-    component: ViewExerciseSubmissionCommentsPage,
+    component: ReviewExerciseSubmissionPage,
     layout: AdminLayout
   },
   {
-    path: `/admin/quizzes/:id?`,
+    path: `/admin/quizzes/:id`,
     key: 'admin.quiz.edit',
     component: EditQuiz,
     layout: AdminLayout

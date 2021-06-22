@@ -23,6 +23,7 @@ export default (sequelize, DataTypes) => {
     },
     text: DataTypes.STRING,
     type: DataTypes.INTEGER,
+    correctAnswer: DataTypes.STRING,
     sortOrder: DataTypes.INTEGER
   }, {
     sequelize,
