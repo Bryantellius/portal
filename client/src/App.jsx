@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router
 } from 'react-router-dom';
 import Routes from './routes/Routes';
 import './App.scss';
 import { useDispatch } from 'react-redux';
-import { doLogin  } from './features/auth/auth.slice'
+import { doLogin  } from './features/auth/auth.slice';
 import { fetchEnrolledCourses } from './features/course/course.slice';
 import { fetchExerciseSuibmissionsForUser } from './features/exercise/exercise.slice';
 import { setIsLoading, setError } from './features/core/app.slice';
@@ -30,7 +30,14 @@ const App = () => {
     axios.interceptors.response.use(() => {
       dispatch(setIsLoading(false));
     });
-  }, [])
+
+    lock.on('authorization_error', err => {
+      reject(err);
+    });
+
+    lock
+    setLock(lock);
+    }, []);
 
   useEffect(() => {
     const loadUserContent = async () => {

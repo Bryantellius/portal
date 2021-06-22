@@ -39,20 +39,7 @@ export const doLogin = createAsyncThunk(
     const { dispatch } = thunkAPI;
 
     return new Promise((resolve, reject) => {
-      const lock = getAuth0Lock();
-      lock.on('authenticated', async authResult => {
-        const response = await updateApiUser(authResult);
-        resolve({
-          user: response,
-          token: authResult.accessToken
-        });
-      });
-
-      lock.on('authorization_error', err => {
-        reject(err);
-      });
-
-      lock.checkSession({}, async (err, authResult) => {
+      authService.lock.checkSession({}, async (err, authResult) => {
         if (err) {
           lock.show();
           return reject(err);

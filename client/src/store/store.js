@@ -5,6 +5,7 @@ import persistedReducer from './persistConfig';
 const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware({
+    thunk: true,
     serializableCheck: false
   }),
   preloadedState: {

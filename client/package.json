@@ -144,7 +144,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3001",
+  "proxy": "http://portal.truecoders.io:3000",
   "devDependencies": {
     "@types/react-select": "^4.0.15"
   },
