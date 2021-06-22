@@ -41,8 +41,8 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchEnrolledCourses(user.id));
-    dispatch(fetchExerciseSuibmissionsForUser(user.id));
+    dispatch(fetchEnrolledCourses(user?.id));
+    dispatch(fetchExerciseSuibmissionsForUser(user?.id));
   }, user?.id)
 
   return (
