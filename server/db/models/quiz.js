@@ -2,7 +2,6 @@ import { Model } from "sequelize";
 
 export default (sequelize, DataTypes) => {
   class Quiz extends Model {
-    static questions;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import DataTable from '../../shared/components/DataTable';
+import DataTable from '../../shared/dataTable/DataTable';
 import { useFormikContext } from 'formik';
 
 const ModuleLectures = ({

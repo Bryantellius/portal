@@ -4,7 +4,7 @@ const IncorrectAnswerLabel = ({
   correctAnswers = []
 }) => {
   return (
-    <span className="quiz-answer-correction text-danger ml-1 mb-2">
+    <span className="d-inline-block w-90 quiz-answer-correction text-danger ml-1 mb-2">
       Correct answer(s): { correctAnswers.join(',') }
     </span>
   );

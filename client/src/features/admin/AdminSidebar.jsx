@@ -12,6 +12,7 @@ import {
   faBox
 } from '@fortawesome/free-solid-svg-icons';
 import './AdminSidebar.scss';
+import { Link } from 'react-router-dom';
 
 const AdminSidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -35,42 +36,42 @@ const AdminSidebar = () => {
         <p className="ml-3">Navigation</p>
 
         <Nav.Item>
-          <Nav.Link className="text-white" href="/admin">
+          <Nav.Link as={Link} to="/admin" className="text-white">
             <FontAwesomeIcon icon={faHome} className="mr-2" />
             Dashboard
           </Nav.Link>
         </Nav.Item>
 
         <Nav.Item>
-          <Nav.Link className="text-white" href="/admin/users">
+          <Nav.Link as={Link} className="text-white" to="/admin/users">
             <FontAwesomeIcon icon={faUser} className="mr-2" />
             Users
           </Nav.Link>
         </Nav.Item>
 
         <Nav.Item>
-          <Nav.Link className="text-white" href="/admin/courses">
+          <Nav.Link as={Link} className="text-white" to="/admin/courses">
             <FontAwesomeIcon icon={faGraduationCap} className="mr-2" />
             Courses
           </Nav.Link>
         </Nav.Item>
 
         <Nav.Item>
-          <Nav.Link className="text-white" href="/admin/modules">
+          <Nav.Link as={Link} className="text-white" to="/admin/modules">
             <FontAwesomeIcon icon={faBox} className="mr-2" />
             Modules
           </Nav.Link>
         </Nav.Item>
 
         <Nav.Item>
-          <Nav.Link className="text-white" href="/admin/quizzes">
+          <Nav.Link as={Link} className="text-white" to="/admin/quizzes">
             <FontAwesomeIcon icon={faQuestion} className="mr-2" />
             Quizzes
           </Nav.Link>
         </Nav.Item>
         
         <Nav.Item>
-          <Nav.Link className="text-white" href="/admin/exercise/review">
+          <Nav.Link as={Link} className="text-white" to="/admin/exercise/review">
             <FontAwesomeIcon icon={faChalkboardTeacher} className="mr-2" />
             Exercise Review
           </Nav.Link>

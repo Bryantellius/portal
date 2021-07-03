@@ -5,11 +5,28 @@ import { Formik } from 'formik';
 import userService from '../user.service';
 import EditUserForm from './EditUserForm';
 import { userSchema } from '../../validation';
+import { useHistory } from 'react-router';
 
 const EditUser = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [user, setUser] = useState();
+  const history = useHistory();
+
+  const userTemplate = {
+    id: null,
+    firstName: null,
+    lastName: null,
+    discordUsername: null,
+    courseUsers: [],
+    quizSubmissions: [],
+    exerciseSubmissions: []
+  };
+
+  const saveUser = async (values) => {
+    await userService.upsert(values);
+    history.push('/admin/users');
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -22,11 +39,9 @@ const EditUser = () => {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={user}
+      initialValues={user || userTemplate}
       validationSchema={userSchema}
-      onSubmit={() =>
-        console.log('submitted')
-      }>
+      onSubmit={saveUser}>
         <EditUserForm user={user} />
     </Formik>
   )

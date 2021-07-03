@@ -8,9 +8,11 @@ export default (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      this.hasMany(models.CourseUser);
       this.belongsTo(models.Role);
-      this.belongsToMany(models.Course, { through: models.CourseUser, as: 'courses' });
+      this.belongsToMany(models.Course, { through: models.CourseUser });
       this.hasMany(models.QuizSubmission);
+      this.hasMany(models.ExerciseSubmission);
     }
   };
   User.init({
@@ -26,6 +28,7 @@ export default (sequelize, DataTypes) => {
         key: 'id'
       }
     },
+    discordUsername: DataTypes.STRING,
     avatarUrl: DataTypes.STRING,
     lastLectureId: DataTypes.INTEGER
   }, {

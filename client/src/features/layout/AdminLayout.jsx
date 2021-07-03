@@ -1,34 +1,28 @@
-import React  from 'react';
-import { Container } from 'react-bootstrap';
+import React from "react";
+import AppNavbar from "./AppNavbar";
+
+import { Layout } from 'antd';
 import AdminSidebar from '../admin/AdminSidebar';
-import './AdminLayout.scss';
-import { useSelector } from 'react-redux';
-import { getIsLoading } from '../core/app.slice';
-import Loading from '../shared/components/Loading';
+
+const { Header, Footer, Content } = Layout;
 
 const AdminLayout = ({
   children
 }) => {
-  const isLoading = useSelector(getIsLoading);
   return (
-    <main className="docs">
-      {/* Nav */}
+    <main className="main">
+      <Layout style={{ position:'absolute', left: '250px', minHeight:'100vh', width: "calc(100vw - 250px)" }}>
       <AdminSidebar />
-      <div className="content-with-sidebar">
-        <Container fluid className="px-0">
-          <ContentLoader isLoading={isLoading}>
-            { children }
-          </ContentLoader>
-        </Container>
-      </div>
+        <Header>
+          <AppNavbar />
+        </Header>
+        <Content style={{padding: '0 25px'}}>
+          {children}
+        </Content>
+        <Footer />
+      </Layout>
     </main>
   );
 };
-
-const ContentLoader = ({ isLoading, children }) => {
-  return isLoading
-    ? <Loading />
-    : <>{ children }</>
-}
 
 export default AdminLayout;

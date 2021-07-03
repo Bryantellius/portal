@@ -4,14 +4,33 @@ import CourseLayout from '../features/course/layout/CourseLayout';
 import Dashboard from '../features/dashboard/Dashboard.page';
 import UserAdditionalInfo from '../features/user/UserAdditionalData.page';
 import ViewVideos from '../features/video/ViewVideos.page';
-import ViewCourse from '../features/course/ViewCourse';
+import ViewCoursePage from '../features/course/ViewCourse.page';
 import AccountSettingsLayout from '../features/layout/AccountSettingsLayout';
 import Profile from '../features/user/Profile';
 import ConnectedAccounts from '../features/user/account/ConnectedAccounts';
 import PrivacyPolicy from '../features/privacy/PrivacyPolicy.page';
 import TermsAndConditions from '../features/terms-and-conditions/TermsAndConditions.page';
+import ViewCoursesPage from '../features/course/ViewCourses.page';
+import HomePage from '../features/home/Home.page';
+import DefaultLayout from '../features/layout/DefaultLayout';
 
-const appRoutes = [ {
+const appRoutes = [
+  {
+    path: '/',
+    key: 'app.home',
+    exact: true,
+    component: HomePage,
+    layout: DefaultLayout,
+    allowAnonymous: true
+  },
+  {
+    path: '/dashboard',
+    key: 'app.dashboard',
+    exact: true,
+    component: Dashboard,
+    layout: DefaultLayout
+  },
+  {
     path: '/privacy',
     key: 'app.privacy-policy',
     component: PrivacyPolicy,
@@ -22,12 +41,6 @@ const appRoutes = [ {
     key: 'app.terms-and-conditions',
     component: TermsAndConditions,
     exact: true
-  },
-  {
-    path: '/dashboard',
-    key: 'app.dashboard',
-    exact: true,
-    component: Dashboard
   },
   {
     path: '/additional-info',
@@ -48,9 +61,15 @@ const appRoutes = [ {
     component: ConnectedAccounts
   },
   {
+    path: '/learn',
+    exact: true,
+    component: ViewCoursesPage
+  },
+  {
     path: '/course/:courseId',
     key: 'app.course.view',
-    component: ViewCourse,
+    exact: false,
+    component: ViewCoursePage,
     layout: CourseLayout
   },
   {

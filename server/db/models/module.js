@@ -12,7 +12,8 @@ export default (sequelize, DataTypes) => {
     }
   };
   Module.init({
-    title: DataTypes.STRING
+    title: DataTypes.STRING,
+    sortOrder: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'module',

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Form, Modal } from 'react-bootstrap';
 import PageHeading from '../../shared/components/PageHeading';
-import DataTable from '../../shared/components/DataTable';
+import DataTable from '../../shared/dataTable/DataTable';
 import { fetchModule } from '../module.slice';
 import { useDispatch, useSelector } from 'react-redux';
 

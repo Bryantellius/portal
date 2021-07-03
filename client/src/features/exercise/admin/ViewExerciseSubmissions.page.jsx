@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchExerciseSubmissions, approveSubmission } from '../exercise.slice';
-import DataTable from '../../shared/components/DataTable';
+import { approveSubmission, fetchExerciseSubmissions } from '../exercise.slice';
+import DataTable from '../../shared/dataTable/DataTable';
 import PageHeading from '../../shared/components/PageHeading';
 import { useHistory } from 'react-router-dom';
 import exerciseConfig from '../exercise.config';
@@ -35,7 +35,11 @@ const ViewExerciseSubmissionsPage = () => {
   ];
 
   useEffect(() => {
-    dispatch(fetchExerciseSubmissions());
+    const fetchSubmissions = async () => {
+      dispatch(fetchExerciseSubmissions());
+    };
+
+    fetchSubmissions();
   }, [dispatch]);
 
   return (

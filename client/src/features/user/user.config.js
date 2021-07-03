@@ -27,33 +27,41 @@ const columnDefinitions = {
   }],
 
   userEnrolledCourses: [{
-    name: 'Course',
-    selector: 'title',
-    sortable: true
+    title: 'Course',
+    dataIndex: 'title',
+    key: 'title'
   }, {
-    name: 'Date Enrolled',
-    selector: 'createdAt',
+    title: 'Date Enrolled',
+    dataIndex: 'createdAt',
     sortable: true
+  },{
+    title: 'Quiz Score',
+    dataIndex: 'aggregateScore',
+    key: 'aggregateScore'
   }],
 
   userCompletedCourses: [{
-    name: 'Course',
-    selector: 'title',
-    sortable: true
+    title: 'Course',
+    dataIndex: 'title',
+    key: 'title'
   }, {
-    name: 'Date Completed',
-    selector: 'dateCompleted',
-    sortable: true
+    title: 'Date Completed',
+    dataIndex: 'dateCompleted',
+    key: 'dateCompleted'
+  }, {
+    title: 'Quiz Score',
+    dataIndex: 'aggregateScore',
+    key: 'aggregateScore'
   }],
 
   userQuizSubmissions: [{
-    name: 'Course',
-    selector: 'title',
-    sortable: true
+    title: 'Course',
+    dataIndex: 'title',
+    key: 'title'
   }, {
-    name: 'Date Enrolled',
-    selector: 'createdAt',
-    sortable: true
+    title: 'Date Enrolled',
+    dataIndex: 'createdAt',
+    key: 'createdAt'
   }]
 };
 

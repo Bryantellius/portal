@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
-import Select from "react-select";
+import React  from 'react';
+import { Select, Input } from 'formik-antd';
 import { QuizQuestionType } from "../../utils/enums";
+import {  useFormikContext } from 'formik';
+import TrueFalse from '../shared/form/TrueFalse';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import IncorrectAnswerLabel from './IncorrectAnswerLabel';
+import _ from 'lodash';
 
 const QuizQuestionInput = ({
-  questionId,
-  type,
-  options,
-  onUpdate,
-  isCorrect,
+  questionIndex,
+  question,
   submitted,
-  correctAnswers,
-  disabled,
-  previousResponse
+  usePreviousSubmission,
+  correctAnswers
 }) => {
-  const [value, setValue] = useState();
-  const nameAttribute = `question-${ questionId }`;
-  const selectOptions = options && options.length > 0
-    ? options.map(option => {
+  const {
+    type,
+    quizQuestionOptions
+  } = question;
+
+  const nameAttribute = `quizQuestionResponses.${ questionIndex }.value`;
+  const selectOptions = quizQuestionOptions && quizQuestionOptions.length > 0
+    ? quizQuestionOptions.map(option => {
       return {
         label: option.text,
         value: option.value
@@ -28,100 +30,94 @@ const QuizQuestionInput = ({
     })
     : [];
 
-  const handleUpdate = value => {
-    setValue(value);
-    onUpdate(value);
-  };
-
-  useEffect(() => {
-    if (previousResponse && disabled) {
-      setValue(previousResponse);
-    }
-  }, [previousResponse, disabled])
-
-
-  const ResponseInput = () => {
-    switch (type) {
-      case QuizQuestionType.TrueFalse:
-        return (
-          <div className="mb-3 d-inline-block w-90 ml-2">
-            <Form.Check
-              label="True"
-              type="radio"
-              value="true"
-              checked={value === "true"}
-              name={ nameAttribute }
-              disabled={disabled}
-              onChange={ ( event ) => handleUpdate(event.target.value) }
-            />
-            <Form.Check
-              label="False"
-              type="radio"
-              value="false"
-              disabled={disabled}
-              checked={value === "false"}
-              name={ nameAttribute }
-              onChange={ ( event ) => handleUpdate(event.target.value) }
-            />
-          </div>
-        );
-      case QuizQuestionType.Text:
-        return (
-          <Form.Control
-            className="d-inline-block w-90 ml-2"
-            type="text"
-            placeholder="Enter your answer"
-            value={value}
-            disabled={disabled}
-            name={ nameAttribute }
-            onChange={ event => handleUpdate(event.target.value) }
-          />
-        );
-      case QuizQuestionType.Select:
-        return (
-          <Select
-            className="d-inline-block w-90 ml-2"
-            value={value}
-            closeMenuOnSelect={ true }
-            options={ selectOptions }
-            disabled={disabled}
-            onChange={ ( val ) => handleUpdate(val) }
-          />
-        );
-      case QuizQuestionType.MultiSelect:
-        return (
-          <Select
-            className="d-inline-block w-90 ml-2"
-            closeMenuOnSelect={ false }
-            isMulti
-            options={ selectOptions }
-            disabled={disabled}
-            value={value}
-            onChange={ ( val ) => handleUpdate(val) }
-          />
-        );
-      default:
-        return <></>;
-    }
-  };
-
-  return (
-    <div className="quiz-question-response form">
-      {
-        submitted && (
-          isCorrect
-            ? <FontAwesomeIcon icon={faCheckCircle} className="text-success" />
-            : <FontAwesomeIcon icon={faTimesCircle} className="text-danger" />
-        )
-      }
-      {
-        submitted && !isCorrect && (
-          <IncorrectAnswerLabel correctAnswers={correctAnswers} />
-        )
-      }
-      <ResponseInput />
-    </div>
-  );
+  switch (type) {
+    case QuizQuestionType.TrueFalse:
+      return (
+        <TrueFalse
+          name={nameAttribute}
+          disabled={usePreviousSubmission}
+        />
+      )
+    case QuizQuestionType.Text:
+      return (
+        <Input
+          name={ nameAttribute }
+          disabled={usePreviousSubmission}
+        />
+      );
+    case QuizQuestionType.Select:
+      return (
+        <Select
+          name={ nameAttribute }
+          disabled={usePreviousSubmission}
+          style={{ width: '100%' }}
+          options={ selectOptions }
+        />
+      );
+    case QuizQuestionType.MultiSelect:
+      return (
+        <Select
+          name={ nameAttribute }
+          allowClear
+          disabled={usePreviousSubmission}
+          style={{ width: '100%' }}
+          mode="multiple"
+          options={selectOptions}
+        />
+      );
+    default:
+      return <></>;
+  }
 };
 
-export default QuizQuestionInput;
+const ValidationSummary = ({
+  questionIndex,
+  question,
+  usePreviousSubmission,
+  correctAnswers
+}) => {
+  const {
+    values
+  } = useFormikContext();
+
+  const isCorrect = () => {
+    const value = values.quizQuestionResponses[questionIndex].value;
+
+    switch (question.type) {
+      case QuizQuestionType.Select:
+      case QuizQuestionType.TrueFalse:
+        return value === question.correctAnswer;
+      case QuizQuestionType.Text:
+        return question.correctAnswer.split(';').includes(value);
+      case QuizQuestionType.MultiSelect:
+        return _.xor( question.correctAnswer.split(';'), value.split(';')).length === 0;
+    }
+  };
+  return (
+    <>
+      {
+        usePreviousSubmission && (
+          isCorrect()
+            ? <FontAwesomeIcon icon={ faCheckCircle } className="text-success" />
+            : <FontAwesomeIcon icon={ faTimesCircle } className="text-danger" />
+        )
+      }
+      {
+        usePreviousSubmission && !isCorrect() && <IncorrectAnswerLabel correctAnswers={ correctAnswers } />
+      }
+    </>
+  );
+}
+
+const InputWithValidation = ({
+  ...props
+}) => {
+  return (
+    <>
+      <ValidationSummary {...props} />
+      <QuizQuestionInput {...props} />
+    </>
+  );
+}
+
+export default InputWithValidation;

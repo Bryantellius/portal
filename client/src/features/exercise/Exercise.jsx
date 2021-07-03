@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Markdown from 'markdown-to-jsx';
-import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import PageActions from '../shared/components/PageActions';
-import ActionButton from '../shared/components/ActionButton';
 import ExerciseComments from './ExerciseComments';
-import { submitExercise, updateExerciseSubmission } from './exercise.slice';
 import VideoPlaylist from '../video/VideoPlaylist';
+import { Button, Card, Form, Input, notification, Typography } from 'antd';
+import { CheckOutlined } from '@ant-design/icons';
+import { submitExercise } from './exercise.slice';
 
 const Exercise = ({
   exercise,
@@ -15,9 +14,12 @@ const Exercise = ({
 }) => {
   const [githubRepoUrl, setGithubRepoUrl] = useState('');
   const dispatch = useDispatch();
-  const lecture = useSelector(state => state.lecture.curentLecture);
+  const lecture = useSelector(state => state.lecture.currentLecture);
   const user = useSelector(state => state.auth.user);
-  const submission = useSelector(state => state.exercise.userSubmissions.find(submission => submission.exerciseId === lecture.id));
+  const submission = useSelector(state =>
+    state.exercise?.userSubmissions
+      ?.filter(submission => submission.exerciseId === lecture?.exercise?.id)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0]);
 
   const uploadGithubRepo = async () => {
     const exerciseSubmission = {
@@ -26,25 +28,17 @@ const Exercise = ({
       exerciseId: exercise.id
     };
 
-    const updateRepo = async () => {
-      dispatch(updateExerciseSubmission(exerciseSubmission));
-      onSubmitted();
-    };
+    if (submission && submission.id) {
+      exerciseSubmission.id = submission.id;
+    }
 
-    const submitRepo = async () => {
-      dispatch(submitExercise(exerciseSubmission));
-      onSubmitted();
-    };
-
-    await (submission?.id
-      ? updateRepo()
-      : submitRepo());
+    await dispatch(submitExercise(exerciseSubmission));
+    await notification.success({
+      message: 'Exercise Submitted',
+      description: 'Your exercise has been submitted and will be reviewed shortly.'
+    });
 
     onNext();
-  };
-
-  const setRepoUrl = url => {
-    setGithubRepoUrl(url);
   };
 
   return (
@@ -56,20 +50,35 @@ const Exercise = ({
         {exercise.content}
       </Markdown>
 
-      <Form>
-        <Form.Group>
-          <Form.Label>
-            GitHub Repo URL
-          </Form.Label>
-          <Form.Control placeholder="http://github.com/your-user/your-repo" type="text" value={submission?.repoUrl || githubRepoUrl} onChange={e => setRepoUrl(e.target.value)} />
-        </Form.Group>
+      <Card>
+        <Form initialValues={{
+          repoUrl: submission?.repoUrl
+        }}>
+          <Typography.Title level={4}>
+            Enter the URL for your repo
+          </Typography.Title>
+          <Form.Item
+            label="Github Repo URL"
+            name="repoUrl">
+            <Input
+              placeholder="github.com/<username>/<repo>"
+              type="text"
+              onChange={e => setGithubRepoUrl(e.target.value)}
+            />
+          </Form.Item>
 
-        <PageActions>
-          <ActionButton variant="primary" onClick={() => uploadGithubRepo()}>
-            Submit
-          </ActionButton>
-        </PageActions>
-      </Form>
+          <Button
+            type="primary"
+            className="float-right"
+            htmlType="submit"
+            onClick={uploadGithubRepo}
+            icon={<CheckOutlined />}
+            size="large"
+            shape="round">
+            Submit Exercise
+          </Button>
+        </Form>
+      </Card>
       {
         submission?.id &&
         <ExerciseComments lectureTitle={lecture?.title} submissionId={submission?.id} />

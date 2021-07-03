@@ -1,4 +1,4 @@
-import DataTable from '../../shared/components/DataTable';
+import DataTable from '../../shared/dataTable/DataTable';
 import { columnDefinitions } from '../../module/module.config';
 
 const CourseModules = ({

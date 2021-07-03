@@ -1,18 +1,24 @@
 import React from 'react';
-import { Card, Form, Modal } from 'react-bootstrap';
+import { Card, Modal } from 'react-bootstrap';
 import MarkdownEditor from '@uiw/react-md-editor';
 import { getNamespacedFieldName } from '../../../utils/helpers';
-import { FastField, FieldArray, useFormikContext } from 'formik';
+import { FieldArray, useFormikContext } from 'formik';
 import ActionButton from '../../shared/components/ActionButton';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import VideoAssociationList from './VideoAssociationList';
 import Loading from '../../shared/components/Loading';
+import { Input } from 'antd';
+import { Field, Form } from 'formik-antd';
 
 const LectureEditor = ({
   fieldNamespace,
   lecture
 }) => {
-  const { handleChange } = useFormikContext();
+  const {
+    handleChange,
+    handleBlur,
+    setFieldValue
+  } = useFormikContext();
 
   return !!lecture ? (
     <Card>
@@ -26,32 +32,29 @@ const LectureEditor = ({
           <legend>
             General
           </legend>
-          <Form.Group>
-            <Form.Label>
-              Title
-            </Form.Label>
-            <FastField
-              as={Form.Control}
-              type="text"
+          <Form.Item
+            name={getNamespacedFieldName(fieldNamespace, 'title')}
+            label="Title">
+            <Input
               name={getNamespacedFieldName(fieldNamespace, 'title')}
               value={lecture.title}
               onChange={handleChange}
-              // onBlur={handleBlur}
+              onBlur={handleBlur}
               placeholder="Title"
             />
-          </Form.Group>
+          </Form.Item>
 
-          <Form.Group>
-            <Form.Label>
-              Content
-            </Form.Label>
-            <FastField
+          <Form.Item
+            name={getNamespacedFieldName(fieldNamespace, 'content')}
+            label="Content">
+            <Field
               as={MarkdownEditor}
               name={getNamespacedFieldName(fieldNamespace, 'content')}
               value={lecture.content}
-              onChange={handleChange}
+              onChange={val => setFieldValue(getNamespacedFieldName(fieldNamespace, 'content'), val)}
+              // onBlur={val => setFieldValue(getNamespacedFieldName(fieldNamespace, 'content'), val)}
             />
-          </Form.Group>
+          </Form.Item>
         </fieldset>
         <fieldset className="fieldset">
           <legend>Videos</legend>

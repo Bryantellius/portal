@@ -35,5 +35,6 @@ router.use('/api/exercise', exerciseRouter);
 router.use('/api/user/:userId/exercise', exerciseRouter);
 router.use('/api/video', videoRouter);
 router.use('/api/user/:userId/quiz', quizRouter);
+router.use('/api/user/:userId/course', courseRouter);
 
 export default router;

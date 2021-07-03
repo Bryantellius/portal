@@ -5,16 +5,19 @@ import { QuizQuestionType } from '../utils/enums';
 const findById = async ( req, res ) => {
   const { id } = req.params;
 
-  const quiz = await db.Quiz.findByPk(parseInt(id), {
-    include: [
-      {
+  const quiz = await db.Quiz.findByPk(parseInt(id),
+    {
+      include: [{
         model: db.QuizQuestion,
-        include: [{
-          model: db.QuizQuestionOption
-        }]
+        include: [
+          db.QuizQuestionOption
+        ]
+      }],
+      where: {
+        id: req.params.id
       }
-    ]
-  });
+    }
+  );
 
   return res.json(quiz);
 };
@@ -47,9 +50,13 @@ const findAll = async ( req, res ) => {
   const quiz = await db.Quiz.findAll({
     where: whereCriteria,
     include: [{
-      all: true,
-      nested: true
-    }]
+      model: db.QuizQuestion,
+      include: [
+        db.QuizQuestionOption
+      ]
+    },
+      db.Lecture
+    ]
   });
 
   return res.json(quiz);
@@ -70,30 +77,34 @@ const findByLectureId = async ( req, res ) => {
 const submitResponses = async ( req, res ) => {
   const {
     userId,
-    responses,
     quizId
   } = req.body;
 
+  let responses = req.body.quizQuestionResponses;
+
   for (let response of responses) {
+    response.value = Array.isArray(response.value) ? response.value.join(';') : response.value;
     await db.QuizQuestionResponse.create({
       quizQuestionId: response.quizQuestionId,
       value: response.value,
       userId: userId
     });
 
-    response.correctAnswers = correctAnswer.answer.split(';');
-    const quizQuestion = correctAnswer.quizQuestion;
+    const quizQuestion = await db.QuizQuestion.findByPk(response.quizQuestionId);
 
+    response.correctAnswers = quizQuestion.correctAnswer.split(';');
+
+    const correctAnswer = quizQuestion.correctAnswer;
     switch (quizQuestion.type) {
       case QuizQuestionType.TrueFalse:
       case QuizQuestionType.Select:
-        response.isCorrect = correctAnswer.answer === response.value;
+        response.isCorrect = correctAnswer === response.value.toString();
         break;
       case QuizQuestionType.Text:
-        response.isCorrect = correctAnswer.answer.split(';').includes(response.value);
+        response.isCorrect = correctAnswer.split(';').includes(response.value);
         break;
       case QuizQuestionType.MultiSelect:
-        response.isCorrect = _.xor(response.isCorrect = correctAnswer.answer.split(';'), response.value.split(';')).length === 0;
+        response.isCorrect = _.xor(correctAnswer.split(';'), response.value.split(';')).length === 0;
         break;
     }
   }
@@ -206,6 +217,39 @@ const saveQuiz = async (req, res) => {
   res.json(quiz);
 };
 
+const getUserSubmissions = async (req, res) => {
+  const submissions = await db.QuizSubmission.findAll({
+    where: {
+      userId: req.params.userId || req.params.id
+    },
+    include: [
+      {
+        model: db.Quiz,
+        include: [
+          {
+            model: db.QuizQuestion,
+            include: [
+              {
+                model: db.QuizQuestionOption
+              },
+              {
+                model: db.QuizQuestionResponse,
+                where: {
+                  id: req.params.userId
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    order: [[
+      db.QuizQuestion, 'sortOrder', 'ASC'
+    ]]
+  });
+  res.json(submissions);
+};
+
 const deleteQuiz = async (req, res) => {
   const result = await db.Quiz.destroy({
     where: {
@@ -221,6 +265,7 @@ export default {
   findAll,
   findByLectureId,
   submitResponses,
+  getUserSubmissions,
   saveQuiz,
   deleteQuiz
 };

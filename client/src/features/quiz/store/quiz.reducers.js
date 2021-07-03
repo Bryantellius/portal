@@ -11,11 +11,11 @@ export const updateQuizzes = (state, { payload }) => {
 };
 
 export const updateQuizSubmissions = (state, { payload }) => {
-  state.quizSubmissions = payload;
+  state.userSubmissions = payload;
 };
 
 export const addQuizSubmission = (state, { payload }) => {
-  state.quizSubmissions.push(payload);
+  state.userSubmissions.push(payload);
 };
 
 export const removeQuiz = (state, { payload }) => {

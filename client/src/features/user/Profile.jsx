@@ -1,9 +1,9 @@
 import React from 'react';
-import UserProfileForm from './UserProfileForm';
+import UserAdditionalInfoForm from './UserAdditionalInfoForm';
 
 const Profile = () => {
   return (
-    <UserProfileForm />
+    <UserAdditionalInfoForm />
   );
 };
 

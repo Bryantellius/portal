@@ -38,8 +38,38 @@ const findByCourseId = async ( req, res ) => {
   res.json(module);
 };
 
+const saveOrUpdateModel = async (model, type) => {
+  if (model.id) {
+    const existing = await type.findByPk(model.id);
+    for (let key of Object.keys(model)) {
+      existing[key] = model[key];
+    }
+
+    return await existing.save();
+  } else {
+    return type.create(model);
+  }
+};
+
+const upsertModule = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    throw new Error('no ID found for module');
+  }
+
+  const module = req.body;
+
+  const savedModule = await saveOrUpdateModel(module, db.Module);
+
+  savedModule.setLectures(module.lectures);
+
+  res.json(savedModule);
+};
+
 export default {
   findById,
   findByCourseId: findByCourseId,
-  findAll
+  findAll,
+  upsertModule
 };

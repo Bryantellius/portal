@@ -2,11 +2,12 @@
   "name": "portal-client",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
+    "@ant-design/colors": "^6.0.0",
     "@ant-design/icons": "^4.6.2",
     "@auth0/auth0-react": "^1.5.0",
     "@babel/core": "7.12.3",
-    "@craco/craco": "^6.1.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
@@ -72,6 +73,7 @@
     "jest-watch-typeahead": "0.6.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
+    "less-loader": "^5.0.0",
     "lodash": "^4.17.21",
     "mailgun-js": "^0.22.0",
     "markdown-to-jsx": "^7.1.2",
@@ -101,6 +103,7 @@
     "react-refresh": "^0.8.3",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
     "react-select": "^4.3.1",
     "react-table": "^7.7.0",
     "redux-persist": "^6.0.0",
@@ -122,9 +125,9 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test"
   },
   "eslintConfig": {
     "extends": [
@@ -144,9 +147,12 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://portal.truecoders.io:3000",
+  "proxy": "http://localhost:3001",
   "devDependencies": {
-    "@types/react-select": "^4.0.15"
+    "@types/react-select": "^4.0.15",
+    "customize-cra": "^1.0.0",
+    "less": "^4.1.1",
+    "react-app-rewired": "^2.1.8"
   },
   "jest": {
     "roots": [
@@ -209,10 +215,13 @@
         "import",
         {
           "libraryName": "antd",
-          "style": true
+          "libraryDirectory": "es"
         }
       ],
       "@babel/plugin-transform-modules-commonjs"
     ]
+  },
+  "sourceMapPathOverrides": {
+    "webpack:///src/*": "${webRoot}/*"
   }
 }

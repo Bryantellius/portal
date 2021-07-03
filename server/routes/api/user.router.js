@@ -1,6 +1,7 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import fileUpload from 'express-fileupload';
 import userController from '../../controllers/user.controller';
+import user from '../../db/models/user';
 
 const userRouter = express.Router({ mergeParams: true });
 
@@ -20,7 +21,4 @@ userRouter.delete('/:id', userController.deleteUser);
 
 userRouter.get('/profile', userController.getSignedInUser);
 
-userRouter.post('/assets', userController.uploadAssets);
-
-userRouter.post('/link', userController.createOrUpdateAuth0UserLink);
 export default userRouter;

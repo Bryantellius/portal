@@ -8,6 +8,7 @@ import {
   faShareAltSquare,
   faBullhorn
 } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const AccountSettingsSidebar = () => {
   return (
@@ -17,21 +18,21 @@ const AccountSettingsSidebar = () => {
       </SidebarHeader>
       <Nav activeKey={window.location.pathname} defaultActiveKey="/user/profile" className="flex-column pt-2">
         <Nav.Item>
-          <Nav.Link className="text-white" href="/user/profile">
+          <Nav.Link as={Link} className="text-white" to="/user/profile">
             <FontAwesomeIcon icon={faUser} className="mr-2" />
             User Profile
           </Nav.Link>
         </Nav.Item>
 
         <Nav.Item>
-          <Nav.Link className="text-white" href="/admin/users">
+          <Nav.Link as={Link} className="text-white" to="/user/connected-accounts">
             <FontAwesomeIcon icon={faShareAltSquare} className="mr-2" />
             Connected Accounts
           </Nav.Link>
         </Nav.Item>
 
         <Nav.Item>
-          <Nav.Link className="text-white" href="/user/subscriptions">
+          <Nav.Link as={Link} className="text-white" to="/user/subscriptions">
             <FontAwesomeIcon icon={faBullhorn} className="mr-2" />
             Subscriptions
           </Nav.Link>
@@ -42,9 +43,6 @@ const AccountSettingsSidebar = () => {
 };
 
 const SidebarContainer = styled.div`
-  position: fixed;
-  left: 0;
-  top: 0;
   min-width: ${({ theme }) => theme.layouts.account.sidebar.width };
   max-width: ${({ theme }) => theme.layouts.account.sidebar.width };
   height: ${({ theme }) => theme.layouts.account.sidebar.height };

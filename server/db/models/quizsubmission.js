@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.User);
       this.belongsTo(models.Quiz);
+      this.hasMany(models.QuizQuestionResponse);
     }
   };
   quizSubmission.init({

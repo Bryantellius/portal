@@ -9,6 +9,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.QuizQuestion);
       this.belongsTo(models.User);
+      this.belongsTo(models.QuizSubmission);
     }
   };
   QuizQuestionResponse.init({

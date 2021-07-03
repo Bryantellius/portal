@@ -1,13 +1,20 @@
 @charset "UTF-8";
-@import 'styles/theme';
-
 @import "node_modules/bootstrap/scss/bootstrap.scss";
-@import '~antd/dist/antd.css';
+@import "styles/variables";
 
-@import url(https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,700,800&display=swap);
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 main, #root, body, html {
   height: 100%;
+}
+
+.ant-radio-group {
+  display: block;
+}
+
+* {
+  font-family: 'Lato', sans-serif;
+  text-rendering:optimizeLegibility;
 }
 
 .editor-modal {
@@ -38,12 +45,6 @@ main, #root, body, html {
   margin-right: auto;
 }
 
-.dashboard-widget {
-  .card-img-top {
-    height: 250px;
-  }
-}
-
 .badge-top-right {
   position: absolute;
   top: -2px;
@@ -67,6 +68,15 @@ button.btn {
   float: right;
 }
 
+.ant-page-header-heading-title {
+  font-size: 24px;
+}
+
+.ant-page-header-heading-sub-title {
+  color: rgba(0, 0, 0, 0.75);
+  font-size: 18px;
+}
+
 .tab-content {
   padding: 20px;
   padding-bottom: 75px;
@@ -74,4 +84,9 @@ button.btn {
 
 .docs-content {
   padding-bottom: 50px;
+}
+
+form.has-actions {
+  padding-bottom: 80px !important;
+  position: relative;
 }

@@ -6,6 +6,8 @@ const quizRouter = Router({ mergeParams: true });
 
 quizRouter.get("/", quizController.findAll);
 
+quizRouter.get('/submission', quizController.getUserSubmissions);
+
 quizRouter.get("/:id", quizController.findById);
 
 quizRouter.post("/:id/submission", quizController.submitResponses);

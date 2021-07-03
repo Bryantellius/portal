@@ -19,12 +19,12 @@ export default class ApiService {
   }
 
   async create (model) {
-    return await this.httpPost(this.apiRoot, model);
+    return await this.httpPost('', model);
   }
 
   async upsert (model) {
     return !!model.id
-      ? await this.update(model)
+      ? await this.update(model.id, model)
       : await this.create(model);
   }
 

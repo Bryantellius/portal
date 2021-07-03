@@ -3,8 +3,8 @@ import quizService from '../quiz.service';
 
 export const submitQuiz = createAsyncThunk(
   'quiz/submit',
-  async ({ userId, quizId, quizResponses }) => {
-    return await quizService.saveQuizSubmission(userId, quizId, quizResponses);
+  async ({ userId, quizId, quizQuestionResponses }) => {
+    return await quizService.saveQuizSubmission(userId, quizId, quizQuestionResponses);
   }
 );
 

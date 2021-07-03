@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PageHeading from '../../shared/components/PageHeading';
-import DataTable from '../../shared/components/DataTable';
+import DataTable from '../../shared/dataTable/DataTable';
 import moduleService from '../module.service';
 import PageContent from '../../shared/components/PageContent';
 import { columnDefinitions } from '../module.config';

@@ -6,17 +6,17 @@ class QuizService extends ApiService {
   }
 
   async saveQuizSubmission (userId, quizId, quizResponses) {
-    return await this.httpPost(`/${ quizId }`,
+    return await this.httpPost(`/${ quizId }/submission`,
       {
         userId,
         quizId,
-        responses: quizResponses
+        quizQuestionResponses: quizResponses
       }
     );
   }
 
   async fetchSubmissionsByUserId (userId) {
-    return await this.httpGet(`/${ userId }/quiz/submission`, false);
+    return await this.httpGet(`/user/${ userId }/quiz/submission`, false);
   }
 }
 

@@ -1,31 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import QuizQuestion from './QuizQuestion';
-import ActionButton from '../shared/components/ActionButton';
-import { QuizQuestionType } from '../../utils/enums';
-import { Badge } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import PageActions from '../shared/components/PageActions';
+import { submitQuiz } from './store/quiz.thunks';
+import { Formik, FieldArray, Form } from 'formik';
+import { Affix, Button, Typography } from 'antd';
+import { ArrowRightOutlined, CheckOutlined, RetweetOutlined } from '@ant-design/icons';
 
 const ViewQuiz = ({
   id,
-  title,
+  lecture,
   questions,
   onSubmitted
 }) => {
   const dispatch = useDispatch();
-  const [usePreviousSubmission, setUsePreviousSubmission] = useState(true);
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const quizSubmissions = useSelector(state => state.quiz.quizSubmissions);
-  const user = useSelector(state => state.auth.user);
-  const currentQuizSubmission = quizSubmissions.filter(submission => submission.quizId === id);
+  const [usePreviousSubmission, setUsePreviousSubmission] = useState(false);
+  const getInitialValues = () => {
+    return {
+      userId: user?.id,
+      quizId: id,
+      quizQuestionResponses: quizResponsesTemplate
+    };
+  }
 
+  const quizSubmissions = useSelector(state => state.quiz.userSubmissions);
+  const user = useSelector(state => state.auth.user);
+  const currentQuizSubmission = quizSubmissions?.filter(submission => submission.quizId === id)?.slice(-1)[0];
   const quizResponsesTemplate = questions.map(question => {
     return {
       quizQuestionId: question.id,
       userId: user.id,
-      value: null
+      value: ''
     };
   });
+  const [initialValues, setInitialValues] = useState(getInitialValues());
+
+  useEffect(() => {
+    if (currentQuizSubmission && currentQuizSubmission.id) {
+      setUsePreviousSubmission(true);
+      setInitialValues(currentQuizSubmission);
+    }
+  }, [currentQuizSubmission]);
 
   const [quizResponses, setQuizResponses] = useState(quizResponsesTemplate);
 
@@ -35,97 +49,99 @@ const ViewQuiz = ({
   };
 
   const getCorrectAnswers = questionId => {
-    const answers = quizResponses?.find(response => response.quizQuestionId === questionId)
-      ?.correctAnswers;
-
-    if (!answers) {
-      return [];
-    }
-
     const question = questions.find(question => question.id === questionId);
 
-    return answers.map(answer => {
-      if (question.type === QuizQuestionType.Select
-        || question.type === QuizQuestionType.MultiSelect) {
-        const correctOption = question.quizQuestionOptions.find(option => option.value === answer);
-        return correctOption.text;
-      }
-
-      return answer;
-    });
+    return question.correctAnswer.split(';');
   };
 
-  const handleUpdateQuizResponses = ( index, value ) => {
-    const updatedResponses = quizResponses.slice();
 
-    let normalizedValue;
-    if (Array.isArray(value)) { //multiselect values
-      normalizedValue = value.map(selectedOption => {
-        return selectedOption.value;
-      })
-      .join(';');
-    } else if (typeof value === 'object') {
-      normalizedValue = value.value;
-    } else {
-      normalizedValue = value.toString();
-    }
-
-    updatedResponses[index].value = normalizedValue;
-    setQuizResponses(updatedResponses);
-  };
-
-  const submitQuiz = async () => {
-    await dispatch(submitQuiz({
-      quizId: id,
-      userId: user?.id,
-      responses: quizResponses
-    }));
-
-    onSubmitted();
+  const handleSubmit = async values => {
+    await dispatch(submitQuiz(values));
+    onSubmitted(values.quizQuestionResponses);
   };
 
   const resetQuiz = () => {
-    setQuizSubmitted(false);
-    setQuizResponses(quizResponsesTemplate);
+    setInitialValues(getInitialValues());
     setUsePreviousSubmission(false);
   };
 
+  const nextLecture = () => {
+
+  }
+
   return (
     <>
-      <h2 className="d-inline-block w-80">{ title }</h2>
-      {
-        quizSubmitted &&
-        <Badge variant={ currentQuizSubmission?.score > 0.75 ? 'success' : 'danger' }>
-          { currentQuizSubmission?.score * 100 }%
-        </Badge>
-      }
-      {
-        questions && questions.map(( question, index ) => {
-          return (
-            <QuizQuestion
-              key={ question.id }
-              quizId={ id }
-              question={question}
-              submitted={ quizSubmitted }
-              usePreviousSubmission={usePreviousSubmission}
-              previousResponse={currentQuizSubmission?.responses?.find(response => response.quizQuestionId === question?.id )}
-              isCorrect={ isAnswerCorrect(question.id) }
-              options={ question.quizQuestionOptions }
-              onUpdate={ handleUpdateQuizResponses.bind(this, index) }
-              correctAnswers={ getCorrectAnswers(question.id) }
-            />
-          );
-        })
-      }
-      <PageActions side="right" className="clearfix">
-        <ActionButton variant="secondary" onClick={ resetQuiz }>
-          Retake Quiz
-        </ActionButton>
-        <ActionButton variant="primary"
-                      onClick={ submitQuiz }>
-          { quizSubmitted ? 'Next Lecture' : 'Submit' }
-        </ActionButton>
-      </PageActions>
+      <Formik
+        initialValues={ initialValues }
+        enableReinitialize={ true }
+        onSubmit={ handleSubmit }>
+        <Form>
+
+          <h2 className="">
+            { lecture?.title } Quiz
+          </h2>
+
+          {
+            usePreviousSubmission &&
+              <Typography.Paragraph
+                style={{textAlign: 'right', width: '100%'}}
+                strong>
+                Your Score:  { currentQuizSubmission.score * 100 }%
+              </Typography.Paragraph>
+          }
+
+          <FieldArray name="responses">
+            {() => (
+              questions && questions.map((question, index) => {
+                return (
+                  <QuizQuestion
+                    key={ index }
+                    questionIndex={ index }
+                    question={ question }
+                    correctAnswers={ getCorrectAnswers(question.id) }
+                    usePreviousSubmission={ usePreviousSubmission }
+                  />
+                );
+              })
+            )}
+          </FieldArray>
+
+          <Affix
+            style={{ position: 'absolute', right: 0 }}
+            offsetBottom={10}>
+            {
+              usePreviousSubmission
+                ?
+                <>
+                  <Button
+                    size="large"
+                    type="default"
+                    style={{ right: 0 }}
+                    onClick={resetQuiz}
+                    icon={ <RetweetOutlined />}>
+                    Retake Quiz
+                  </Button>
+                  <Button
+                  size="large"
+                  type="primary"
+                  style={{ right: 0 }}
+                  onClick={nextLecture}
+                  icon={ <ArrowRightOutlined />}>
+                  Next Lecture
+                </Button>
+                </>
+              : <Button
+                  type="primary"
+                  size="large"
+                  shape="round"
+                  htmlType="submit"
+                  icon={<CheckOutlined />}>
+                  Submit
+                </Button>
+            }
+          </Affix>
+        </Form>
+      </Formik>
     </>
   );
 };

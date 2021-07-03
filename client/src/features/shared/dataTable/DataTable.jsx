@@ -1,11 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { default as DataTableComponent } from 'react-data-table-component';
-import Loading from './Loading';
-import RowContextActions from '../dataTable/RowContextActions';
-import TableActions from '../dataTable/TableActions';
-import RowActionButton from '../dataTable/RowActionButton';
-import { ButtonGroup } from 'react-bootstrap';
-import RowActionsCell from '../dataTable/RowActionsCell';
+import Loading from '../components/Loading';
+import RowContextActions from './RowContextActions';
+import TableActions from './TableActions';
+import RowActionsCell from './RowActionsCell';
 
 const DataTable = ({
   title,
@@ -39,7 +37,7 @@ const DataTable = ({
     <DataTableComponent
       responsive
       progressPending={loading}
-      progressComponent={Loading}
+      progressComponent={<Loading />}
       title={title}
       columns={ extendedColumns }
       data={ data }

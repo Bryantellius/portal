@@ -2,37 +2,47 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import routes from './index';
 import DefaultLayout from '../features/layout/DefaultLayout';
-import { useSelector } from 'react-redux';
+import AuthorizedRoute from '../features/auth/AuthorizedRoute';
+import AuthContainer from '../features/auth/AuthContainer';
 
-const GetRouteWithLayout = route => {
-  const Layout = route.layout || DefaultLayout;
-  const Component = route.component;
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+const RouteWithLayout = ({
+  path,
+  redirect,
+  allowAnonymous,
+  component: Component,
+  layout: Layout = DefaultLayout,
+  ...props
+}) => {
+  if (redirect) {
+     return <Route path={path} render={() => (
+       <Redirect to={redirect} />
+      )}
+     />
+  }
 
-  return (
-      <Route
-        key={ route.path }
-        path={ route.path }
-        exact={ route.exact }
-        render={ props => route.redirect
-          ? (
-            <Redirect to={ route.redirect } />
-          ) : (
-            route.requireAuth && !isAuthenticated
-              ? <Redirect to={ '/login' } />
-              : <Layout>
-                  <Component { ...props } />
-                </Layout>
-          )
-        }
-      />
-  );
+  return allowAnonymous
+    ? <Route
+        path={path} {...props} component={() =>
+      <Layout>
+        <Component />
+      </Layout>
+    }/>
+    : <AuthorizedRoute path={path} {...props} component={() =>
+        <AuthContainer>
+          <Layout {...props}>
+            <Component {...props } />
+          </Layout>
+        </AuthContainer>
+      }
+    />;
 };
 
-const Routes = ({ children }) => {
+const Routes = () => {
   return (
     <Switch>
-      {routes.map(route => GetRouteWithLayout(route))}
+      {
+        routes.map((route, index) => <RouteWithLayout path={route.path} key={index} {...route} />)
+      }
     </Switch>
   );
 };

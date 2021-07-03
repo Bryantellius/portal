@@ -1,7 +1,7 @@
-'use strict';
-const {
+import {
   Model
-} = require('sequelize');
+} from 'sequelize';
+
 module.exports = (sequelize, DataTypes) => {
   class CourseModule extends Model {
     /**
@@ -10,25 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // this.belongsToMany(models.Course, { through: CourseModule });
-      // this.belongsToMany(models.Module, { through: CourseModule });
+      this.belongsTo(models.Course);
+      this.belongsTo(models.Module);
     }
   };
   CourseModule.init({
-    courseId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'courses',
-        key: 'id'
-      }
-    },
-    moduleId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'modules',
-        key: 'id'
-      }
-    },
     sortOrder: DataTypes.INTEGER
   }, {
     sequelize,

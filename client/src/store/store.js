@@ -43,6 +43,11 @@ const store = configureStore({
     video: {
       videos: [],
       isLoading: false
+    },
+    quiz: {
+      userSubmissions: [],
+      quizzes: [],
+      quiz: []
     }
   },
   devTools: process.env.NODE_ENV !== 'production'

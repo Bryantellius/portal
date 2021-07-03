@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PageHeading from '../../shared/components/PageHeading';
-import DataTable from '../../shared/components/DataTable';
+import DataTable from '../../shared/dataTable/DataTable';
 import { columnDefinitions } from '../user.config';
 import { useHistory } from 'react-router-dom';
 import userService from '../user.service';
@@ -25,17 +25,10 @@ const ViewUsers = () => {
   };
 
   const rowActions = [{
-    name: '',
-    cell: (row, index) => (
-      <RowActionButton
-        key={index}
-        text="Edit"
-        icon={faPencilAlt}
-        onClick={() => goToEditRoute(row.id)}>
-        Edit
-      </RowActionButton>
-    )
+    name: 'Edit',
+    onClick: (row, index) => goToEditRoute(row.id)
   }];
+
 
   useEffect(() => {
     const fetchUsers = async () => {

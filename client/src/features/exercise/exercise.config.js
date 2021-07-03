@@ -8,7 +8,7 @@ const exerciseConfig = {
     columnDefinitions: [{
       name: 'Student',
       selector: 'user',
-      format: row => `${ row.user.firstName } ${ row.user.lastName }`,
+      format: row => `${ row.user?.firstName } ${ row.user?.lastName }`,
       sortable: true,
       grow: 1
     },

@@ -45,7 +45,7 @@ const VideoAssociationList = ({
             />
           </Form.Group>
 
-          <ActionButton class="float-right" onClick={onRemove} icon={faTrashAlt}>
+          <ActionButton className="float-right" onClick={onRemove} icon={faTrashAlt}>
             Remove
           </ActionButton>
         </ListGroupItem>

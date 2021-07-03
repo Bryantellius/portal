@@ -1,113 +1,161 @@
 import React, { useState, useEffect } from 'react';
 import ViewQuiz from '../quiz/ViewQuiz';
 import styled from 'styled-components';
-import { Tab } from 'react-bootstrap'
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLastLectureId } from '../auth/auth.slice';
-import { setLectureCompleted, setCurrentLecture } from './lecture.slice';
+import { setCurrentLecture, setLectureCompleted } from './lecture.slice';
 import { updateCurrentLectureForCourse } from '../course/course.slice';
 import LectureStepsNav from './LectureStepsNav';
 import Exercise from '../exercise/Exercise';
 import LectureContent from './LectureContent';
-import LectureNavButtons from './LectureNavButtons';
+import { Affix, Button } from 'antd';
+import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import ViewLectureCompletion from './ViewLectureCompletion';
 
 const ViewLecture = () => {
   const params = useParams();
-  const lectureId = parseInt(params.lectureId);
+  const history = useHistory();
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('lesson');
+  const lectureId = parseInt(params.lectureId);
+  const [currentStep, setCurrentStep] = useState(0);
   const activeCourse = useSelector(state => state.course.activeCourse);
-  const allLectures = useSelector(state => state.lecture.lectures);
   const lecture = useSelector(state => state.lecture.currentLecture);
-  const nextLecture = useSelector(state => {
-    const currentLectureIndex = allLectures?.findIndex(lecture => lecture.id === lectureId);
-    return allLectures?.length > currentLectureIndex + 1
-      ? allLectures[currentLectureIndex + 1]
-      : null;
-  });
-
-  const [exerciseSubmitted, setExerciseSubmitted] = useState(false);
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const nextId = nextLecture?.id;
+  const [quizResponses, setQuizResponses] = useState([]);
+  const nextLectureId = parseInt(params.lectureId) + 1;
 
 
+  const completeLecture = () => {
+    const nextRoute = `/course/${ params.courseId }/lecture/${ nextLectureId }`;
 
-  const goToTab = tabName => {
-    setActiveTab(tabName);
+    history.replace(nextRoute);
+  }
+
+  const goToStep = stepName => {
+    const steps = [
+      'lesson',
+      'exercise',
+      'quiz',
+      'results'
+    ]
+    setCurrentStep(steps.indexOf(stepName));
   };
-
-  useEffect(() => {
-    setActiveTab('lesson');
-  }, [window.location.pathname]);
 
   const onExerciseSubmitted = () => {
-    setExerciseSubmitted(true);
-    if (quizSubmitted) {
-      dispatch(setLectureCompleted(lecture));
-    }
+    goToStep('quiz');
   };
 
-  const onQuizSubmitted = () => {
-    setQuizSubmitted(true);
-    if (exerciseSubmitted) {
-      dispatch(setLectureCompleted(lecture));
-    }
+  const onQuizSubmitted = (responses) => {
+    dispatch(setLectureCompleted(lecture));
+    goToStep('results');
+    setQuizResponses(responses);
+  };
+
+  const onLectureComplete = () => {
+    const allLectures = activeCourse?.modules?.flatMap(module => module?.lectures);
+
+    const currentLecture = allLectures?.findIndex(lecture => lecture.id === lectureId) + 1;
+    dispatch(setCurrentLecture(currentLecture));
+    dispatch(updateCurrentLectureForCourse(currentLecture));
+  };
+
+  const onRetakeQuiz = () => {
+    history.goBack();
+    goToStep('quiz');
   };
 
   useEffect(() => {
     dispatch(setLastLectureId(lectureId));
-    const currentLecture = allLectures.find(lecture => lecture.id === lectureId);
+    const allLectures = activeCourse?.modules?.flatMap(module => module?.lectures);
+    const currentLecture = allLectures?.find(lecture => lecture.id === lectureId);
     if (!!lectureId && !!currentLecture) {
       dispatch(setCurrentLecture(currentLecture));
     }
     dispatch(updateCurrentLectureForCourse({ courseId: activeCourse.id, lastLectureId: lectureId }));
 
-  }, [dispatch, lectureId, activeCourse?.id]);
+  }, [dispatch, activeCourse, lectureId]);
 
   return (
     <LectureWrapper>
       <h1 className="text-center">{lecture?.title}</h1>
-      <Tab.Container activeKey={activeTab} defaultActiveKey="lesson">
-        <LectureStepsNav activeTab={activeTab} setActiveTab={goToTab} />
-        <Tab.Content style={{ position: 'relative', paddingTop: '20px' }}>
-          <Tab.Pane eventKey="lesson">
-            {
-              lecture?.content &&
-              <LectureContent content={lecture?.content} videos={lecture?.videos} />
-            }
-            <LectureNavButtons isNextEnabled={true} isBackEnabled={false} onNext={() => goToTab('exercise')} />
-          </Tab.Pane>
-          <Tab.Pane eventKey="exercise">
-            {
-              lecture?.exercise &&
-              <Exercise exercise={lecture.exercise} onSubmitted={onExerciseSubmitted} onNext={() => goToTab('quiz')} />
-            }
-            <LectureNavButtons isBackEnabled={true} isNextEnabled={false} onPrevious={() => goToTab('lesson')} />
-          </Tab.Pane>
-          <Tab.Pane eventKey="quiz">
-            <div className="docs-quiz">
-              {
-                lecture?.quiz && lecture?.quiz?.id &&
-                  <ViewQuiz
-                    onSubmitted={onQuizSubmitted}
-                    title={lecture?.quiz.title}
-                    id={lecture?.quiz.id}
-                    lectureId={lecture?.id}
-                    questions={lecture?.quiz?.quizQuestions}
-                  />
-              }
-              <LectureNavButtons nextLabel="Submit" isBackEnabled={true} isNextEnabled={false} onPrevious={() => goToTab('exercise')} />
-            </div>
-          </Tab.Pane>
-        </Tab.Content>
-      </Tab.Container>
+      <LectureStepsNav currentStep={currentStep} onChange={setCurrentStep} />
+      <LectureStepWrapper>
+        {
+          currentStep === 0 && lecture?.content &&
+          <LectureContent content={lecture?.content} videos={lecture?.videos} />
+        }
+        {
+          currentStep === 1 && lecture?.exercise &&
+          <Exercise
+            exercise={lecture.exercise}
+            onSubmitted={onExerciseSubmitted}
+            onNext={() => goToStep('quiz')}
+          />
+        }
+        {
+          currentStep === 2 && lecture?.quiz &&
+            <ViewQuiz
+              onSubmitted={onQuizSubmitted}
+              title={lecture?.quiz.title}
+              id={lecture?.quiz.id}
+              lecture={lecture}
+              questions={lecture?.quiz?.quizQuestions}
+            />
+        }
+        {
+            currentStep === 3 &&
+              <ViewLectureCompletion
+                questions={lecture?.quiz?.quizQuestions}
+                responses={quizResponses}
+                onContinue={completeLecture}
+                onRetakeQuiz={() => goToStep("quiz")}
+              />
+        }
+        {
+          currentStep !== 0 &&
+            currentStep !== 3 &&
+          <Affix
+            style={ { position: 'absolute', left: 0 } }
+            offsetBottom={ 10 }>
+            <Button
+              size="large"
+              type="primary"
+              onClick={ () => setCurrentStep(currentStep - 1) }
+              icon={ <ArrowLeftOutlined /> }>
+              Back
+            </Button>
+          </Affix>
+        }
+        {
+          currentStep < 2 &&
+          <Affix
+            style={{ position: 'absolute', right: 0 }}
+            offsetBottom={10}>
+            <Button
+              size="large"
+              type="primary"
+              style={{ right: 0 }}
+              onClick={ () => setCurrentStep(currentStep + 1) }
+              icon={ <ArrowRightOutlined />}>
+              Next
+            </Button>
+          </Affix>
+        }
+      </LectureStepWrapper>
     </LectureWrapper>
   );
 };
 
 const LectureWrapper = styled.div`
   width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px;
+`;
+
+const LectureStepWrapper = styled.div`
+  position: relative;
+  padding-top: 20px;
 `;
 
 export default ViewLecture;

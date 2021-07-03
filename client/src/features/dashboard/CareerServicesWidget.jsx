@@ -1,22 +1,27 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'antd';
+import { blue } from '@ant-design/colors';
 
 const CareerServicesWidget = () => {
   return (
-    <Card text="dark" className="shadow dashboard-widget bg-light-success">
-      <Card.Img
-        variant="top"
-        src="../assets/svg/career-services.svg"
-        alt="One on Ones"
-      />
-      <Card.Body>
-        <Card.Title className="text-dark">Career Services</Card.Title>
-        <Card.Link
-          href="/career-services"
-          className="btn btn-sm btn-primary">
-          Schedule Appointment
-        </Card.Link>
-      </Card.Body>
+    <Card
+      bodyStyle={{ backgroundColor: '#fff' }}
+      style={{ backgroundColor: blue.primary }}
+      cover={
+        <img
+          src="/assets/svg/learn.svg"
+          alt="Career Services"
+        />
+      }
+      actions={[
+        <Button
+          key="Career Services"
+          type="primary"
+          href="/career-services">
+          Schedule an Appointment
+        </Button>
+      ]}>
+      <Card.Meta title="Career Services" />
     </Card>
   );
 };

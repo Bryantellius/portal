@@ -10,6 +10,10 @@ class UserService extends ApiService {
       return this.delete(userId);
     }));
   }
+
+  async getCourseInfo (userId, courseId) {
+    return this.httpGet(`/${ userId }/course/${ courseId }/details`);
+  }
 }
 const userService = new UserService();
 export default userService;

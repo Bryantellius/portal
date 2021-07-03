@@ -6,8 +6,11 @@ const persistConfig = {
   key: 'root',
   storage,
   whitelist: [
-    'auth',
-    'darkMode'
+    'darkMode',
+    'course',
+    'quiz',
+    'module',
+    'lecture'
   ]
 };
 

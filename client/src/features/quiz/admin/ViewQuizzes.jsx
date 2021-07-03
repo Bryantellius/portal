@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { columnDefinitions } from '../quiz.config';
 import PageHeading from '../../shared/components/PageHeading';
-import DataTable from '../../shared/components/DataTable';
+import DataTable from '../../shared/dataTable/DataTable';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import quizService  from '../quiz.service';

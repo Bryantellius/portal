@@ -30,7 +30,7 @@ const CourseSidebarLecture = ({
         <FontAwesomeIcon
           icon={ faCheckCircle }
           className="text-success d-inline-block"
-          style={ { marginLeft: '-20px' } }
+          style={ { marginLeft: '-20px', marginRight: '5px' } }
         />
       }
       { lecture.title }

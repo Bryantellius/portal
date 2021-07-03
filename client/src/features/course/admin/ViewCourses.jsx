@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PageHeading from '../../shared/components/PageHeading';
-import DataTable from '../../shared/components/DataTable';
+import DataTable from '../../shared/dataTable/DataTable';
 import { columnDefinitions } from '../course.config';
 import { useHistory } from 'react-router-dom';
 import PageContent from '../../shared/components/PageContent';

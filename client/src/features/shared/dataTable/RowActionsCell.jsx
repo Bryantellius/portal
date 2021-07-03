@@ -10,7 +10,7 @@ const RowActionsCell = ({
     <div>
       {
         actions.map(action => (
-          <RowActionButton row={row} rowIndex={rowIndex} action={ action } text={ action.name } onClick={ action.onClick } />
+          <RowActionButton key="1" row={row} rowIndex={rowIndex} action={ action } text={ action.name } onClick={ action.onClick } />
         ))
       }
     </div>

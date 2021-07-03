@@ -11,10 +11,12 @@ import styled from 'styled-components';
 import LoadingContainer from '../../shared/components/LoadingContainer';
 import { fetchLectures } from '../../lecture/lecture.slice';
 import quizService from '../quiz.service';
+import lectureService from '../../lecture/lecture.service';
 
 const EditQuiz = () => {
   const { id } = useParams();
   const [quiz, setQuiz] = useState();
+  const [lectures, setLectures] = useState();
   const dispatch = useDispatch();
 
   const quizFormatter = quiz => {
@@ -33,9 +35,7 @@ const EditQuiz = () => {
     };
   };
 
-  const lectures = useSelector(state => state.lecture.lectures);
-
-  const lectureSelectOptions = lectures.map(lecture => {
+  const lectureSelectOptions = lectures?.map(lecture => {
     return {
       value: lecture.id,
       label: lecture.title
@@ -46,6 +46,9 @@ const EditQuiz = () => {
     const loadQuiz = async () => {
       const quiz = await quizService.fetchById(id);
       setQuiz(quiz);
+
+      const lectures = await lectureService.fetchAll();
+      setLectures(lectures);
     };
 
     loadQuiz();

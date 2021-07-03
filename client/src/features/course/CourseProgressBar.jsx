@@ -7,7 +7,7 @@ const CourseProgressBar = () => {
   const allLectures = useSelector(state => state.course.activeCourse?.modules?.flatMap(module => module.lectures) || []);
   const completedLectures = useSelector(state => state.lecture.completedLectures);
   const completionPercentage = useMemo(() => {
-    return completedLectures.length / parseFloat(allLectures.length) * 100;
+    return (completedLectures.length / parseFloat(allLectures.length) * 100).toFixed(1);
   }, [allLectures, completedLectures]);
 
   return (
@@ -18,7 +18,7 @@ const CourseProgressBar = () => {
       <ProgressBar
         style={ { height: '25px', marginBottom: '20px' } }
         now={ completionPercentage }
-        label={ `${ completionPercentage }%` }
+        label={ `` }
         variant="success"
         animated={ true }
       />

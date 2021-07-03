@@ -1,20 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { columnDefinitions } from '../user.config';
-import DataTable from '../../shared/components/DataTable';
+import { Table } from 'antd';
+import moment from 'moment';
 
 const UserEnrolledCourseList = ({
   user,
-  courses
+  enrolledCourses
 }) => {
-
   return (
-    <DataTable
-      title="Enrolled Courses"
+    <Table
       columns={columnDefinitions.userEnrolledCourses}
-      data={courses}
-      selectableRows
-      // rowActions={rowActions}
-      // contextActions={contextActions}
+      dataSource={enrolledCourses}
+      title={() => 'Enrolled Courses'}
     />
   );
 };

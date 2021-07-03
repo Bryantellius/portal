@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Nav } from 'react-bootstrap';
 import CourseProgressBar from './CourseProgressBar';
 import CourseSidebarModule from './sidebar/CourseSidebarModule';
+import LineBreak from '../shared/components/LineBreak';
 
 const CourseSidebar = ({ course }) => {
 
@@ -17,6 +18,8 @@ const CourseSidebar = ({ course }) => {
           <h4 className="text-primary">
             { course.title }
           </h4>
+
+          <LineBreak />
           <CourseProgressBar />
           {
             course?.modules?.length > 0 && course?.modules?.map(module => (

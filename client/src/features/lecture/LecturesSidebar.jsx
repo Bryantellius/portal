@@ -37,7 +37,8 @@ const LecturesSidebar = ({ course }) => {
                           <NavLink
                             to={`/learn/${lecture.id}`}
                             key={lecture.id}
-                            className="nav-link d-inline-block w-80">
+                            className="nav-link d-inline-block w-80"
+                            style={{paddingLeft: '20px' }}>
                             {
                               isLectureCompleted(lecture.id) &&
                               <FontAwesomeIcon icon={faCheckCircle} className="text-success d-inline-block" style={{ marginLeft: '-20px'}} />

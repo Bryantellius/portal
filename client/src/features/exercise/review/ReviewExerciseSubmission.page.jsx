@@ -1,21 +1,21 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { DiscussionEmbed } from 'disqus-react';
 import appConfig from '../../../config/appConfig';
 import { useHistory, useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 import PageActions from '../../shared/components/PageActions';
 import ActionButton from '../../shared/components/ActionButton';
-import { approveSubmission, fetchExerciseSubmission } from '../exercise.slice';
+import { approveSubmission } from '../exercise.slice';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import PageContent from '../../shared/components/PageContent';
 import PageHeading from '../../shared/components/PageHeading';
+import exerciseService from '../exercise.service';
 
 const ReviewExerciseSubmissionPage = () => {
   const { submissionId } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const submission = useSelector(state => state.exercise.submission);
+  const [submission, setSubmission] = useState();
 
   const disqusConfig = useMemo(() => {
     return {
@@ -32,9 +32,13 @@ const ReviewExerciseSubmissionPage = () => {
   };
 
   useEffect(() => {
-    if (submissionId) {
-      dispatch(fetchExerciseSubmission(submissionId));
-    }
+    const loadSubmission = async () => {
+      const submission = await exerciseService.fetchExerciseSubmission(submissionId);
+
+      setSubmission(submission);
+    };
+
+    loadSubmission();
   }, [submissionId]);
 
 

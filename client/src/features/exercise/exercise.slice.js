@@ -1,54 +1,39 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import ApiClient from '../../utils/apiClient';
+import exerciseService from './exercise.service';
 
 export const fetchExerciseSubmissions = createAsyncThunk(
   'exercise/fetchSubmissions',
   async (_, thunkAPI) => {
-    const apiClient = new ApiClient();
-    return await apiClient.get(`/exercise/submission`);
+    return await exerciseService.fetchExerciseSubmissions();
   }
 );
 
 export const fetchExerciseSubmission = createAsyncThunk(
   'exercise/fetchSubmission',
   async (submissionId, thunkAPI) => {
-    const apiClient = new ApiClient();
-    return await apiClient.get(`/exercise/submission/${ submissionId }`);
+    return await exerciseService.fetchById(submissionId);
   }
 );
 
-
-export const fetchExerciseSuibmissionsForUser = createAsyncThunk(
+export const fetchExerciseSubmissionsForUser = createAsyncThunk(
   'exercise/fetchSubmissionsForUser',
   async (userId, thunkAPI) => {
-    const apiClient = new ApiClient();
-    return await apiClient.get(`/user/${ userId }/exercise/submission`);
+    return await exerciseService.fetchSubmissionsForUser(userId);
   }
 )
 
 export const submitExercise = createAsyncThunk(
   'exercise/submitExercise',
-  async ({ exerciseId, repoUrl, userId }, thunkAPI) => {
-    const apiClient = new ApiClient();
-    return await apiClient.post(`/exercise`, { repoUrl, userId, exerciseId });
-  }
-);
-
-export const updateExerciseSubmission = createAsyncThunk(
-  'exercise/updateSubmission',
-  async ({ exerciseId, repoUrl, userId }, thunkAPI) => {
-    const apiClient = new ApiClient();
-    return await apiClient.put(`/exercise/${ exerciseId }`, { repoUrl, userId, exerciseId });
+  async (submission, thunkAPI) => {
+    return await exerciseService.submitExercise(submission);
   }
 );
 
 export const approveSubmission = createAsyncThunk(
   'exercise/approveSubmission',
-  async (id, thunkAPI) => {
-    const apiClient = new ApiClient();
-    return await apiClient.post(`/exercise/submission/${ id }/approve`);
-  }
-);
+async submissionId => {
+    return await exerciseService.approveSubmission(submissionId);
+  });
 
 export const initialState = {
   submissions: [],
@@ -75,21 +60,14 @@ const exerciseSlice = createSlice({
       state.submissions = action.payload;
       state.isLoading = false;
     },
+    [fetchExerciseSubmissionsForUser.fulfilled]: (state, action) => {
+      state.userSubmissions = action.payload;
+    },
     [submitExercise.fulfilled]: (state, action) => {
       state.userSubmissions = [
         ...state.userSubmissions,
         action.payload
       ]
-    },
-    [fetchExerciseSuibmissionsForUser.fulfilled]: (state, action) => {
-      state.userSubmissions = action.payload;
-    },
-    [updateExerciseSubmission.fulfilled]: (state, action) => {
-      const submission = action.payload;
-      state.userSubmissions = [
-        ...state.userSubmissions.filter(existingSubmission => existingSubmission.id !== submission.id),
-        submission
-      ];
     }
   }
 });

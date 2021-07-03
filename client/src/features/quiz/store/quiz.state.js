@@ -1,7 +1,7 @@
 const initialState = {
   quiz: null,
   quizzes: [],
-  quizSubmissions: [],
+  userSubmissions: [],
   isLoading: false,
   error: null
 };

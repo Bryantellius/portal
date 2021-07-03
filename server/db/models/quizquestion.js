@@ -10,6 +10,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.QuizQuestionOption);
       this.belongsTo(models.Quiz);
+      this.hasMany(models.QuizQuestionResponse);
     }
   };
 

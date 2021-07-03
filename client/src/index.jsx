@@ -1,20 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
+import { AuthProvider } from './features/auth/auth';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ReduxProvider from './store/ReduxProvider';
-import AuthHelpers from './features/auth/AuthProvider';
 import Theme from './features/theme/Theme';
 
 ReactDOM.render(
   <Theme>
-    <AuthHelpers>
       <ReduxProvider>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </ReduxProvider>
-    </AuthHelpers>
   </Theme>,
   document.getElementById('root')
 );

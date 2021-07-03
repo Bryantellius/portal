@@ -5,12 +5,12 @@ import ModuleLectures from './ModuleLectures';
 import EditModuleLecture from './EditModuleLecture';
 import { getNamespacedFieldName } from '../../../utils/helpers';
 import EditorModal from '../../shared/form/EditorModal';
+import moduleService from '../../module/module.service';
 
 const EditCourseModule = ({
   show,
   module,
   moduleIndex,
-  onSave,
   onHide,
   fieldNamespace
 }) => {
@@ -36,12 +36,23 @@ const EditCourseModule = ({
     };
   };
 
+  const saveModule = async () => {
+
+    module.lectures = module.lectures.map(lecture => lecture.id);
+    const saved = await moduleService.upsert(module);
+
+    setFieldValue(getNamespacedFieldName(fieldNamespace, 'id'), saved.id);
+    console.log(saved);
+
+    onHide();
+  };
+
   return (
     <EditorModal
       show={ show }
       onHide={ onHide }
       title={`${ module?.id ? 'Edit' : 'Add' } Module`}
-      onSave={onSave}>
+      onSave={saveModule}>
       <Form.Group>
         <Form.Label>
           Title
@@ -58,7 +69,7 @@ const EditCourseModule = ({
       </Form.Group>
 
       <FieldArray name={ `modules.${ moduleIndex }.lectures` }>
-        { ({ insert, remove, push }) => (
+        {({ insert, remove, push }) => (
           <>
             <ModuleLectures
               moduleIndex={ moduleIndex }

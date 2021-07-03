@@ -7,27 +7,22 @@ export default (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate (models) {
-      // this.belongsToMany(models.Course, { through: CourseUser});
-      // this.belongsToMany(models.User, { through: CourseUser });
+      this.belongsTo(models.Course);
+      this.belongsTo(models.User);
     }
   };
   CourseUser.init({
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
     courseId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'courses',
+        model: 'course',
         key: 'id'
       }
     },
     userId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'users',
+        model: 'user',
         key: 'id'
       }
     },

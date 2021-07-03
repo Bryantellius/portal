@@ -1,7 +1,7 @@
 import React from 'react';
-import Video from '../video/Video';
 import Markdown from 'markdown-to-jsx';
 import VideoPlaylist from '../video/VideoPlaylist';
+import LineBreak from '../shared/components/LineBreak';
 
 const LectureContent = ({
   content,
@@ -12,6 +12,8 @@ const LectureContent = ({
       {
         videos && <VideoPlaylist videos={videos} />
       }
+
+      <LineBreak/>
       <Markdown>{content}</Markdown>
     </>
   );

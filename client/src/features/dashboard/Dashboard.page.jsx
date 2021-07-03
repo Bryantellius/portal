@@ -1,49 +1,40 @@
 import React, { useEffect } from 'react';
-import { Row, Col } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
 import CareerServicesWidget from './CareerServicesWidget';
 import EnrolledCoursesWidget from './EnrolledCoursesWidget';
 import GreetingWidget from './GreetingWidget';
 import TutoringWidget from './TutoringWidget';
-import { Button } from 'antd';
+import { Row, Col } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchEnrolledCourses } from '../course/course.slice';
 
 const DashboardPage = () => {
-  const history = useHistory();
   const user = useSelector(state => state.auth.user);
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (!(user && user.id)) {
-      return;
+    const loadCoursesForUser = async () => {
+      dispatch(fetchEnrolledCourses(user?.id));
+    };
+    if (user?.id) {
+      loadCoursesForUser();
     }
 
-    if (!(user?.firstName && user?.lastName)) {
-      history.push('/additional-info');
-    }
-  }, [user, history]);
+  }, [dispatch, user]);
 
   return (
     <Wrapper>
-
-      <Button type="primary">
-        Test Button
-      </Button>
-      <Row className="align-items-top mb-5">
-        <Col xs={6}>
-          <EnrolledCoursesWidget />
-        </Col>
-        <Col xs={6}>
+      <Row align="center" gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 16]} style={{ marginBottom: '16px' }}>
+        <Col xs={24}>
           <GreetingWidget />
         </Col>
-      </Row>
-
-      <Row>
-        <Col xs={12} md={6}>
+        <Col xs={24} md={12} lg={8}>
           <TutoringWidget />
         </Col>
-        <Col xs={12} md={6}>
+        <Col xs={24} md={12} lg={8}>
           <CareerServicesWidget />
+        </Col>
+        <Col xs={24} sm={16} lg={16}>
+          <EnrolledCoursesWidget />
         </Col>
       </Row>
     </Wrapper>
@@ -53,6 +44,6 @@ const DashboardPage = () => {
 const Wrapper = styled.div`
   max-width: 80%;
   margin: 0 auto;
-`
+`;
 
 export default DashboardPage;

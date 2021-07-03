@@ -1,28 +1,23 @@
 import React from "react";
 import AppNavbar from "./AppNavbar";
-import { useSelector } from 'react-redux';
 
 import { Layout } from 'antd';
-import App from '../../App';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Footer, Content } = Layout;
 
 const DefaultLayout = ({
   children
 }) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   return (
     <main className="main">
       <Layout style={{ minHeight: '100vh' }}>
         <Header>
           <AppNavbar />
         </Header>
-        <Content style={{padding: '50px'}}>
+        <Content style={{padding: '25px'}}>
           {children}
         </Content>
-        <Footer>
-
-        </Footer>
+        <Footer />
       </Layout>
     </main>
   );
