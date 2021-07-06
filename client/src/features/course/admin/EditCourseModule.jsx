@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
+import React from 'react';
+import { Form } from 'react-bootstrap';
 import { FastField, FieldArray, useFormikContext } from 'formik';
-import ModuleLectures from './ModuleLectures';
-import EditModuleLecture from './EditModuleLecture';
+import ModuleLessonList from './ModuleLectureList';
+import EditLesson from './EditLesson';
 import { getNamespacedFieldName } from '../../../utils/helpers';
 import EditorModal from '../../shared/form/EditorModal';
 import moduleService from '../../module/module.service';
@@ -16,10 +16,11 @@ const EditCourseModule = ({
 }) => {
   const {
     setFieldValue,
+    handleChange,
     handleBlur
   } = useFormikContext();
 
-  const getLectureTemplate = () => {
+  const getLessonTemplate = () => {
     return {
       isEditing: true,
       title: '',
@@ -49,56 +50,53 @@ const EditCourseModule = ({
 
   return (
     <EditorModal
-      show={ show }
-      onHide={ onHide }
-      title={`${ module?.id ? 'Edit' : 'Add' } Module`}
+      show={show}
+      onHide={onHide}
+      title={`${module?.id ? 'Edit' : 'Add'} Module`}
       onSave={saveModule}>
       <Form.Group>
         <Form.Label>
           Title
         </Form.Label>
         <FastField
-          as={ Form.Control }
+          as={Form.Control}
           type="text"
-          name={ `modules.${ moduleIndex }.title` }
-          value={ module.title }
-          // onChange={handleChange}
-          onBlur={ handleBlur }
-          placeholder="Title"
-        />
+          name={getNamespacedFieldName(fieldNamespace, 'title')}
+          value={module.title}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="Title" />
       </Form.Group>
 
-      <FieldArray name={ `modules.${ moduleIndex }.lectures` }>
+      <FieldArray name={getNamespacedFieldName(fieldNamespace, 'lectures')}>
         {({ insert, remove, push }) => (
           <>
-            <ModuleLectures
-              moduleIndex={ moduleIndex }
-              /* todo: implement a better isNew check */
-              lectures={ module.lectures?.filter(lecture => !lecture.isEditing) }
-              onCreate={ () => {
-                push(getLectureTemplate());
+            <ModuleLessonList
+              moduleIndex={moduleIndex}
+              lectures={module.lectures?.filter(lecture => !lecture.isEditing)}
+              onCreate={() => {
+                push(getLessonTemplate());
               }}
-            />
+              onRemove={index => remove(index)} />
 
             {
               module.lectures &&
               module.lectures.length > 0 &&
               module.lectures.map((lecture, index) => (
-                <EditModuleLecture
-                  key={ index }
-                  fieldNamespace={getNamespacedFieldName(fieldNamespace, `lectures.${ index }`)}
-                  lecture={ lecture }
-                  show={ lecture.isEditing }
-                  moduleIndex={ moduleIndex }
-                  lectureIndex={ index }
+                <EditLesson
+                  key={index}
+                  fieldNamespace={getNamespacedFieldName(fieldNamespace, `lectures.${index}`)}
+                  lecture={lecture}
+                  show={lecture.isEditing}
+                  moduleIndex={moduleIndex}
+                  lectureIndex={index}
                   onHide={() => {
-                    setFieldValue(`modules.${ moduleIndex }.lectures.${ index }.isEditing`, false);
-                  }}
-                />
+                    setFieldValue(`modules.${moduleIndex}.lectures.${index}.isEditing`, false);
+                  }} />
               ))
             }
           </>
-        ) }
+        )}
       </FieldArray>
     </EditorModal>
   );

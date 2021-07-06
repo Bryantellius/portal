@@ -1,16 +1,24 @@
 import db from '../db/models';
 import path from 'path';
-import { writeFile } from 'fs';
-import { hashPassword } from '../utils/security/passwords';
 
 const findAll = async (req, res) => {
-  const users = await db.User.findAll({
-    include: [{
-      model: db.Role
-    }]
-  });
+  const {
+    courseId
+  } = req.params;
 
-  res.json(users);
+  const result = courseId
+    ? await db.CourseUser.findAll({
+      where: {
+        courseId
+      }
+    })
+    : await db.User.findAll({
+      include: [{
+        model: db.Role
+      }]
+    });
+
+  return res.json(result);
 };
 
 const findById = async (req, res) => {
@@ -27,38 +35,38 @@ const findById = async (req, res) => {
       },
       {
         model: db.QuizSubmission,
-        separate: true,
+        // separate: true,
         include: [
-        {
-          model: db.QuizQuestionResponse,
-        },
-        {
-          model: db.Quiz,
-          include: [
-            {
-              model: db.QuizQuestion,
-              include: [
-                {
-                  model: db.QuizQuestionOption
-                }
-              ]
-            }
-          ]
-        }
-      ],
-    },
-    {
-      model: db.ExerciseSubmission,
-      separate: true,
-      include: [
-        {
-          model: db.Exercise
-        }
-      ]
-    }]
+          {
+            model: db.QuizQuestionResponse
+          },
+          {
+            model: db.Quiz,
+            include: [
+              {
+                model: db.QuizQuestion,
+                include: [
+                  {
+                    model: db.QuizQuestionOption
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        model: db.ExerciseSubmission,
+        // separate: true,
+        include: [
+          {
+            model: db.Exercise
+          }
+        ]
+      }]
   });
 
-  res.json(user);
+  return res.json(user);
 };
 
 const findByAuth0Id = async (req, res) => {
@@ -70,7 +78,7 @@ const findByAuth0Id = async (req, res) => {
     }
   });
 
-  res.json(user);
+  return res.json(user);
 };
 
 const getSignedInUser = async (req, res, next) => {
@@ -86,7 +94,7 @@ const createUser = async (req, res) => {
 
   // res.json(courseSubscriptionResponse);
 
-  res.json(createResponse);
+  return res.json(createResponse);
 };
 
 const updateUser = async (req, res, next) => {
@@ -105,7 +113,7 @@ const updateUser = async (req, res, next) => {
       }
     });
 
-    res.json(user);
+    return res.json(user);
   } catch (error) {
     next(error);
   }
@@ -119,7 +127,7 @@ const deleteUser = async (req, res) => {
     }
   });
 
-  res.json(deleteResponse);
+  return res.json(deleteResponse);
 };
 
 export default {

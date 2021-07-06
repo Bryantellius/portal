@@ -6,7 +6,6 @@ import { FieldArray, useFormikContext } from 'formik';
 import ActionButton from '../../shared/components/ActionButton';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import VideoAssociationList from '../../course/admin/VideoAssociationList';
-import Loading from '../../shared/components/Loading';
 import { Field, Form } from 'formik-antd';
 
 const ExerciseEditor = ({
@@ -19,7 +18,7 @@ const ExerciseEditor = ({
     setFieldValue
   } = useFormikContext();
 
-  return !!exercise ? (
+  return (
     <Card>
       <Card.Body>
         <Card.Title>
@@ -33,9 +32,7 @@ const ExerciseEditor = ({
               name={getNamespacedFieldName(fieldNamespace, 'content')}
               as={MarkdownEditor}
               value={exercise.content}
-              onChange={val => setFieldValue(getNamespacedFieldName(fieldNamespace, 'content'), val)}
-              // onBlur={val => setFieldValue(getNamespacedFieldName(fieldNamespace, 'content'), val)}
-            />
+              onChange={val => setFieldValue(getNamespacedFieldName(fieldNamespace, 'content'), val)} />
           </Form.Item>
         </fieldset>
 
@@ -46,22 +43,25 @@ const ExerciseEditor = ({
           <FieldArray name={getNamespacedFieldName(fieldNamespace, 'videos')}>
             {({ insert, remove, push }) => (
               <>
-                <ActionButton size="sm" className="mb-2" icon={faPlusCircle} onClick={() => {
-                  push({ title: '', url: '' });
-                }}>
+                <ActionButton
+                  size="sm"
+                  className="mb-2"
+                  icon={faPlusCircle}
+                  onClick={() => {
+                    push({ title: '', url: '' });
+                  }}>
                   Add Video
                 </ActionButton>
                 <VideoAssociationList
                   videos={exercise.videos}
-                  fieldNamespace={getNamespacedFieldName(fieldNamespace, 'videos')}
-                />
+                  fieldNamespace={getNamespacedFieldName(fieldNamespace, 'videos')} />
               </>
             )}
           </FieldArray>
         </fieldset>
       </Card.Body>
     </Card>
-  ) : <Loading />;
+  );
 };
 
 export default ExerciseEditor;

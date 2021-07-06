@@ -25,14 +25,20 @@ const QuizEditor = ({
           <FieldArray name={getNamespacedFieldName(fieldNamespace, 'videos')}>
             {({ insert, remove, push }) => (
               <>
-                <ActionButton size="sm" className="mb-2" icon={faPlusCircle} onClick={() => {
-                  push({ title: '', url: '' });
-                }}>
+                <ActionButton
+                  size="sm"
+                  className="mb-2"
+                  icon={faPlusCircle}
+                  onClick={() => {
+                    push({ title: '', url: '' });
+                  }}>
                   Add Video
                 </ActionButton>
 
                 <LineBreak />
-                <VideoAssociationList videos={quiz.videos} fieldNamespace={getNamespacedFieldName(fieldNamespace, 'videos')} />
+                <VideoAssociationList
+                  videos={quiz.videos}
+                  fieldNamespace={getNamespacedFieldName(fieldNamespace, 'videos')} />
               </>
             )}
           </FieldArray>

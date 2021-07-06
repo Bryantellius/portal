@@ -7,5 +7,6 @@ exerciseRouter.post('/', exerciseController.submitExercise);
 exerciseRouter.put('/:id', exerciseController.updateExerciseSubmission);
 exerciseRouter.get('/submission/:id', exerciseController.findSubmissionById);
 exerciseRouter.post('/submission/:id/approve', exerciseController.approveSubmission);
+exerciseRouter.post('/:id/rate', exerciseController.addExerciseRating);
 
 export default exerciseRouter;

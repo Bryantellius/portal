@@ -1,19 +1,13 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+import { Model } from 'sequelize';
+
+export default (sequelize, DataTypes) => {
   class LectureVideo extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
+    static associate (models) {
       this.belongsTo(models.Lecture);
       this.belongsTo(models.Video);
     }
-  };
+  }
+
   LectureVideo.init({
     id: {
       type: DataTypes.INTEGER,
@@ -36,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'lectureVideo',
+    modelName: 'lectureVideo'
   });
   return LectureVideo;
 };

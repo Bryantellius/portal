@@ -1,22 +1,30 @@
-import { Model } from "sequelize";
+import { Model } from 'sequelize';
+
 export default (sequelize, DataTypes) => {
   class Module extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      this.belongsToMany(models.Course, { through: models.CourseModule });
+    static associate (models) {
+      this.belongsTo(models.CourseDefinition);
       this.hasMany(models.Lecture);
     }
-  };
+
+    static defaultIncludes (db) {
+      return [
+        {
+          model: db.Lecture,
+          separate: true,
+          order: [['id', 'ASC']],
+          include: db.Lecture.defaultIncludes(db)
+        }
+      ];
+    }
+  }
+
   Module.init({
     title: DataTypes.STRING,
     sortOrder: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'module',
+    modelName: 'module'
   });
   return Module;
 };

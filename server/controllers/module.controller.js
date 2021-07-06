@@ -1,30 +1,33 @@
 import db from '../db/models';
 
-const findAll = async ( req, res ) => {
-  const courseId = parseInt(req.params.courseId);
+const findAll = async (req, res) => {
+  const {
+    courseId
+  } = req.params;
+
   const data = courseId
     ? await db.Module.findAll({
-      include: [{
-        model: db.Course,
-        where: {
-          id: courseId
-        }
-      }]
+      where: {
+        courseDefinitionId: courseId
+      },
+      include: db.Module.defaultIncludes(db)
     })
-    : await db.Module.findAll();
+    : await db.Module.findAll({
+      include: db.Module.defaultIncludes(db)
+    });
 
-  res.json(data);
+  return res.json(data);
 };
 
-const findById = async ( req, res ) => {
+const findById = async (req, res) => {
   const id = parseInt(req.params.id);
 
   const module = await db.Module.findByPk(id);
 
-  res.json(module);
+  return res.json(module);
 };
 
-const findByCourseId = async ( req, res ) => {
+const findByCourseId = async (req, res) => {
   const courseId = parseInt(req.params.courseId);
   const module = await db.Module.findAll({
     include: [{
@@ -32,10 +35,13 @@ const findByCourseId = async ( req, res ) => {
       where: {
         courseId: courseId
       }
+    }, {
+      model: db.Lecture,
+      include: db.Lecture.defaultIncludes(db)
     }]
   });
 
-  res.json(module);
+  return res.json(module);
 };
 
 const saveOrUpdateModel = async (model, type) => {
@@ -64,7 +70,7 @@ const upsertModule = async (req, res) => {
 
   savedModule.setLectures(module.lectures);
 
-  res.json(savedModule);
+  return res.json(savedModule);
 };
 
 export default {

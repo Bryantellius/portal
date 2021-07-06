@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "portal",
-    "password": "CW7WuqU2TfDJ",
+    "username": "root",
+    "password": "m3z74f35",
     "database": "portal",
     "host": "127.0.0.1",
     "dialect": "mysql"

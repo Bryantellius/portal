@@ -4,19 +4,16 @@ import ExerciseEditor from '../../exercise/admin/ExerciseEditor';
 import { getNamespacedFieldName } from '../../../utils/helpers';
 import QuizEditor from './QuizEditor';
 import EditorModal from '../../shared/form/EditorModal';
-import ActionButton from '../../shared/components/ActionButton';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
 import lectureService from '../../lecture/lecture.service';
 import { useFormikContext } from 'formik';
 
-const EditModuleLecture = ({
+const EditLesson = ({
   fieldNamespace,
   show,
   lecture,
   moduleIndex,
   lectureIndex,
-  onSave,
-  onHide,
+  onHide
 }) => {
   const {
     values,
@@ -47,24 +44,22 @@ const EditModuleLecture = ({
 
   return (
     <EditorModal
-      title={`${ lecture.id ? 'Edit' : 'Add' } Lecture`}
+      title={`${lecture.id ? 'Edit' : 'Add'} Lesson`}
       show={show}
       onSave={saveLecture}
       onHide={onHide}>
+
       <LectureEditor
         lecture={lecture}
-        fieldNamespace={fieldNamespace}
-      />
+        fieldNamespace={fieldNamespace} />
       <ExerciseEditor
         exercise={lecture.exercise || exerciseTemplate}
-        fieldNamespace={getNamespacedFieldName(fieldNamespace, 'exercise')}
-      />
+        fieldNamespace={getNamespacedFieldName(fieldNamespace, 'exercise')} />
       <QuizEditor
         quiz={lecture.quiz || quizTemplate}
-        fieldNamespace={getNamespacedFieldName(fieldNamespace, 'quiz')}
-      />
+        fieldNamespace={getNamespacedFieldName(fieldNamespace, 'quiz')} />
     </EditorModal>
   );
 };
 
-export default EditModuleLecture;
+export default EditLesson;

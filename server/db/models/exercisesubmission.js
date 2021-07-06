@@ -1,39 +1,37 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class exerciseSubmission extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
+import { Model } from 'sequelize';
+
+export default (sequelize, DataTypes) => {
+  class ExerciseSubmission extends Model {
+    static associate (models) {
       this.belongsTo(models.Exercise);
       this.belongsTo(models.User);
     }
-  };
-  exerciseSubmission.init({
+
+    static defaultIncludes (db) {
+      return [
+        db.User,
+        {
+          model: db.Exercise,
+          include: [
+            {
+              model: db.ExerciseComment,
+              include: [
+                db.User
+              ]
+            }
+          ]
+        }
+      ];
+    }
+  }
+
+
+  ExerciseSubmission.init({
     hasBeenReviewed: DataTypes.BOOLEAN,
-    exerciseId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'exercises',
-        key: 'id'
-      }
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'users',
-        key: 'id'
-      }
-    },
     repoUrl: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'exerciseSubmission',
+    modelName: 'exerciseSubmission'
   });
-  return exerciseSubmission;
+  return ExerciseSubmission;
 };

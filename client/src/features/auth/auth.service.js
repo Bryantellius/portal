@@ -1,39 +1,37 @@
 import ApiService from '../../utils/apiService';
 import appConfig from '../../config/appConfig';
-import { Auth0Lock } from 'auth0-lock';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { presetPrimaryColors } from '@ant-design/colors';
 
 class AuthService extends ApiService {
-  constructor(auth0) {
+  constructor (auth0) {
     super('auth');
   }
 
   async linkUserAccounts (primaryUserSub, primaryUserAccessToken, secondaryUserIdToken) {
-    return await axios.post(`${ appConfig.auth0.apiUrl }users/${ primaryUserSub }/identities`, {
+    return await axios.post(`${appConfig.auth0.apiUrl}users/${primaryUserSub}/identities`, {
       link_with: secondaryUserIdToken
     }, {
 
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${ primaryUserAccessToken }`
+        Authorization: `Bearer ${primaryUserAccessToken}`
       }
     });
   }
 
   async updateUserContactInfo (auth0Sub, contactInfo) {
-    await axios.patch(`${ appConfig.auth0.apiUrl}users/${ `${auth0Sub}`}`, {
-      user_metadata: {
-        firstName: contactInfo.firstName,
-        lastName: contactInfo.lastName,
-        discordUsername: contactInfo.discordUsername
-      }
-    },
+    await axios.patch(`${appConfig.auth0.apiUrl}users/${auth0Sub}`, {
+        user_metadata: {
+          firstName: contactInfo.firstName,
+          lastName: contactInfo.lastName,
+          discordUsername: contactInfo.discordUsername
+        }
+      },
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ appConfig.auth0.managementApiToken }`
+          Authorization: `Bearer ${appConfig.auth0.managementApiToken}`
         }
       }
     );
@@ -42,11 +40,11 @@ class AuthService extends ApiService {
   }
 
   async updateApiUser (auth0Sub, userData) {
-    return await this.apiClient.put(`/auth/${ auth0Sub }`, userData);
+    return await this.apiClient.put(`/auth/${auth0Sub}`, userData);
   }
 
   async getApiUser (auth0Sub) {
-    return await this.apiClient.get(`/auth/${ auth0Sub }`);
+    return await this.apiClient.get(`/auth/${auth0Sub}`);
   }
 
   isAuthenticated () {
@@ -57,13 +55,13 @@ class AuthService extends ApiService {
   async getLinkedAccounts () {
     const token = this.getToken();
     const user = this.getLocalUser();
-    const linkResult = await axios.get(`${ appConfig.auth0.apiUrl }users/oauth2|discord|158299438811578371/identities`, {}
-    , {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${ token }`
-      }
-    });
+    const linkResult = await axios.get(`${appConfig.auth0.apiUrl}users/oauth2|discord|158299438811578371/identities`, {}
+      , {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      });
   }
 
   logout () {
@@ -79,7 +77,7 @@ class AuthService extends ApiService {
 
   setLocalUser (profile) {
     if (!profile) {
-      throw new Error(`tried to set localStorage user to an invalid value: ${ profile }`);
+      throw new Error(`tried to set localStorage user to an invalid value: ${profile}`);
     }
 
     localStorage.setItem('user', JSON.stringify(profile));
@@ -124,11 +122,11 @@ class AuthService extends ApiService {
   }
 
   isSecondaryAccount () {
-    return !!localStorage.getItem('primary_account_access_token')
+    return !!localStorage.getItem('primary_account_access_token');
   }
 
   getPrimaryAccountAccessToken () {
-    return localStorage.getItem('primary_account_access_token')
+    return localStorage.getItem('primary_account_access_token');
   }
 
   setPrimaryAccountAccessToken (accessToken) {

@@ -24,17 +24,19 @@ router.get('/', (req, res) => res.sendFile(path.join(process.env.PUBLIC_DIR, 'in
 router.use('/api/auth', authRouter);
 router.use('/api/user', userRouter);
 router.use('/api/lecture', lectureRouter);
-router.use('/api/course/:courseId/lecture', lectureRouter);
 router.use('/api/course/:courseId/module', moduleRouter);
-router.use('/api/user/:userId/course', courseRouter);
-router.use('/api/quiz', quizRouter);
-router.use('/api/lecture/:lectureId/quiz', quizRouter);
 router.use('/api/course', courseRouter);
+router.use('/api/quiz', quizRouter);
 router.use('/api/module', moduleRouter);
 router.use('/api/exercise', exerciseRouter);
-router.use('/api/user/:userId/exercise', exerciseRouter);
 router.use('/api/video', videoRouter);
+router.use('/api/user/:userId/exercise', exerciseRouter);
 router.use('/api/user/:userId/quiz', quizRouter);
 router.use('/api/user/:userId/course', courseRouter);
+router.use('/api/user/:userId/lecture', lectureRouter);
+router.use('/api/user/:userId/course', courseRouter);
+router.use('/api/course/:courseId/lecture', lectureRouter);
+router.use('/api/course/:courseId/module', moduleRouter);
+router.use('/api/lecture/:lectureId/quiz', quizRouter);
 
 export default router;

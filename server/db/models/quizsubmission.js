@@ -1,20 +1,32 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+import { Model } from 'sequelize';
+
+export default (sequelize, DataTypes) => {
   class quizSubmission extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
+    static associate (models) {
       this.belongsTo(models.User);
       this.belongsTo(models.Quiz);
       this.hasMany(models.QuizQuestionResponse);
     }
-  };
+
+    static defaultIncludes (db) {
+      return [
+        {
+          model: db.QuizQuestionResponse,
+          separate: true,
+          include: [
+            db.User
+          ]
+        },
+        {
+          model: db.Quiz,
+          include: [
+            db.Lecture
+          ]
+        }
+      ];
+    }
+  }
+
   quizSubmission.init({
     quizId: {
       type: DataTypes.INTEGER,
@@ -33,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     score: DataTypes.DECIMAL(5, 2)
   }, {
     sequelize,
-    modelName: 'quizSubmission',
+    modelName: 'quizSubmission'
   });
   return quizSubmission;
 };

@@ -1,52 +1,76 @@
 import React, { useState } from 'react';
-import { default as DataTableComponent } from 'react-data-table-component';
-import Loading from '../components/Loading';
-import RowContextActions from './RowContextActions';
-import TableActions from './TableActions';
-import RowActionsCell from './RowActionsCell';
+import { Button, Col, Row, Table } from 'antd';
 
 const DataTable = ({
-  title,
+  selectionActions,
+  tableActions,
   columns,
   data,
-  selectableRows = true,
-  loading,
-  onEdit,
-  onDelete,
-  onCreate,
-  actions,
-  rowActions = [],
-  contextActions = []
+  rowKey = 'id'
 }) => {
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedKeys, setSelectedKeys] = useState([]);
 
-  const handleSelectedRowsChange = ({ selectedRows }) => {
-    setSelectedRows(selectedRows);
+  const onSelectChange = selectedKeys => {
+    setSelectedKeys(selectedKeys);
   };
 
-  const extendedColumns = [
-    ...columns,
-    {
-      name: '',
-      cell: (row, rowIndex) => <RowActionsCell actions={rowActions} row={row} rowIndex={rowIndex} />
-    }
-  ];
+  const rowSelection = {
+    selectedRowKeys: selectedKeys,
+    onChange: onSelectChange
+  };
 
+  const SelectionActions = () => (
+    <Row justify="end">
+      <Col flex={150}>
+        {selectedKeys?.length} items selected
+      </Col>
+      {
+        selectionActions?.length > 0 && selectionActions.map(
+          ({ onClick, label, ...props }, index) => (
+            <Col
+              flex="auto"
+              key={index}>
+              <Button onClick={() => onClick.call(onClick, selectedKeys)} {...props}>
+                {label}
+              </Button>
+            </Col>
+          )
+        )
+      }
+    </Row>
+  );
+
+  const TableActions = () => (
+    <Row>
+      {
+        tableActions?.length > 0 && tableActions.map(
+          ({ onClick, label, ...props }, index) => (
+            <Col
+              key={index}
+              flex="auto">
+              <Button onClick={onClick} {...props}>
+                {label}
+              </Button>
+            </Col>
+          )
+        )
+      }
+    </Row>
+  );
 
   return (
-    <DataTableComponent
-      responsive
-      progressPending={loading}
-      progressComponent={<Loading />}
-      title={title}
-      columns={ extendedColumns }
-      data={ data }
-      selectableRows={ selectableRows }
-      onSelectedRowsChange={ handleSelectedRowsChange }
-      highlightOnHover
-      actions={<TableActions actions={actions} selectedRows={selectedRows} />}
-      contextActions={<RowContextActions actions={contextActions} selectedRows={selectedRows} />}
-    />
+    <>
+      {
+        selectedKeys?.length > 0 &&
+        <SelectionActions />
+      }
+      <TableActions />
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={data}
+        rowKey={rowKey} />
+    </>
   );
 };
 

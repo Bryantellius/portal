@@ -1,19 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { AuthProvider } from './features/auth/auth';
 import App from './App';
+import Auth0Provider from './features/auth/Auth0Provider';
 import reportWebVitals from './reportWebVitals';
 import ReduxProvider from './store/ReduxProvider';
 import Theme from './features/theme/Theme';
 
 ReactDOM.render(
   <Theme>
-      <ReduxProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </ReduxProvider>
+    <ReduxProvider>
+      <Auth0Provider>
+        <App />
+      </Auth0Provider>
+    </ReduxProvider>
   </Theme>,
   document.getElementById('root')
 );

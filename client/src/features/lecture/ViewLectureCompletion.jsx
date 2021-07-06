@@ -1,15 +1,19 @@
 import React from 'react';
-import { Button, Result, Statistic } from 'antd';
+import { Button, Rate, Result, Statistic, Typography } from 'antd';
 import { QuizQuestionType } from '../../utils/enums';
 import _ from 'lodash';
+import lectureService from './lecture.service';
+import { useSelector } from 'react-redux';
+import LineBreak from '../shared/components/LineBreak';
 
 const ViewLectureCompletion = ({
+  lecture,
   questions,
   responses,
   onRetakeQuiz,
   onContinue
 }) => {
-
+  const user = useSelector(state => state.auth.user);
   const isCorrect = (response) => {
     const question = questions.find(question => response.quizQuestionId === question.id);
     const value = response.value;
@@ -23,6 +27,10 @@ const ViewLectureCompletion = ({
       case QuizQuestionType.MultiSelect:
         return _.xor( question.correctAnswer.split(';'), Array.isArray(value) ? value : value.split(';')).length === 0;
     }
+  };
+
+  const rateLesson = async rating => {
+    await lectureService.addLectureRating(user?.id, lecture?.id, rating);
   };
 
   const totalCorrect = responses?.filter(isCorrect)?.length;
@@ -48,6 +56,12 @@ const ViewLectureCompletion = ({
       ]}>
       <div className="desc">
         <Statistic title="Quiz Score" value={totalCorrect} suffix={`/ ${ totalQuestions }`} />
+
+        <LineBreak />
+        <Typography.Title level={4} className="text-primary">
+          Rate this Lesson
+        </Typography.Title>
+        <Rate onChange={rateLesson} />
       </div>
     </Result>
   );

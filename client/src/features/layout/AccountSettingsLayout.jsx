@@ -1,14 +1,11 @@
 import React from 'react';
 import AccountSettingsSidebar from '../user/account/AccountSettingsSidebar';
-import AccountSettingsContainer from '../user/account/AccountSettingsContainer';
 import { Layout } from 'antd';
 import AppNavbar from './AppNavbar';
-import CourseSidebar from '../course/CourseSidebar';
 import styled from 'styled-components';
 
 const {
   Header,
-  Content,
   Footer,
 } = Layout;
 

@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageHeading from '../../shared/components/PageHeading';
 import DataTable from '../../shared/dataTable/DataTable';
 import { columnDefinitions } from '../course.config';
 import { useHistory } from 'react-router-dom';
 import PageContent from '../../shared/components/PageContent';
 import courseService from '../course.service';
+import { Typography } from 'antd';
 
 const ViewCourses = () => {
   const history = useHistory();
@@ -14,27 +15,37 @@ const ViewCourses = () => {
     const fetchCourses = async () => {
       const courses = await courseService.fetchAll();
       setCourses(courses);
-    }
+    };
 
     fetchCourses();
   }, []);
 
   const goToEditRoute = courseId => {
-    history.push(`/admin/courses/${ courseId }`);
-  }
+    history.push(`/admin/courses/${courseId}`);
+  };
 
-  const contextActions = [{
-    name: 'Delete',
+  const selectionActions = [{
+    label: 'Delete',
     onClick: selectedRows => {
       selectedRows.forEach(row => {
         courseService.delete(row.id);
-      })
+      });
     }
   }];
-  const rowActions = [{
-    name: 'Edit',
-    onClick: (row, index) => goToEditRoute(row.id)
-  }];
+
+  const editCell = {
+    title: 'Edit',
+    render: (text, row, index) => (
+      <Typography.Link onClick={() => goToEditRoute(row.id)}>
+        Edit
+      </Typography.Link>
+    )
+  };
+
+  const columns = [
+    ...columnDefinitions.courseDefinition,
+    editCell
+  ];
 
   return (
     <PageContent>
@@ -42,13 +53,9 @@ const ViewCourses = () => {
         View/Edit Courses
       </PageHeading>
       <DataTable
-        title="View/Edit Courses"
-        columns={columnDefinitions}
+        columns={columns}
         data={courses}
-        selectableRows
-        rowActions={rowActions}
-        contextActions={contextActions}
-      />
+        selectionActions={selectionActions} />
     </PageContent>
   );
 };

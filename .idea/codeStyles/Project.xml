@@ -8,9 +8,15 @@
       </value>
     </option>
     <HTMLCodeStyleSettings>
+      <option name="HTML_ATTRIBUTE_WRAP" value="2" />
+      <option name="HTML_KEEP_LINE_BREAKS" value="false" />
       <option name="HTML_SPACE_INSIDE_EMPTY_TAG" value="true" />
+      <option name="HTML_ELEMENTS_TO_REMOVE_NEW_LINE_BEFORE" value="" />
       <option name="HTML_DO_NOT_INDENT_CHILDREN_OF" value="" />
+      <option name="HTML_INLINE_ELEMENTS" value="big,code,dfn,em,font,,small,strike,strong,sub,sup" />
+      <option name="HTML_DONT_ADD_BREAKS_IF_INLINE_CONTENT" value="title" />
       <option name="HTML_ENFORCE_QUOTES" value="true" />
+      <option name="HTML_NEWLINE_BEFORE_FIRST_ATTRIBUTE" value="When multiline" />
     </HTMLCodeStyleSettings>
     <JSCodeStyleSettings version="0">
       <option name="FORCE_SEMICOLON_STYLE" value="true" />
@@ -18,12 +24,12 @@
       <option name="USE_DOUBLE_QUOTES" value="false" />
       <option name="FORCE_QUOTE_STYlE" value="true" />
       <option name="ENFORCE_TRAILING_COMMA" value="Remove" />
+      <option name="JSX_ATTRIBUTE_VALUE" value="Based on type" />
       <option name="VAR_DECLARATION_WRAP" value="0" />
       <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
       <option name="SPACES_WITHIN_IMPORTS" value="true" />
       <option name="INDENT_CHAINED_CALLS" value="false" />
       <option name="USE_CHAINED_CALLS_GROUP_INDENTS" value="true" />
-      <option name="SPACES_WITHIN_INTERPOLATION_EXPRESSIONS" value="true" />
     </JSCodeStyleSettings>
     <TypeScriptCodeStyleSettings version="0">
       <option name="FORCE_SEMICOLON_STYLE" value="true" />
@@ -39,7 +45,14 @@
       <option name="INTERPOLATION_NEW_LINE_AFTER_START_DELIMITER" value="false" />
       <option name="INTERPOLATION_NEW_LINE_BEFORE_END_DELIMITER" value="false" />
     </VueCodeStyleSettings>
+    <XML>
+      <option name="XML_KEEP_WHITESPACES" value="true" />
+      <option name="XML_ATTRIBUTE_WRAP" value="4" />
+      <option name="XML_TEXT_WRAP" value="0" />
+      <option name="XML_KEEP_LINE_BREAKS" value="false" />
+    </XML>
     <codeStyleSettings language="HTML">
+      <option name="RIGHT_MARGIN" value="80" />
       <option name="SOFT_MARGINS" value="80" />
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />

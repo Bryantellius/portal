@@ -1,14 +1,15 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 const LineBreak = ({
   style,
   ...props
 }) => {
   return (
-    <br style={{
-      clear: 'both',
-      ...style
-    }} { ...props } />
+    <br
+      style={{
+        clear: 'both',
+        ...style
+      }} {...props} />
   );
 };
 

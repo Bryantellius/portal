@@ -1,0 +1,18 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "react",
+    "unused-imports"
+  ],
+  "extends": [
+    "plugin:react/recommended"
+  ],
+  "rules": {
+    "react/jsx-first-prop-new-line": [
+      2,
+      "multiline"
+    ],
+    "react/prop-types": 0,
+    "react/display-name": "off"
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ViewQuiz from '../quiz/ViewQuiz';
 import styled from 'styled-components';
 import { useHistory, useParams } from 'react-router-dom';
@@ -9,8 +9,8 @@ import { updateCurrentLectureForCourse } from '../course/course.slice';
 import LectureStepsNav from './LectureStepsNav';
 import Exercise from '../exercise/Exercise';
 import LectureContent from './LectureContent';
-import { Affix, Button } from 'antd';
-import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { Affix, Button, Typography } from 'antd';
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import ViewLectureCompletion from './ViewLectureCompletion';
 
 const ViewLecture = () => {
@@ -26,10 +26,10 @@ const ViewLecture = () => {
 
 
   const completeLecture = () => {
-    const nextRoute = `/course/${ params.courseId }/lecture/${ nextLectureId }`;
+    const nextRoute = `/course/${params.courseId}/lecture/${nextLectureId}`;
 
     history.replace(nextRoute);
-  }
+  };
 
   const goToStep = stepName => {
     const steps = [
@@ -37,7 +37,7 @@ const ViewLecture = () => {
       'exercise',
       'quiz',
       'results'
-    ]
+    ];
     setCurrentStep(steps.indexOf(stepName));
   };
 
@@ -52,7 +52,7 @@ const ViewLecture = () => {
   };
 
   const onLectureComplete = () => {
-    const allLectures = activeCourse?.modules?.flatMap(module => module?.lectures);
+    const allLectures = activeCourse?.courseDefinition?.modules?.flatMap(module => module?.lectures);
 
     const currentLecture = allLectures?.findIndex(lecture => lecture.id === lectureId) + 1;
     dispatch(setCurrentLecture(currentLecture));
@@ -77,51 +77,57 @@ const ViewLecture = () => {
 
   return (
     <LectureWrapper>
-      <h1 className="text-center">{lecture?.title}</h1>
-      <LectureStepsNav currentStep={currentStep} onChange={setCurrentStep} />
+      <Typography.Title
+        level={1}
+        className="text-center">
+        {lecture?.title}
+      </Typography.Title>
+      <LectureStepsNav
+        currentStep={currentStep}
+        onChange={setCurrentStep} />
       <LectureStepWrapper>
         {
           currentStep === 0 && lecture?.content &&
-          <LectureContent content={lecture?.content} videos={lecture?.videos} />
+          <LectureContent
+            content={lecture?.content}
+            videos={lecture?.videos} />
         }
         {
           currentStep === 1 && lecture?.exercise &&
           <Exercise
             exercise={lecture.exercise}
             onSubmitted={onExerciseSubmitted}
-            onNext={() => goToStep('quiz')}
-          />
+            onNext={() => goToStep('quiz')} />
         }
         {
           currentStep === 2 && lecture?.quiz &&
-            <ViewQuiz
-              onSubmitted={onQuizSubmitted}
-              title={lecture?.quiz.title}
-              id={lecture?.quiz.id}
-              lecture={lecture}
-              questions={lecture?.quiz?.quizQuestions}
-            />
+          <ViewQuiz
+            onSubmitted={onQuizSubmitted}
+            title={lecture?.quiz.title}
+            id={lecture?.quiz.id}
+            lecture={lecture}
+            questions={lecture?.quiz?.quizQuestions} />
         }
         {
-            currentStep === 3 &&
-              <ViewLectureCompletion
-                questions={lecture?.quiz?.quizQuestions}
-                responses={quizResponses}
-                onContinue={completeLecture}
-                onRetakeQuiz={() => goToStep("quiz")}
-              />
+          currentStep === 3 &&
+          <ViewLectureCompletion
+            questions={lecture?.quiz?.quizQuestions}
+            responses={quizResponses}
+            onContinue={completeLecture}
+            onRetakeQuiz={() => goToStep('quiz')}
+            lecture={lecture} />
         }
         {
           currentStep !== 0 &&
-            currentStep !== 3 &&
+          currentStep !== 3 &&
           <Affix
-            style={ { position: 'absolute', left: 0 } }
-            offsetBottom={ 10 }>
+            style={{ position: 'absolute', left: 0 }}
+            offsetBottom={10}>
             <Button
               size="large"
               type="primary"
-              onClick={ () => setCurrentStep(currentStep - 1) }
-              icon={ <ArrowLeftOutlined /> }>
+              onClick={() => setCurrentStep(currentStep - 1)}
+              icon={<ArrowLeftOutlined />}>
               Back
             </Button>
           </Affix>
@@ -135,8 +141,8 @@ const ViewLecture = () => {
               size="large"
               type="primary"
               style={{ right: 0 }}
-              onClick={ () => setCurrentStep(currentStep + 1) }
-              icon={ <ArrowRightOutlined />}>
+              onClick={() => setCurrentStep(currentStep + 1)}
+              icon={<ArrowRightOutlined />}>
               Next
             </Button>
           </Affix>

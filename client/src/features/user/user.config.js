@@ -1,67 +1,74 @@
+import moment from 'moment/moment';
+
 const columnDefinitions = {
   users: [{
-    name: 'ID',
-    selector: 'id',
-    sortable: true,
+    title: 'ID',
+    dataIndex: 'id',
     grow: 0
   }, {
-    name: 'First Name',
-    selector: 'firstName',
-    sortable: true
+    title: 'First Name',
+    dataIndex: 'firstName'
   }, {
-    name: 'Last Name',
-    selector: 'lastName',
-    sortable: true
+    title: 'Last Name',
+    dataIndex: 'lastName'
   }, {
-    name: 'Email',
-    selector: 'email',
-    sortable: true
+    title: 'Email',
+    dataIndex: 'email'
   }, {
-    name: 'Role',
-    selector: 'role',
-    sortable: true,
-    format: row => {
-      console.log('ROW: ', row);
+    title: 'Role',
+    dataIndex: 'role',
+    render: (_, row) => {
       return row.role?.title || 'None';
     }
   }],
 
   userEnrolledCourses: [{
     title: 'Course',
-    dataIndex: 'title',
-    key: 'title'
+    dataIndex: 'title'
   }, {
     title: 'Date Enrolled',
-    dataIndex: 'createdAt',
-    sortable: true
-  },{
+    dataIndex: 'createdAt'
+  }, {
     title: 'Quiz Score',
-    dataIndex: 'aggregateScore',
-    key: 'aggregateScore'
+    dataIndex: 'aggregateScore'
   }],
 
   userCompletedCourses: [{
     title: 'Course',
-    dataIndex: 'title',
-    key: 'title'
+    dataIndex: 'title'
   }, {
     title: 'Date Completed',
-    dataIndex: 'dateCompleted',
-    key: 'dateCompleted'
+    dataIndex: 'dateCompleted'
   }, {
     title: 'Quiz Score',
-    dataIndex: 'aggregateScore',
-    key: 'aggregateScore'
+    dataIndex: 'aggregateScore'
   }],
 
   userQuizSubmissions: [{
-    title: 'Course',
-    dataIndex: 'title',
-    key: 'title'
+    title: 'Lecture',
+    dataIndex: ['quiz', 'lecture', 'title']
   }, {
-    title: 'Date Enrolled',
+    title: 'Score',
+    dataIndex: 'score',
+    render: (_, row, index) => (row.score * 100).toFixed(0) + '%'
+  }, {
+    title: 'Date Submitted',
     dataIndex: 'createdAt',
-    key: 'createdAt'
+    render: (_, row) => moment(row.createdAt).fromNow()
+  }],
+
+  courseUsers: [{
+    title: 'ID',
+    dataIndex: ['user', 'id']
+  }, {
+    title: 'First Name',
+    dataIndex: ['user', 'firstName']
+  }, {
+    title: 'Last Name',
+    dataIndex: ['user', 'lastName']
+  }, {
+    title: 'Email',
+    dataIndex: ['user', 'email']
   }]
 };
 

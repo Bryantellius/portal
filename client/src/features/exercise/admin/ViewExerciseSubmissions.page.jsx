@@ -6,7 +6,9 @@ import PageHeading from '../../shared/components/PageHeading';
 import { useHistory } from 'react-router-dom';
 import exerciseConfig from '../exercise.config';
 import PageContent from '../../shared/components/PageContent';
-const { exerciseSubmissions: { columnDefinitions }} = exerciseConfig;
+import { Typography } from 'antd';
+
+const { exerciseSubmissions: { columnDefinitions } } = exerciseConfig;
 
 const ViewExerciseSubmissionsPage = () => {
   const dispatch = useDispatch();
@@ -14,24 +16,33 @@ const ViewExerciseSubmissionsPage = () => {
   const submissions = useSelector(state => state.exercise.submissions);
 
   const reviewSubmission = submissionId => {
-    history.push(`/exercise/review/${ submissionId }`);
+    history.push(`/exercise/review/${submissionId}`);
   };
 
-  const actions = [
+  const actionColumn = {
+      title: 'Actions',
+      render: (_, row) => (
+        <Typography.Link onClick={() => reviewSubmission(row?.id)}>
+          Review
+        </Typography.Link>
+      )
+    }
+  ;
+
+  const selectionActions = [
     {
-      name: 'Review',
-      onClick: selectedRow => {
-        reviewSubmission(selectedRow.id);
+      label: 'Approve',
+      onClick: async selectedKeys => {
+        for (let key of selectedKeys) {
+          await dispatch(approveSubmission(key));
+        }
       }
     }
-  ]
-  const contextActions = [
-    {
-      name: 'Approve',
-      onClick: selectedRows => {
-        selectedRows.forEach(row => dispatch(approveSubmission(row.id)));
-      }
-    }
+  ];
+
+  const columns = [
+    ...columnDefinitions,
+    actionColumn
   ];
 
   useEffect(() => {
@@ -49,14 +60,10 @@ const ViewExerciseSubmissionsPage = () => {
       </PageHeading>
       {
         <DataTable
-          title="Review Exercise Submissions"
-          columns={columnDefinitions}
+          columns={columns}
           data={submissions}
           loading={!(submissions && submissions?.length)}
-          selectableRows
-          contextActions={contextActions}
-          rowActions={actions}
-        />
+          selectionActions={selectionActions} />
       }
     </PageContent>
   );

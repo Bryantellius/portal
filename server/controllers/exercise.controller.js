@@ -26,15 +26,21 @@ const getExerciseSubmissions = async (req, res) => {
         } : undefined
     }, {
       model: db.Exercise,
-      include: {
-        model: db.Lecture
-      }
+      include: [
+        db.Lecture,
+        {
+          model: db.ExerciseComment,
+          include: [
+            db.User
+          ]
+        }
+      ]
     }]
   };
 
   const submissions = await db.ExerciseSubmission.findAll(findOptions);
 
-  res.json(submissions);
+  return res.json(submissions);
 };
 
 const approveSubmission = async (req, res) => {
@@ -46,7 +52,7 @@ const approveSubmission = async (req, res) => {
     }
   });
 
-  res.json(updateResult);
+  return res.json(updateResult);
 };
 
 const findSubmissionById = async (req, res) => {
@@ -59,13 +65,71 @@ const findSubmissionById = async (req, res) => {
       {
         model: db.Exercise,
         include: [
-          db.Lecture
+          db.Lecture,
+          {
+            model: db.ExerciseComment,
+            include: [
+              db.User
+            ]
+          }
         ]
       }
     ]
   });
 
-  res.json(submission);
+  return res.json(submission);
+};
+
+const addComment = async (req, res) => {
+  const {
+    userId,
+    id: exerciseId
+  } = req.params;
+
+  const {
+    comment
+  } = req.body;
+
+  const result = await db.ExerciseComment.create({
+    userId,
+    exerciseId,
+    text: comment
+  });
+
+  return res.json(result);
+};
+
+const addExerciseRating = async (req, res) => {
+  const {
+    userId,
+    id: exerciseId
+  } = req.params;
+
+  const {
+    rating
+  } = req.body;
+
+  const existing = await db.ExerciseRating.findOne({
+    where: {
+      userId,
+      exerciseId
+    }
+  });
+
+  let result;
+
+  if (existing) {
+    existing.rating = rating;
+    result = await existing.save();
+  } else {
+    result = await db.ExerciseRating.create({
+      userId,
+      exerciseId,
+      rating
+    });
+  }
+
+  return res.json(result);
 };
 
 export default {
@@ -73,5 +137,7 @@ export default {
   updateExerciseSubmission,
   getExerciseSubmissions,
   approveSubmission,
-  findSubmissionById
+  findSubmissionById,
+  addComment,
+  addExerciseRating
 };

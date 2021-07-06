@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 
 import { useHistory } from 'react-router-dom';
-import useAuth from './useAuth';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Login = () => {
   const {
     isAuthenticated,
     loginWithRedirect,
-    isLoading,
-  } = useAuth();
+    isLoading
+  } = useAuth0();
   const history = useHistory();
 
   useEffect(() => {

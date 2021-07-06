@@ -1,16 +1,21 @@
-import { Model } from "sequelize";
+import { Model } from 'sequelize';
+
 export default (sequelize, DataTypes) => {
   class CourseUser extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     static associate (models) {
       this.belongsTo(models.Course);
       this.belongsTo(models.User);
     }
-  };
+
+    static defaultIncludes (db) {
+      return [{
+        model: db.User,
+        include: db.User.defaultIncludes(db)
+      }];
+    }
+  }
+
   CourseUser.init({
     courseId: {
       type: DataTypes.INTEGER,
@@ -31,7 +36,7 @@ export default (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'courseUser',
+    modelName: 'courseUser'
   });
   return CourseUser;
 };

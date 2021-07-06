@@ -1,14 +1,6 @@
-import React, { useEffect } from 'react';
-import { useAuth } from './auth';
+import React from 'react';
 
 const LoginCallback = () => {
-  const {
-    user
-  } = useAuth();
-
-  useEffect(() => {
-    console.log(user);
-  }, [user])
   return (
     <>
     </>

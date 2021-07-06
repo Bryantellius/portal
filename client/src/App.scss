@@ -12,9 +12,14 @@ main, #root, body, html {
   display: block;
 }
 
+.ant-modal-content {
+  min-width: 50vw;
+  min-height: 80vh;
+}
+
 * {
   font-family: 'Lato', sans-serif;
-  text-rendering:optimizeLegibility;
+  text-rendering: optimizeLegibility;
 }
 
 .editor-modal {

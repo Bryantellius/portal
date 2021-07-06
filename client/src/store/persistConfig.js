@@ -9,8 +9,7 @@ const persistConfig = {
     'darkMode',
     'course',
     'quiz',
-    'module',
-    'lecture'
+    'module'
   ]
 };
 

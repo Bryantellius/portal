@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import { Button } from 'antd';
 import { Form, Input } from 'formik-antd';
 import { useHistory } from 'react-router-dom';
-import { useAuth } from '../auth/auth';
 import { updateUser } from '../auth/auth.slice';
 import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
@@ -35,7 +34,7 @@ const UserAdditionalInfoForm = () => {
     };
 
     if (user.sub) {
-      const updatedUser = await authService.updateApiUser(user.sub, userData);
+      const updatedUser = await authService.updateApiUser(user?.sub, userData);
       await dispatch(updateUser(updatedUser));
     } else {
       throw new Error('user not logged in with auth0');
@@ -55,21 +54,22 @@ const UserAdditionalInfoForm = () => {
       return 'error';
     }
 
-    return value?.length > 0 ? 'success' : 'validating'
-  }
+    return value?.length > 0 ? 'success' : 'validating';
+  };
 
   return (
-    <Formik initialValues={initialValues}
+    <Formik
+      initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={contactInfoSchema}>
       {({
-       values,
-       errors,
-       touched,
-       handleChange,
-       handleBlur,
-       handleSubmit,
-       isSubmitting
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting
       }) => (
         <Form onSubmit={handleSubmit}>
           <Form.Item
@@ -84,8 +84,7 @@ const UserAdditionalInfoForm = () => {
               value={values.firstName}
               onBlur={handleBlur}
               onChange={handleChange}
-              placeholder="First"
-            />
+              placeholder="First" />
           </Form.Item>
           <Form.Item
             label="Last Name"
@@ -99,8 +98,7 @@ const UserAdditionalInfoForm = () => {
               value={values.lastName}
               onBlur={handleBlur}
               onChange={handleChange}
-              placeholder="Last"
-            />
+              placeholder="Last" />
           </Form.Item>
           <Form.Item
             label="Discord Username"
@@ -114,8 +112,7 @@ const UserAdditionalInfoForm = () => {
               value={values.discordUsername}
               onBlur={handleBlur}
               onChange={handleChange}
-              placeholder="username#1234"
-            />
+              placeholder="username#1234" />
           </Form.Item>
           <Button
             htmlType="submit"

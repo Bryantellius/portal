@@ -20,7 +20,7 @@ export const fetchExerciseSubmissionsForUser = createAsyncThunk(
   async (userId, thunkAPI) => {
     return await exerciseService.fetchSubmissionsForUser(userId);
   }
-)
+);
 
 export const submitExercise = createAsyncThunk(
   'exercise/submitExercise',
@@ -31,7 +31,7 @@ export const submitExercise = createAsyncThunk(
 
 export const approveSubmission = createAsyncThunk(
   'exercise/approveSubmission',
-async submissionId => {
+  async submissionId => {
     return await exerciseService.approveSubmission(submissionId);
   });
 
@@ -47,16 +47,16 @@ const exerciseSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchExerciseSubmission.pending]: state => {
-      state.isLoading = true
+      state.isLoading = true;
     },
-    [fetchExerciseSubmission.fulfilled]: ( state, action ) => {
+    [fetchExerciseSubmission.fulfilled]: (state, action) => {
       state.submission = action.payload;
       state.isLoading = false;
     },
     [fetchExerciseSubmissions.pending]: state => {
-      state.isLoading = true
+      state.isLoading = true;
     },
-    [fetchExerciseSubmissions.fulfilled]: ( state, action ) => {
+    [fetchExerciseSubmissions.fulfilled]: (state, action) => {
       state.submissions = action.payload;
       state.isLoading = false;
     },
@@ -67,7 +67,14 @@ const exerciseSlice = createSlice({
       state.userSubmissions = [
         ...state.userSubmissions,
         action.payload
-      ]
+      ];
+    },
+    [approveSubmission.fulfilled]: (state, action) => {
+      state.userSubmissions = state.userSubmissions.filter(submission => submission.id !== action.payload.id);
+      state.userSubmissions = [
+        ...state.userSubmissions,
+        action.payload
+      ];
     }
   }
 });

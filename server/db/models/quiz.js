@@ -1,18 +1,32 @@
-import { Model } from "sequelize";
+import { Model } from 'sequelize';
 
 export default (sequelize, DataTypes) => {
   class Quiz extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
+    static associate (models) {
       this.hasMany(models.QuizQuestion);
+      this.hasMany(models.QuizSubmission);
       this.belongsTo(models.Lecture);
       this.belongsToMany(models.Video, { through: models.QuizVideo });
     }
-  };
+
+    static defaultIncludes (db) {
+      return [
+        db.Video,
+        {
+          model: db.QuizQuestion,
+          separate: true,
+          include: db.QuizQuestion.defaultIncludes(db)
+        },
+        {
+          model: db.QuizSubmission,
+          separate: true,
+          include: db.QuizSubmission.defaultIncludes(db)
+        }
+      ];
+    }
+
+  }
+
   Quiz.init({
     lectureId: {
       type: DataTypes.INTEGER,
@@ -24,7 +38,7 @@ export default (sequelize, DataTypes) => {
     title: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'quiz',
+    modelName: 'quiz'
   });
   return Quiz;
 };

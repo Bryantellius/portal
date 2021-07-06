@@ -14,34 +14,39 @@ const RouteWithLayout = ({
   ...props
 }) => {
   if (redirect) {
-     return <Route path={path} render={() => (
-       <Redirect to={redirect} />
-      )}
-     />
+    return <Route
+      path={path}
+      render={() => (
+        <Redirect to={redirect} />
+      )} />;
   }
 
   return allowAnonymous
     ? <Route
-        path={path} {...props} component={() =>
-      <Layout>
-        <Component />
-      </Layout>
-    }/>
-    : <AuthorizedRoute path={path} {...props} component={() =>
+      path={path} {...props}
+      component={() =>
+        <Layout>
+          <Component />
+        </Layout>
+      } />
+    : <AuthorizedRoute
+      path={path} {...props}
+      component={() =>
         <AuthContainer>
           <Layout {...props}>
-            <Component {...props } />
+            <Component {...props} />
           </Layout>
         </AuthContainer>
-      }
-    />;
+      } />;
 };
 
 const Routes = () => {
   return (
     <Switch>
       {
-        routes.map((route, index) => <RouteWithLayout path={route.path} key={index} {...route} />)
+        routes.map((route, index) => <RouteWithLayout
+          path={route.path}
+          key={index} {...route} />)
       }
     </Switch>
   );

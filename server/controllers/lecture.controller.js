@@ -17,7 +17,7 @@ const saveOrUpdateModel = async (model, type) => {
   }
 };
 
-const findAll = async ( req, res ) => {
+const findAll = async (req, res) => {
 
   const { lectureId } = req.params;
 
@@ -54,20 +54,19 @@ const findAll = async ( req, res ) => {
 
   const lectures = await Lecture.findAll(findOptions);
 
-  res.json(lectures);
+  return res.json(lectures);
 };
 
-const findById = async ( req, res ) => {
+const findById = async (req, res) => {
   const lecture = await Lecture.findByPk(parseInt(req.params.id), {
     include: { all: true }
   });
 
-  res.json(lecture);
+  return res.json(lecture);
 };
 
 
-
-const getLectureContent = async ( req, res, next ) => {
+const getLectureContent = async (req, res, next) => {
   const { id } = req.params;
 
   const lecture = await db.Lecture.findByPk(id);
@@ -81,7 +80,7 @@ const createLecture = async (req, res) => {
   const lecture = req.body;
   const createLectureResponse = await db.Lecture.create(lecture);
 
-  res.json(createLectureResponse);
+  return res.json(createLectureResponse);
 };
 
 const upsertLecture = async (req, res) => {
@@ -128,7 +127,40 @@ const upsertLecture = async (req, res) => {
 
   savedLecture.setQuiz(savedQuiz);
 
-  res.json(savedLecture);
+  return res.json(savedLecture);
+};
+
+const addLectureRating = async (req, res) => {
+  const {
+    userId,
+    id: lectureId
+  } = req.params;
+
+  const {
+    rating
+  } = req.body;
+
+  const existing = await db.LectureRating.findOne({
+    where: {
+      userId,
+      lectureId
+    }
+  });
+
+  let result;
+
+  if (existing) {
+    existing.rating = rating;
+    result = await existing.save();
+  } else {
+    result = await db.LectureRating.create({
+      userId,
+      lectureId,
+      rating
+    });
+  }
+
+  return res.json(result);
 };
 
 export default {
@@ -136,5 +168,6 @@ export default {
   findById,
   getLectureContent,
   createLecture,
-  upsertLecture
+  upsertLecture,
+  addLectureRating
 };

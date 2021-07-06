@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button } from 'antd';
+import { Button, Card } from 'antd';
 import { blue } from '@ant-design/colors';
 
 const CareerServicesWidget = () => {
@@ -10,8 +10,7 @@ const CareerServicesWidget = () => {
       cover={
         <img
           src="/assets/svg/learn.svg"
-          alt="Career Services"
-        />
+          alt="Career Services" />
       }
       actions={[
         <Button

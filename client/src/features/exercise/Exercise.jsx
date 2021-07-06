@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Markdown from 'markdown-to-jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import ExerciseComments from './ExerciseComments';
 import VideoPlaylist from '../video/VideoPlaylist';
-import { Button, Card, Form, Input, notification, Typography } from 'antd';
+import { Button, Card, Form, Input, notification, Rate, Typography } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import { submitExercise } from './exercise.slice';
+import LineBreak from '../shared/components/LineBreak';
+import exerciseService from './exercise.service';
 
 const Exercise = ({
   exercise,
-  onSubmitted,
   onNext
 }) => {
   const [githubRepoUrl, setGithubRepoUrl] = useState('');
@@ -18,8 +19,12 @@ const Exercise = ({
   const user = useSelector(state => state.auth.user);
   const submission = useSelector(state =>
     state.exercise?.userSubmissions
-      ?.filter(submission => submission.exerciseId === lecture?.exercise?.id)
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0]);
+    ?.filter(submission => submission.exerciseId === lecture?.exercise?.id)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0]);
+
+  const rateExercise = async rating => {
+    await exerciseService.addExerciseRating(user?.id, exercise?.id, rating);
+  };
 
   const uploadGithubRepo = async () => {
     const exerciseSubmission = {
@@ -37,8 +42,6 @@ const Exercise = ({
       message: 'Exercise Submitted',
       description: 'Your exercise has been submitted and will be reviewed shortly.'
     });
-
-    onNext();
   };
 
   return (
@@ -51,9 +54,10 @@ const Exercise = ({
       </Markdown>
 
       <Card>
-        <Form initialValues={{
-          repoUrl: submission?.repoUrl
-        }}>
+        <Form
+          initialValues={{
+            repoUrl: submission?.repoUrl
+          }}>
           <Typography.Title level={4}>
             Enter the URL for your repo
           </Typography.Title>
@@ -63,8 +67,7 @@ const Exercise = ({
             <Input
               placeholder="github.com/<username>/<repo>"
               type="text"
-              onChange={e => setGithubRepoUrl(e.target.value)}
-            />
+              onChange={e => setGithubRepoUrl(e.target.value)} />
           </Form.Item>
 
           <Button
@@ -79,10 +82,20 @@ const Exercise = ({
           </Button>
         </Form>
       </Card>
+
+      <LineBreak />
       {
-        submission?.id &&
-        <ExerciseComments lectureTitle={lecture?.title} submissionId={submission?.id} />
+        // submission?.id &&
+        <ExerciseComments
+          exercise={exercise}
+          comments={exercise.exerciseComments} />
       }
+
+      <LineBreak />
+
+      <Card title="Rate this Exercise">
+        <Rate onChange={rateExercise} />
+      </Card>
     </>
   );
 };

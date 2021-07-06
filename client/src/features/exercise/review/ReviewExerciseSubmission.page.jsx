@@ -1,6 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { DiscussionEmbed } from 'disqus-react';
-import appConfig from '../../../config/appConfig';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PageActions from '../../shared/components/PageActions';
@@ -10,21 +8,16 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import PageContent from '../../shared/components/PageContent';
 import PageHeading from '../../shared/components/PageHeading';
 import exerciseService from '../exercise.service';
+import { Typography } from 'antd';
+import ExerciseComments from '../ExerciseComments';
 
-const ReviewExerciseSubmissionPage = () => {
+const ReviewExerciseSubmissionPage = ({
+  exercise
+}) => {
   const { submissionId } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
   const [submission, setSubmission] = useState();
-
-  const disqusConfig = useMemo(() => {
-    return {
-      identifier: submissionId,
-      title: `${ submission?.exercise?.lecture?.title } Exercise`,
-      language: 'en_US',
-      url: `${ appConfig.siteUrl }/learn`
-    };
-  }, [submission]);
 
   const approve = () => {
     dispatch(approveSubmission(submissionId));
@@ -53,24 +46,32 @@ const ReviewExerciseSubmissionPage = () => {
             Student
           </dt>
           <dd>
-            { submission?.user?.firstName } { submission?.user?.lastName }
+            {submission?.user?.firstName} {submission?.user?.lastName}
           </dd>
           <dt>
             Github Repo
           </dt>
           <dd>
-            <a href={ submission?.repoUrl } target="_blank" className="link">
-              { submission?.repoUrl }
-            </a>
+            <Typography.Link
+              target="_blank"
+              rel="noreferrer"
+              href={submission?.repoUrl}>
+              {submission?.repoUrl}
+            </Typography.Link>
           </dd>
         </dl>
       </section>
 
       <h2>Comments</h2>
-      <DiscussionEmbed shortname="truecoders" config={ disqusConfig } />
+
+      <ExerciseComments
+        exercise={submission?.exercise}
+        comments={submission?.exercise?.exerciseComments} />
 
       <PageActions side="right">
-        <ActionButton onClick={ approve } icon={ faCheckCircle }>
+        <ActionButton
+          onClick={approve}
+          icon={faCheckCircle}>
           Approve
         </ActionButton>
       </PageActions>

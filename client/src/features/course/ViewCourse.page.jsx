@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 import { Redirect, Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ViewLecture from '../lecture/ViewLecture';
-import { fetchCourse, setActiveCourse } from './course.slice';
 import { setCurrentLecture, setLectures } from '../lecture/lecture.slice';
-import { fetchExerciseSubmissionsForUser } from '../exercise/exercise.slice';
-import { fetchUserQuizSubmissions } from '../quiz/store/quiz.thunks';
+import styled from 'styled-components';
 
 const ViewCoursePage = () => {
   const dispatch = useDispatch();
@@ -17,12 +15,7 @@ const ViewCoursePage = () => {
 
   useEffect(() => {
     const loadCourseData = async () => {
-      // const actionResult = await dispatch(fetchCourse(courseId));
-      // const userExerciseSubmissions = await dispatch(fetchExerciseSubmissionsForUser(user?.id));
-      // const userQuizSubmissions = await dispatch(fetchUserQuizSubmissions(user?.id));
-      //
-
-      const courseUser = activeCourse.courseUser;
+      const courseUser = activeCourse?.courses?.find(course => course.courseUsers.find(courseUser => courseUser.userId === user?.id))?.courseUsers.find(courseUser => courseUser.userId === user?.id);
       const courseLectures = activeCourse?.modules?.flatMap(module => module.lectures);
 
       dispatch(setLectures(courseLectures));
@@ -38,18 +31,31 @@ const ViewCoursePage = () => {
 
   return (
     <Switch>
-      <Route exact path={path}>
+      <Route
+        exact
+        path={path}>
         {
           currentLecture
-            ? <Redirect to={`/course/${ courseId }/lecture/${ currentLecture.id }`} />
-            : <h3 className="lead">Choose a lecture from the menu to get started</h3>
+            ? <Redirect to={`/course/${courseId}/lecture/${currentLecture.id}`} />
+            : (
+              <LectureWrapper>
+                <h3 className="lead">Choose a lesson from the menu to get started</h3>
+              </LectureWrapper>
+            )
         }
       </Route>
-      <Route path={`${ path }/lecture/:lectureId`}>
+      <Route path={`${path}/lecture/:lectureId`}>
         <ViewLecture />
       </Route>
     </Switch>
   );
 };
+
+const LectureWrapper = styled.div`
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px;
+`;
 
 export default ViewCoursePage;

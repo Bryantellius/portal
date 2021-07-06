@@ -1,11 +1,11 @@
 import React from 'react';
+import moment from 'moment';
 
 export const columnDefinitions = [{
-  name: 'Title',
-  selector: 'title',
-  sortable: true
+  title: 'Title',
+  dataIndex: 'title'
 }, {
-  name: 'Date Added',
-  selector: 'createdAt',
-  sortable: true
+  title: 'Date Added',
+  dataIndex: 'createdAt',
+  render: (_, row, index) => moment(row.createdAt).fromNow()
 }];

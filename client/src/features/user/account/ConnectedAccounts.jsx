@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ConnectedAccountDisplay from './ConnectedAccountDisplay';
 import appConfig from '../../../config/appConfig';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import authService from '../../auth/auth.service';
-import useAuth from '../../auth/useAuth';
 import axios from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const ConnectedAccounts = () => {
   const [connectedAccounts, setConnectedAccounts] = useState([]);
@@ -14,7 +14,7 @@ const ConnectedAccounts = () => {
     loginWithPopup,
     getIdTokenClaims,
     getAccessTokenSilently
-  } = useAuth();
+  } = useAuth0();
 
   const dispatch = useDispatch();
   const supportedProviders = [
@@ -64,9 +64,9 @@ const ConnectedAccounts = () => {
   useEffect(() => {
     const getProviders = async () => {
 
-      const fullUser = await axios.get(`${ appConfig.auth0.apiUrl }users/${ user.sub }`, {
+      const fullUser = await axios.get(`${appConfig.auth0.apiUrl}users/${user.sub}`, {
         headers: {
-          Authorization: `Bearer ${ appConfig.auth0.managementApiToken }`,
+          Authorization: `Bearer ${appConfig.auth0.managementApiToken}`,
           'Content-Type': 'application/json'
         }
       });
@@ -85,10 +85,9 @@ const ConnectedAccounts = () => {
         supportedProviders.map(provider => (
           <ConnectedAccountDisplay
             key={provider.identifier}
-            provider={ provider.name }
-            isConnected={ connectedAccounts?.find(connectedAccount => connectedAccount === provider.identifier) }
-            handleConnect={ () => showAuthorizePopup(provider.identifier) }
-          />
+            provider={provider.name}
+            isConnected={connectedAccounts?.find(connectedAccount => connectedAccount === provider.identifier)}
+            handleConnect={() => showAuthorizePopup(provider.identifier)} />
         ))
       }
     </Wrapper>

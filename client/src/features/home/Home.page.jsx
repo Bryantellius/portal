@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useSelector } from 'react-redux';
+import Loading from '../shared/components/Loading';
 
 const HomePage = () => {
   const {
@@ -9,17 +10,19 @@ const HomePage = () => {
     isLoading,
     isAuthenticated
   } = useAuth0();
-  // const user = useSelector(state => state.auth.user);
+  const apiUser = useSelector(state => state.auth.user);
   const history = useHistory();
 
   useEffect(() => {
-    if (isAuthenticated && !isLoading) {
+    console.log(apiUser);
+
+    if (!isLoading && (isAuthenticated || window.location.search.includes('code='))) {
       history.push('/dashboard');
+      // window.location.reload();
     }
-  }, [user, history]);
+  }, [isAuthenticated, isLoading, history, window.location.search]);
   return (
-    <>
-    </>
+    <Loading />
   );
 };
 

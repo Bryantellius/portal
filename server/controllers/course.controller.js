@@ -1,4 +1,5 @@
 import db from '../db/models';
+import { Op } from 'sequelize';
 
 const saveOrUpdateModel = async (model, type) => {
   if (model.id) {
@@ -13,12 +14,20 @@ const saveOrUpdateModel = async (model, type) => {
   }
 };
 
-const findAll = async ( req, res ) => {
+const findAll = async (req, res, next) => {
   let findOptions = {};
+  const {
+    userId
+  } = req.params;
 
-  const courses = await db.Course.findAll(findOptions);
+  // if (userId) {
+  //   findOptions.where = {
+  //     '$courses.courseUsers.user.id$': userId
+  //   };
+  // }
+  const courses = await db.CourseDefinition.findAll(findOptions);
 
-  res.json(courses);
+  return res.json(courses);
 };
 
 const getUserCourseDetails = async (req, res) => {
@@ -34,7 +43,7 @@ const getUserCourseDetails = async (req, res) => {
     }
   });
 
-  res.json(courseUser);
+  return res.json(courseUser);
 };
 
 const updateLastCompletedLectureId = async (req, res) => {
@@ -54,14 +63,14 @@ const updateLastCompletedLectureId = async (req, res) => {
 
   await record.save();
 
-  res.json(record);
+  return res.json(record);
 };
 
 
 const findById = async (req, res) => {
-  const course = await db.Course.findByPk(req.params.id);
+  const course = await db.CourseDefinition.findByPk(req.params.id);
 
-  res.json(course);
+  return res.json(course);
 };
 
 const upsertCourse = async (req, res) => {
@@ -76,13 +85,49 @@ const upsertCourse = async (req, res) => {
 
   savedCourse.setModules(course.modules.map(module => Number.isInteger(module) ? module : module.id));
 
-  res.json(savedCourse);
-}
+  return res.json(savedCourse);
+};
+
+const getCourseSchedule = async (req, res) => {
+  const {
+    id
+  } = req.params;
+
+  const result = await db.Course.findAll({
+    where: {
+      courseDefinitionId: id,
+      endDate: {
+        [Op.gte]: new Date()
+      }
+    }
+  });
+
+  return res.json(result);
+};
+
+const upsertCourseIteration = async (req, res) => {
+  const {
+    courseId,
+    id
+  } = req.params;
+
+  const courseIteration = {
+    id,
+    courseDefinitionId: courseId,
+    ...req.body
+  };
+
+  const result = await saveOrUpdateModel(courseIteration, db.Course);
+
+  return res.json(result);
+};
 
 export default {
   findById,
   findAll,
   getUserCourseDetails,
   updateLastCompletedLectureId,
-  upsertCourse
+  upsertCourse,
+  getCourseSchedule,
+  upsertCourseIteration
 };

@@ -44,42 +44,45 @@ const EditModule = () => {
     setLectureBeingEdited({
       ...lectureBeingEdited,
       content
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    dispatch(fetchModule(id))
+    dispatch(fetchModule(id));
   }, [id, dispatch]);
 
   return (
     <div className="page-content">
       <PageHeading>
-        View/Edit Module: { `${ module?.lastName }, ${ module?.firstName }` }
+        View/Edit Module: {`${module?.lastName}, ${module?.firstName}`}
       </PageHeading>
       <Form>
         <Form.Group controlId="title">
           <Form.Label>Title</Form.Label>
           <Form.Control
             type="text"
-            value={module?.title}
-          />
+            value={module?.title} />
         </Form.Group>
-        <br/>
+        <br />
 
-        <Button variant="primary" className="float-right" onClick={openLectureModal}>
+        <Button
+          variant="primary"
+          className="float-right"
+          onClick={openLectureModal}>
           Add Lecture
         </Button>
         <DataTable
           title="Lectures"
           columns={lectureColumns}
-          data={lectures}
-        />
+          data={lectures} />
       </Form>
 
-      <Modal show={showLectureModal} onClick={openLectureModal}>
+      <Modal
+        show={showLectureModal}
+        onClick={openLectureModal}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {lectureBeingEdited ? 'Edit Lecture' : 'Add Lecture'}
+            {lectureBeingEdited ? 'Edit Lesson' : 'Add Lesson'}
           </Modal.Title>
           <Modal.Body>
             <Form>
@@ -90,8 +93,7 @@ const EditModule = () => {
                 <Form.Control
                   type="text"
                   value={lectureBeingEdited.title}
-                  onChange={e => setLectureTitle(e.target.value)}
-                />
+                  onChange={e => setLectureTitle(e.target.value)} />
               </Form.Group>
               <Form.Group>
                 <Form.Label>

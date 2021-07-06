@@ -5,7 +5,7 @@ const findByTitle = async (req, res) => {
   const videos = await db.Video.findAll({
     where: {
       title: {
-        [Op.like]: `%${ req.params.query }%`
+        [Op.like]: `%${req.params.query}%`
       }
     },
     sort: [
@@ -13,7 +13,7 @@ const findByTitle = async (req, res) => {
     ]
   });
 
-  res.json(videos);
+  return res.json(videos);
 };
 
 export default {

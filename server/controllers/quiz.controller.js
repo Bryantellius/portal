@@ -2,7 +2,7 @@ import db from '../db/models';
 import _ from 'lodash';
 import { QuizQuestionType } from '../utils/enums';
 
-const findById = async ( req, res ) => {
+const findById = async (req, res) => {
   const { id } = req.params;
 
   const quiz = await db.Quiz.findByPk(parseInt(id),
@@ -22,7 +22,7 @@ const findById = async ( req, res ) => {
   return res.json(quiz);
 };
 
-const findAll = async ( req, res ) => {
+const findAll = async (req, res) => {
   const { lectureId, userId } = req.params;
 
   const filters = [];
@@ -44,7 +44,7 @@ const findAll = async ( req, res ) => {
           ...filter
         };
       }, {})
-    }: undefined;
+    } : undefined;
 
 
   const quiz = await db.Quiz.findAll({
@@ -62,7 +62,7 @@ const findAll = async ( req, res ) => {
   return res.json(quiz);
 };
 
-const findByLectureId = async ( req, res ) => {
+const findByLectureId = async (req, res) => {
   const { lectureId } = req.params;
 
   const quiz = await db.Quiz.findAll({
@@ -74,7 +74,7 @@ const findByLectureId = async ( req, res ) => {
   return res.json(quiz);
 };
 
-const submitResponses = async ( req, res ) => {
+const submitResponses = async (req, res) => {
   const {
     userId,
     quizId
@@ -111,7 +111,7 @@ const submitResponses = async ( req, res ) => {
 
   const totalQuestions = responses.length;
   const totalCorrect = responses
-    .filter(response => response.isCorrect)
+  .filter(response => response.isCorrect)
     .length;
 
   const score = totalCorrect / parseFloat(totalQuestions);
@@ -122,7 +122,7 @@ const submitResponses = async ( req, res ) => {
     score
   });
 
-  res.json({
+  return res.json({
     success: true,
     responses: responses,
     score
@@ -214,7 +214,7 @@ const saveQuiz = async (req, res) => {
 
   await quiz.setQuizQuestions(quizQuestions);
 
-  res.json(quiz);
+  return res.json(quiz);
 };
 
 const getUserSubmissions = async (req, res) => {
@@ -227,11 +227,15 @@ const getUserSubmissions = async (req, res) => {
         model: db.Quiz,
         include: [
           {
+            model: db.QuizSubmission,
+            include: [
+              db.QuizQuestionResponse
+            ]
+          },
+          {
             model: db.QuizQuestion,
             include: [
-              {
-                model: db.QuizQuestionOption
-              },
+              db.QuizQuestionOption,
               {
                 model: db.QuizQuestionResponse,
                 where: {
@@ -239,15 +243,13 @@ const getUserSubmissions = async (req, res) => {
                 }
               }
             ]
-          }
+          },
+          db.Lecture
         ]
       }
-    ],
-    order: [[
-      db.QuizQuestion, 'sortOrder', 'ASC'
-    ]]
+    ]
   });
-  res.json(submissions);
+  return res.json(submissions);
 };
 
 const deleteQuiz = async (req, res) => {
@@ -257,7 +259,7 @@ const deleteQuiz = async (req, res) => {
     }
   });
 
-  res.json(result);
+  return res.json(result);
 };
 
 export default {

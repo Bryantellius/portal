@@ -1,10 +1,9 @@
 import db from '../db/models';
-import Sequelize from 'sequelize';
 
-const listRoles = async ( req, res ) => {
+const listRoles = async (req, res) => {
   const roles = await db.Role.findAll();
 
-  res.json(roles);
+  return res.json(roles);
 };
 
 const linkAuth0User = async (req, res) => {
@@ -24,20 +23,19 @@ const linkAuth0User = async (req, res) => {
       existingUser[key] = user[key] || existingUser[key];
     }
     existingUser.avatarUrl = user.avatarUrl || user.picture || existingUser.avatarUrl;
-
     await existingUser.save();
-    res.json(existingUser);
+    return res.json(existingUser);
   } else {
-    await db.User.create(req.body);
+    await db.User.create(user);
     const createdUser = await getAuth0User(user.auth0Id);
-    res.json(createdUser);
+    return res.json(createdUser);
   }
 };
 
 const findByAuth0Id = async (req, res) => {
   const user = await getAuth0User(req.params.sub);
-  res.json(user);
-}
+  return res.json(user);
+};
 
 const getAuth0User = async sub => {
   return await db.User.findOne({

@@ -4,7 +4,6 @@ import authService from '../auth/auth.service';
 import { updateUser } from '../auth/auth.slice';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAuth } from '../auth/auth';
 import Loading from '../shared/components/Loading';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -14,14 +13,15 @@ const UserAdditionalDataPage = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
   const {
-    isLoading: userLoading
+    isLoading: userLoading,
+    user: auth0User
   } = useAuth0();
   useLayoutEffect(() => {
     const checkForApiUser = async () => {
       if (!isLoading && !userLoading) {
 
         setIsLoading(true);
-        const apiUser = await authService.fetchById(user.sub || user.auth0Id);
+        const apiUser = await authService.fetchById(auth0User?.sub || user?.sub || user?.auth0Id);
 
         if (apiUser && apiUser.firstName && apiUser.lastName) {
           await dispatch(updateUser(({

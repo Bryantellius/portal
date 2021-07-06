@@ -1,60 +1,72 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { DatePicker, Form, Input } from 'formik-antd';
-import moment from 'moment';
+import { Form, Input } from 'formik-antd';
 import { useDispatch } from 'react-redux';
 import courseService from '../course.service';
 import { FieldArray, Formik } from 'formik';
-import PageContent from '../../shared/components/PageContent';
 import 'react-datepicker/dist/react-datepicker.css';
 import EditCourseModule from './EditCourseModule';
-import CourseModules from './CourseModules';
-import FormSubmitButton from '../../shared/components/FormSubmitButton';
+import CourseModuleList from './CourseModuleList';
 import { Col, PageHeader, Row, Typography } from 'antd';
 import { useHistory } from 'react-router';
+import FormSubmitButton from '../../shared/components/FormSubmitButton';
+import CourseIterationList from './CourseIterationList';
+import EditCourseIteration from './EditCourseIteration';
+import PageContent from '../../shared/components/PageContent';
 
 const EditCourse = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [course, setCourse] = useState({
-    title: '',
-    type: '',
-    modules: []
-  });
+  const [courseDefinition, setCourseDefinition] = useState(getCourseDefinitionTemplate());
+  const [modules, setModules] = useState([]);
+  const [courses, setCourses] = useState([]);
 
   const saveCourse = async course => {
-    course.modules = course.modules.map(module => module.id);
+    course.modules = course.modules?.map(module => module.id);
 
     const saved = await courseService.upsert(course);
-    console.log(saved);
 
     history.push('/admin/courses');
   };
 
   useEffect(() => {
-    const fetchCourse = async () => {
+    const fetchData = async () => {
       const course = await courseService.fetchById(id);
 
-      setCourse(course);
+      setCourseDefinition(course);
+
+      const modules = await courseService.fetchModulesForCourse(course?.id);
+
+      setModules(modules);
+
+      const courseSchedule = await courseService.fetchCourseSchedule(course?.id);
+
+      setCourses(courseSchedule);
     };
 
-    fetchCourse();
+    fetchData();
   }, [id, dispatch]);
 
   return (
     <PageContent className="page-content">
       <PageHeader
         title="View/Edit Course:"
-        subTitle={`${course.title}`}>
+        subTitle={`${courseDefinition.title}`}>
       </PageHeader>
 
-      {course?.id &&
+      {courseDefinition?.id &&
       <Formik
         enableReinitialize={true}
         validateOnBlur={false}
         validateOnChange={false}
-        initialValues={course}
+        initialValues={{
+          title: courseDefinition?.title,
+          type: courseDefinition?.type,
+          description: courseDefinition?.description,
+          modules: modules,
+          courses: courses
+        }}
         onSubmit={values => saveCourse(values)}>
         {({
           values,
@@ -68,46 +80,32 @@ const EditCourse = () => {
             onSubmit={handleSubmit}
             className="has-actions">
             <Row gutter={16}>
-              <Col xs={24} md={10}>
-                <Form.Item name="title" label="Title">
+              <Col
+                xs={24}
+                md={10}>
+                <Form.Item
+                  name="title"
+                  label="Title">
                   <Input
                     name="title"
                     type="text"
                     value={values?.title}
                     onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
+                    onBlur={handleBlur} />
                 </Form.Item>
               </Col>
-              <Col xs={24} md={10}>
-                <Form.Item name="startDate" label="Start Date">
-                  <DatePicker
-                    name="startDate"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={moment(values.startDate)}
-                  />
-                </Form.Item>
-              </Col>
-              <Col xs={24} md={10}>
-                <Form.Item name="type" label="Type">
+              <Col
+                xs={24}
+                md={10}>
+                <Form.Item
+                  name="type"
+                  label="Type">
                   <Input
                     name="type"
                     type="text"
                     value={values.type}
                     onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </Form.Item>
-              </Col>
-              <Col xs={24} md={10}>
-                <Form.Item name="endDate" label="Start Date">
-                  <DatePicker
-                    name="endDate"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={moment(values.startDate)}
-                  />
+                    onBlur={handleBlur} />
                 </Form.Item>
               </Col>
             </Row>
@@ -119,7 +117,7 @@ const EditCourse = () => {
               name="modules">
               {({ insert, remove, push }) => (
                 <>
-                  <CourseModules
+                  <CourseModuleList
                     modules={values.modules}
                     onPush={push}
                     onRemove={remove}
@@ -132,8 +130,7 @@ const EditCourse = () => {
                         lectures: [],
                         isEditing: true
                       });
-                    }}
-                  />
+                    }} />
                   {
                     values.modules?.length > 0 &&
                     values.modules.map((module, index) => (
@@ -149,8 +146,34 @@ const EditCourse = () => {
                         onSave={() => {
                           setFieldValue(`modules.${index}.isSaved`, true);
                           setFieldValue(`modules.${index}.isEditing`, false);
-                        }}
-                      />
+                        }} />
+                    ))
+                  }
+                </>
+              )}
+            </FieldArray>
+
+            <FieldArray name={'courses'}>
+              {({ insert, remove, push }) => (
+                <>
+                  <Typography.Title level={3}>
+                    Schedule
+                  </Typography.Title>
+                  <CourseIterationList
+                    courseIterations={values.courses}
+                    onCreate={() => push(getCourseIterationTemplate())}
+                    onDelete={index => remove(index)} />
+
+                  {
+                    values.courses?.length > 0 && values.courses.map((course, courseIndex) => (
+                      <EditCourseIteration
+                        show={values.courses[courseIndex]?.isEditing}
+                        onSave={() => setFieldValue(`courses.${courseIndex}.isEditing`, false)}
+                        onHide={() => setFieldValue(`courses.${courseIndex}.isEditing`, false)}
+                        key={courseIndex}
+                        courseIndex={courseIndex}
+                        fieldNamespace={`courses.${courseIndex}`}
+                        course={course} />
                     ))
                   }
                 </>
@@ -163,6 +186,27 @@ const EditCourse = () => {
       }
     </PageContent>
   );
+};
+
+const getCourseDefinitionTemplate = () => {
+  return {
+    courses: [],
+    title: '',
+    type: '',
+    description: '',
+    id: null,
+    modules: []
+  };
+};
+
+const getCourseIterationTemplate = () => {
+  return {
+    courseUsers: [],
+    startDate: new Date(),
+    endDate: new Date(),
+    instructorId: null,
+    courseDefinitionId: null
+  };
 };
 
 export default EditCourse;
