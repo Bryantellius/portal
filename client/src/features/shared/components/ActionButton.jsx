@@ -1,21 +1,22 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from 'react-bootstrap';
+import { Button } from 'antd';
 import styled from 'styled-components';
 
 const ActionButton = ({
-  size = "md",
+  size = 'md',
   icon,
   children,
+  type = 'primary',
   ...props
 }) => {
   return (
     <StyledButton
-      type="button"
+      type={type}
       size={size}
       {...props}>
-      { icon &&
-        <FontAwesomeIcon icon={icon} />
+      {icon &&
+      <FontAwesomeIcon icon={icon} />
       }
       {children}
     </StyledButton>

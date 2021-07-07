@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Col, Menu, Row } from 'antd';
-import { HomeOutlined, ReadOutlined, UserOutlined } from '@ant-design/icons';
+import { CameraOutlined, HomeOutlined, ReadOutlined, StarOutlined, UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { updateToken, updateUser } from '../auth/auth.slice';
@@ -58,6 +58,11 @@ const AppNavbar = () => {
                   icon={<ReadOutlined />}>
                   Learn
                 </Menu.Item>
+                <Menu.Item
+                  key="/videos"
+                  icon={<CameraOutlined />}>
+                  Videos
+                </Menu.Item>
               </Menu>
             </Col>
             <Col
@@ -80,11 +85,18 @@ const AppNavbar = () => {
                       </Menu.Item>
                     )
                   }
-                  <Menu.Item key="/user/profile">
+                  <Menu.Item
+                    key="/user/profile">
                     User Profile
                   </Menu.Item>
-                  <Menu.Item key="/user/connected-accounts">
+                  <Menu.Item
+                    key="/user/connected-accounts">
                     Account
+                  </Menu.Item>
+                  <Menu.Item
+                    key="/account/grades"
+                    icon={<StarOutlined />}>
+                    My Grades
                   </Menu.Item>
                   <Menu.Item
                     key="/user/logout"
